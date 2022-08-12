@@ -1,0 +1,31 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "io.github.thatrobin.ra_additions.mixins",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [
+        "EntityMixin",
+        "EntityTypeMixin",
+        "ExecuteCommandMixin",
+        "ItemFrameEntityMixin",
+        "ItemMixin",
+        "ItemStackMixin",
+        "LivingEntityMixin",
+        "PlayerManagerMixin",
+        "ProjectileEntityMixin",
+        "SlotMixin",
+        "TemptGoalAccessorMixin",
+        "VariableIntPowerMixin",
+        "WanderAroundGoalAccessorMixin"
+    ],
+    "client": [
+        "BossBarHudMixin",
+        "BundleTooltipComponentMixin",
+        "InGameHudMixin",
+        "KeyBindingMixin",
+        "MinecraftClientMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

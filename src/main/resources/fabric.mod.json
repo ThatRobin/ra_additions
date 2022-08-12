@@ -1,28 +1,28 @@
 {
     "schemaVersion": 1,
-    "id": "ccpacks-apoli",
+    "id": "ra_additions",
     "version": "${version}",
-    "name": "CCPacks Apoli",
+    "name": "Robin's Apoli Additions",
     "description": "",
     "authors": [],
     "contact": {},
     "license": "MIT",
-    "icon": "assets/ccpacks-apoli/icon.png",
+    "icon": "assets/ra_additions/icon.png",
     "environment": "*",
     "entrypoints": {
         "client": [
-            "io.github.thatrobin.ccpacksapoli.client.CCPacksApoliClient"
+            "io.github.thatrobin.ra_additions.client.RA_AdditionsClient"
         ],
         "main": [
-            "io.github.thatrobin.ccpacksapoli.CCPacksApoli"
+            "io.github.thatrobin.ra_additions.RA_Additions"
         ],
         "cardinal-components-entity": [
-            "io.github.thatrobin.ccpacksapoli.component.ModComponents"
+            "io.github.thatrobin.ra_additions.component.ModComponents"
         ]
     },
     "custom": {
         "cardinal-components": [
-            "ccpacks:choice"
+            "ra_additions:choice"
         ],
         "modmenu": {
             "badges": [
@@ -31,12 +31,12 @@
         }
     },
     "mixins": [
-        "ccpacks-apoli.mixins.json"
+        "ra_additions.mixins.json"
     ],
-    "accessWidener": "ccpacks-apoli.accesswidener",
+    "accessWidener": "ra_additions.accesswidener",
     "depends": {
-        "fabricloader": ">=0.14.5",
+        "fabricloader": ">=0.14.8",
         "fabric": "*",
-        "minecraft": "1.18.2"
+        "minecraft": "1.19"
     }
 }
