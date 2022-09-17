@@ -28,7 +28,23 @@ public class C_SwimGoal extends Goal {
         this.fluidEnum = fluidEnum;
         this.condition = condition;
         this.setTicking();
-        this.setGoal(new DDSwimGoal((MobEntity) livingEntity));
+        this.goal = new SwimGoal((MobEntity) livingEntity) {
+            @Override
+            public boolean canStart() {
+                switch(fluidEnum) {
+                    case LAVA -> {
+                        return this.mob.isInLava() && doesApply(mob);
+                    }
+                    case WATER -> {
+                        return this.mob.isTouchingWater() && this.mob.getFluidHeight(FluidTags.WATER) > this.mob.getSwimHeight() && doesApply(mob);
+                    }
+                    case BOTH -> {
+                        return ((this.mob.isTouchingWater() && this.mob.getFluidHeight(FluidTags.WATER) > this.mob.getSwimHeight()) || this.mob.isInLava()) && doesApply(mob);
+                    }
+                }
+                return false;
+            }
+        };
     }
 
     @Override
@@ -44,32 +60,6 @@ public class C_SwimGoal extends Goal {
                 .add("condition", ApoliDataTypes.ENTITY_CONDITION, null),
                 data ->
                         (type, entity) -> new C_SwimGoal(type, entity, data.getInt("priority"), data.get("condition"), data.get("fluid_type")));
-    }
-
-    class DDSwimGoal extends SwimGoal {
-
-        private final MobEntity mob;
-
-        public DDSwimGoal(MobEntity mob) {
-            super(mob);
-            this.mob = mob;
-        }
-
-        @Override
-        public boolean canStart() {
-            switch(fluidEnum) {
-                case LAVA -> {
-                    return this.mob.isInLava() && doesApply(mob);
-                }
-                case WATER -> {
-                    return this.mob.isTouchingWater() && this.mob.getFluidHeight(FluidTags.WATER) > this.mob.getSwimHeight() && doesApply(mob);
-                }
-                case BOTH -> {
-                    return ((this.mob.isTouchingWater() && this.mob.getFluidHeight(FluidTags.WATER) > this.mob.getSwimHeight()) || this.mob.isInLava()) && doesApply(mob);
-                }
-            }
-            return false;
-        }
     }
 
 }

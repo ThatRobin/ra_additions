@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ChoiceDisplayScreen extends Screen {
 
-    private static final Identifier WINDOW = new Identifier("ccpacks", "textures/gui/choice.png");
+    private static final Identifier WINDOW = RA_Additions.identifier("textures/gui/choice.png");
 
     private Choice choice;
     private ChoiceLayer layer;
@@ -132,7 +132,7 @@ public class ChoiceDisplayScreen extends Screen {
             renderChoiceContent(matrices);
             renderBadgeTooltip(matrices, mouseX, mouseY);
             RenderSystem.setShaderTexture(0, WINDOW);
-            Text title = Text.translatable("ccpacks" + ".gui.choice.title", Text.translatable(layer.getTranslationKey()));
+            Text title = Text.translatable("ra_additions" + ".gui.choice.title", Text.translatable(layer.getTranslationKey()));
             drawCenteredText(matrices, this.textRenderer, title.getString(), width / 2, guiTop - 15, 0xFFFFFF);
         }
 

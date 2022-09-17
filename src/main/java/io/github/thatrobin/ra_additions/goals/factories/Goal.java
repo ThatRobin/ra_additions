@@ -13,7 +13,7 @@ public class Goal {
     protected LivingEntity entity;
     protected GoalType<?> type;
 
-    private net.minecraft.entity.ai.goal.Goal goal;
+    public net.minecraft.entity.ai.goal.Goal goal;
     private int priority;
     private boolean shouldTick = false;
     private boolean shouldTickWhenInactive = false;

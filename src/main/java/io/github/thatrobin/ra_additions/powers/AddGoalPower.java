@@ -9,6 +9,7 @@ import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.goals.factories.Goal;
 import io.github.thatrobin.ra_additions.goals.factories.GoalRegistry;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.FlyGoal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.Identifier;
 import org.apache.commons.compress.utils.Lists;
@@ -26,6 +27,11 @@ public class AddGoalPower extends Power {
             this.goal = GoalRegistry.get(taskID).create(entity);
         }
         taskIDs.forEach((identifier -> this.goals.add(GoalRegistry.get(taskID).create(entity))));
+        if(entity instanceof MobEntity mobEntity) {
+            if(mobEntity.goalSelector.getGoals().stream().anyMatch((prioritizedGoal -> prioritizedGoal.getGoal() instanceof FlyGoal))) {
+                this.setTicking();
+            }
+        }
     }
 
     public void onAdded() {
@@ -47,6 +53,15 @@ public class AddGoalPower extends Power {
                     mobEntity.goalSelector.remove(task.getGoal());
                 }
             });
+        }
+    }
+
+    @Override
+    public void tick() {
+        if(entity instanceof MobEntity mobEntity) {
+            if(mobEntity.goalSelector.getGoals().stream().anyMatch((prioritizedGoal -> prioritizedGoal.getGoal() instanceof FlyGoal))) {
+                this.entity.setVelocity(this.entity.getVelocity().multiply(1.0D, 0.6D, 1.0D));
+            }
         }
     }
 

@@ -27,7 +27,18 @@ public class C_TemptGoal extends Goal {
         this.livingEntity = livingEntity;
         this.setPriority(priority);
         this.bientityCondition = bientityCondition;
-        this.setGoal(new DDTemptGoal((PathAwareEntity) livingEntity, speed, null, canBeScared));
+        this.goal = new TemptGoal((PathAwareEntity) livingEntity, speed, null, canBeScared) {
+            @Override
+            public boolean canStart() {
+                if (this.cooldown > 0) {
+                    this.cooldown -= 1;
+                    return false;
+                } else {
+                    this.closestPlayer = this.mob.world.getClosestPlayer(TargetPredicate.createNonAttackable().setBaseMaxDistance(10.0D).ignoreVisibility(), this.mob);
+                    return this.closestPlayer != null && doesApply(this.closestPlayer);
+                }
+            }
+        };
     }
 
     @Override
@@ -44,24 +55,6 @@ public class C_TemptGoal extends Goal {
                 .add("bientity_condition", ApoliDataTypes.BIENTITY_CONDITION, null),
                 data ->
                         (type, entity) -> new C_TemptGoal(type, entity, data.getInt("priority"), data.get("bientity_condition"), data.getDouble("speed"), data.getBoolean("can_be_scared")));
-    }
-
-    class DDTemptGoal extends TemptGoal {
-
-        public DDTemptGoal(PathAwareEntity pathAwareEntity, double speed, Ingredient food, boolean canBeScared) {
-            super(pathAwareEntity, speed, food, canBeScared);
-        }
-
-        @Override
-        public boolean canStart() {
-            if (((TemptGoalAccessorMixin)this).getCooldown() > 0) {
-                ((TemptGoalAccessorMixin)this).setCooldown(((TemptGoalAccessorMixin)this).getCooldown()-1);
-                return false;
-            } else {
-                this.closestPlayer = this.mob.world.getClosestPlayer(TargetPredicate.createNonAttackable().setBaseMaxDistance(10.0D).ignoreVisibility(), this.mob);
-                return this.closestPlayer != null && doesApply(this.closestPlayer);
-            }
-        }
     }
 
 }

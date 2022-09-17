@@ -113,7 +113,6 @@ public class RAA_ModPacketS2C {
                 for(int i = 0; i < layerCount; i++) {
                     ChoiceLayers.add(layers[i]);
                 }
-                RAA_DataLoadedCallback.EVENT.invoker().onDataLoaded(true);
             });
         } catch (Exception e) {
             RA_Additions.LOGGER.error(e);

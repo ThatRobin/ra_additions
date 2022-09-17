@@ -56,6 +56,7 @@ public class RA_Additions implements ModInitializer {
         Choice.init();
 
         NamespaceAlias.addAlias(MODID, "apoli");
+        NamespaceAlias.addAlias("origins", "apoli");
 
         RAA_ClassDataRegistry.registerAll();
 

@@ -27,7 +27,7 @@ public class ChooseChoiceScreen extends ChoiceDisplayScreen {
     private final int maxSelection;
 
     public ChooseChoiceScreen(ArrayList<ChoiceLayer> layerList, int currentLayerIndex, boolean showDirtBackground) {
-        super(Text.translatable("ccpacks.screen.choose_Choice"), showDirtBackground);
+        super(Text.translatable("ra_additions.screen.choose_Choice"), showDirtBackground);
         this.layerList = layerList;
         this.currentLayerIndex = currentLayerIndex;
         this.ChoiceSelection = new ArrayList<>(0);

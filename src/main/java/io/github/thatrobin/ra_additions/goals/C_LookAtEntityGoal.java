@@ -24,7 +24,22 @@ public class C_LookAtEntityGoal extends Goal {
         this.livingEntity = livingEntity;
         this.setPriority(priority);
         this.bientityCondition = bientityCondition;
-        this.setGoal(new DDLookAtEntityGoal((MobEntity) livingEntity, range));
+        this.goal = new LookAtEntityGoal((MobEntity) livingEntity, LivingEntity.class, range) {
+            @Override
+            public boolean canStart() {
+                if (this.mob.getRandom().nextFloat() >= this.chance) {
+                    return false;
+                } else {
+                    if (this.mob.getTarget() != null) {
+                        this.target = this.mob.getTarget();
+                    }
+
+                    this.target = this.mob.world.getClosestEntity(this.mob.world.getEntitiesByClass(this.targetType, this.mob.getBoundingBox().expand(this.range, 3.0D, this.range), C_LookAtEntityGoal.this::doesApply), targetPredicate, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
+
+                    return this.target != null;
+                }
+            }
+        };
     }
 
     @Override
@@ -40,31 +55,6 @@ public class C_LookAtEntityGoal extends Goal {
                 .add("bientity_condition", ApoliDataTypes.BIENTITY_CONDITION, null),
                 data ->
                         (type, entity) -> new C_LookAtEntityGoal(type, entity, data.getInt("priority"), data.get("bientity_condition"), data.getFloat("range")));
-    }
-
-    class DDLookAtEntityGoal extends LookAtEntityGoal {
-
-        private final MobEntity mob;
-
-        public DDLookAtEntityGoal(MobEntity mob, float range) {
-            super(mob, LivingEntity.class, range);
-            this.mob = mob;
-        }
-
-        @Override
-        public boolean canStart() {
-            if (this.mob.getRandom().nextFloat() >= this.chance) {
-                return false;
-            } else {
-                if (this.mob.getTarget() != null) {
-                    this.target = this.mob.getTarget();
-                }
-
-                this.target = this.mob.world.getClosestEntity(this.mob.world.getEntitiesByClass(this.targetType, this.mob.getBoundingBox().expand(this.range, 3.0D, this.range), C_LookAtEntityGoal.this::doesApply), targetPredicate, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
-
-                return this.target != null;
-            }
-        }
     }
 
 }

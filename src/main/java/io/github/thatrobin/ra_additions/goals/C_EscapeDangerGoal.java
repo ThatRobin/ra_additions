@@ -12,6 +12,8 @@ import io.github.thatrobin.ra_additions.powers.AddGoalPower;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.EscapeDangerGoal;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.util.math.BlockPos;
 
@@ -25,7 +27,26 @@ public class C_EscapeDangerGoal extends Goal {
         super(goalType, livingEntity);
         this.setPriority(priority);
         this.condition = condition;
-        this.setGoal(new DDEscapeDangerGoal((PathAwareEntity) livingEntity, speed));
+        this.goal = new EscapeDangerGoal((PathAwareEntity) livingEntity, speed) {
+            @Override
+            public boolean canStart() {
+                if (this.mob.getAttacker() == null && !this.mob.isOnFire()) {
+                    return false;
+                } else {
+                    if (this.mob.isOnFire()) {
+                        BlockPos blockPos = this.locateClosestWater(this.mob.world, this.mob, 5);
+                        if (blockPos != null) {
+                            this.targetX = blockPos.getX();
+                            this.targetY = blockPos.getY();
+                            this.targetZ = blockPos.getZ();
+                            return doesApply(mob);
+                        }
+                    }
+
+                    return this.findTarget() && doesApply(mob);
+                }
+            }
+        };
     }
 
     @Override
@@ -41,32 +62,6 @@ public class C_EscapeDangerGoal extends Goal {
                 .add("condition", ApoliDataTypes.ENTITY_CONDITION, null),
                 data ->
                         (type, entity) -> new C_EscapeDangerGoal(type, entity, data.getInt("priority"), data.get("condition"), data.getDouble("speed")));
-    }
-
-    class DDEscapeDangerGoal extends EscapeDangerGoal {
-
-        public DDEscapeDangerGoal(PathAwareEntity pathAwareEntity, double speed) {
-            super(pathAwareEntity, speed);
-        }
-
-        @Override
-        public boolean canStart() {
-            if (this.mob.getAttacker() == null && !this.mob.isOnFire()) {
-                return false;
-            } else {
-                if (this.mob.isOnFire()) {
-                    BlockPos blockPos = this.locateClosestWater(this.mob.world, this.mob, 5);
-                    if (blockPos != null) {
-                        this.targetX = blockPos.getX();
-                        this.targetY = blockPos.getY();
-                        this.targetZ = blockPos.getZ();
-                        return doesApply(mob);
-                    }
-                }
-
-                return this.findTarget() && doesApply(mob);
-            }
-        }
     }
 
 }

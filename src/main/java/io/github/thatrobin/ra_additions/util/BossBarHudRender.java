@@ -11,8 +11,6 @@ import java.util.Objects;
 
 public class BossBarHudRender {
 
-    //public static final HudRender DONT_RENDER = new HudRender(false, 0, Apoli.identifier("textures/gui/resource_bar.png"), null, false);
-
     private final boolean shouldRender;
     private final int barIndex;
     private final int priority;

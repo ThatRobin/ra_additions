@@ -6,4 +6,85 @@ accessible    method    net/minecraft/server/command/ExecuteCommand    testScore
 accessible    class    net/minecraft/server/command/ExecuteCommand$Condition
 accessible    field    net/minecraft/entity/mob/MobEntity    targetSelector    Lnet/minecraft/entity/ai/goal/GoalSelector;
 accessible    field    net/minecraft/entity/mob/MobEntity    goalSelector    Lnet/minecraft/entity/ai/goal/GoalSelector;
+
+accessible    field    net/minecraft/entity/ai/goal/EscapeSunlightGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+accessible    field    net/minecraft/entity/ai/goal/PounceAtTargetGoal    mob    Lnet/minecraft/entity/mob/MobEntity;
+accessible    field    net/minecraft/entity/ai/goal/MoveIntoWaterGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+accessible    field    net/minecraft/entity/ai/goal/TemptGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+accessible    field    net/minecraft/entity/ai/goal/WanderAroundGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+accessible    field    net/minecraft/entity/ai/goal/FleeEntityGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+accessible    field    net/minecraft/entity/ai/goal/ChaseBoatGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+accessible    field    net/minecraft/entity/ai/goal/WanderNearTargetGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+accessible    field    net/minecraft/entity/ai/goal/EscapeDangerGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+accessible    field    net/minecraft/entity/ai/goal/GoToVillageGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+accessible    field    net/minecraft/entity/ai/goal/BreatheAirGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+accessible    field    net/minecraft/entity/ai/goal/MoveToTargetPosGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+accessible    field    net/minecraft/entity/ai/goal/UniversalAngerGoal    mob    Lnet/minecraft/entity/mob/MobEntity;
+accessible    field    net/minecraft/entity/ai/goal/AvoidSunlightGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+accessible    field    net/minecraft/entity/ai/goal/ProjectileAttackGoal    mob    Lnet/minecraft/entity/mob/MobEntity;
+accessible    field    net/minecraft/entity/ai/goal/FollowMobGoal    mob    Lnet/minecraft/entity/mob/MobEntity;
+accessible    field    net/minecraft/entity/ai/goal/AttackGoal    mob    Lnet/minecraft/entity/mob/MobEntity;
+accessible    field    net/minecraft/entity/ai/goal/GoToWalkTargetGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+accessible    field    net/minecraft/entity/ai/goal/TrackTargetGoal    mob    Lnet/minecraft/entity/mob/MobEntity;
+accessible    field    net/minecraft/entity/ai/goal/SwimGoal    mob    Lnet/minecraft/entity/mob/MobEntity;
+accessible    field    net/minecraft/entity/ai/goal/DoorInteractGoal    mob    Lnet/minecraft/entity/mob/MobEntity;
+accessible    field    net/minecraft/entity/ai/goal/LookAtEntityGoal    mob    Lnet/minecraft/entity/mob/MobEntity;
+accessible    field    net/minecraft/entity/ai/goal/MoveThroughVillageGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+accessible    field    net/minecraft/entity/ai/goal/EatGrassGoal    mob    Lnet/minecraft/entity/mob/MobEntity;
+accessible    field    net/minecraft/entity/ai/goal/LookAroundGoal    mob    Lnet/minecraft/entity/mob/MobEntity;
+accessible    field    net/minecraft/entity/ai/goal/MeleeAttackGoal    mob    Lnet/minecraft/entity/mob/PathAwareEntity;
+
+accessible    field    net/minecraft/entity/ai/goal/MeleeAttackGoal    cooldown    I
+accessible    field    net/minecraft/entity/ai/goal/BowAttackGoal    cooldown    I
+accessible    field    net/minecraft/entity/ai/goal/RaidGoal    cooldown    I
+accessible    field    net/minecraft/entity/ai/goal/TemptGoal    cooldown    I
+accessible    field    net/minecraft/entity/ai/goal/MoveToTargetPosGoal    cooldown    I
+accessible    field    net/minecraft/entity/ai/goal/CrossbowAttackGoal    cooldown    I
+accessible    field    net/minecraft/entity/ai/goal/AttackGoal    cooldown    I
+
+accessible    field    net/minecraft/entity/ai/goal/WanderAroundGoal    canDespawn    Z
+
+accessible    method    net/minecraft/entity/ai/goal/AnimalMateGoal    findMate    ()Lnet/minecraft/entity/passive/AnimalEntity;
+
+accessible    field    net/minecraft/entity/ai/goal/WanderNearTargetGoal    target    Lnet/minecraft/entity/LivingEntity;
+accessible    field    net/minecraft/entity/ai/goal/AttackGoal    target    Lnet/minecraft/entity/LivingEntity;
+accessible    field    net/minecraft/entity/ai/goal/ProjectileAttackGoal    target    Lnet/minecraft/entity/LivingEntity;
+accessible    field    net/minecraft/entity/ai/goal/TrackIronGolemTargetGoal    target    Lnet/minecraft/entity/LivingEntity;
+accessible    field    net/minecraft/entity/ai/goal/LookAtEntityGoal    target    Lnet/minecraft/entity/Entity;
+accessible    field    net/minecraft/entity/ai/goal/CreeperIgniteGoal    target    Lnet/minecraft/entity/LivingEntity;
+accessible    field    net/minecraft/entity/ai/goal/FollowMobGoal    target    Lnet/minecraft/entity/mob/MobEntity;
+accessible    field    net/minecraft/entity/ai/goal/MoveThroughVillageGoal    target    Lnet/minecraft/util/math/BlockPos;
+accessible    field    net/minecraft/entity/ai/goal/TrackTargetGoal    target    Lnet/minecraft/entity/LivingEntity;
+accessible    field    net/minecraft/entity/ai/goal/PounceAtTargetGoal    target    Lnet/minecraft/entity/LivingEntity;
+
+accessible    field    net/minecraft/entity/ai/goal/TrackOwnerAttackerGoal    tameable    Lnet/minecraft/entity/passive/TameableEntity;
+accessible    field    net/minecraft/entity/ai/goal/SitOnOwnerShoulderGoal    tameable    Lnet/minecraft/entity/passive/TameableShoulderEntity;
+accessible    field    net/minecraft/entity/ai/goal/AttackWithOwnerGoal    tameable    Lnet/minecraft/entity/passive/TameableEntity;
+accessible    field    net/minecraft/entity/ai/goal/UntamedActiveTargetGoal    tameable    Lnet/minecraft/entity/passive/TameableEntity;
+accessible    field    net/minecraft/entity/ai/goal/SitGoal    tameable    Lnet/minecraft/entity/passive/TameableEntity;
+accessible    field    net/minecraft/entity/ai/goal/FollowOwnerGoal    tameable    Lnet/minecraft/entity/passive/TameableEntity;
+
+accessible    field    net/minecraft/entity/ai/goal/AttackWithOwnerGoal    attacking    Lnet/minecraft/entity/LivingEntity;
+
+accessible    field    net/minecraft/entity/ai/goal/AttackWithOwnerGoal    lastAttackTime    I
+
+accessible    field    net/minecraft/entity/ai/goal/BowAttackGoal    actor    Lnet/minecraft/entity/mob/HostileEntity;
+accessible    field    net/minecraft/entity/ai/goal/MoveToRaidCenterGoal    actor    Lnet/minecraft/entity/raid/RaiderEntity;
+accessible    field    net/minecraft/entity/ai/goal/HoldInHandsGoal    actor    Lnet/minecraft/entity/mob/MobEntity;
+accessible    field    net/minecraft/entity/ai/goal/CrossbowAttackGoal    actor    Lnet/minecraft/entity/mob/HostileEntity;
+
+accessible    method    net/minecraft/entity/ai/goal/BreakDoorGoal    isDifficultySufficient    (Lnet/minecraft/world/Difficulty;)Z
+
+accessible    field    net/minecraft/entity/ai/goal/CatSitOnBlockGoal    cat    Lnet/minecraft/entity/passive/CatEntity;
+
+accessible    field    net/minecraft/entity/ai/goal/GoToBedAndSleepGoal    cat    Lnet/minecraft/entity/passive/CatEntity;
+
+accessible    field    net/minecraft/entity/ai/goal/ChaseBoatGoal    passenger    Lnet/minecraft/entity/player/PlayerEntity;
+
+accessible    field    net/minecraft/entity/ai/goal/CreeperIgniteGoal    creeper    Lnet/minecraft/entity/mob/CreeperEntity;
+
+accessible    method    net/minecraft/entity/ai/goal/CrossbowAttackGoal    isEntityHoldingCrossbow    ()Z
+
+accessible    method    net/minecraft/entity/ai/goal/CrossbowAttackGoal    hasAliveTarget    ()Z
+
 mutable    field    io/github/apace100/apoli/power/VariableIntPower     max      I

@@ -76,10 +76,10 @@ public class RAA_ModPacketC2S {
                         clientVersionString.append(".");
                     }
                 }
-                serverLoginNetworkHandler.disconnect(Text.translatable("choices.gui.version_mismatch", RA_Additions.VERSION, clientVersionString));
+                serverLoginNetworkHandler.disconnect(Text.translatable("ra_additions.choices.gui.version_mismatch", RA_Additions.VERSION, clientVersionString));
             }
         } else {
-            serverLoginNetworkHandler.disconnect(Text.literal("This server requires you to install CCPacks (v" + RA_Additions.VERSION + ") to play."));
+            serverLoginNetworkHandler.disconnect(Text.literal("This server requires you to install Robin's Apoli Additions (v" + RA_Additions.VERSION + ") to play."));
         }
     }
 
