@@ -22,7 +22,6 @@ public class GoalFactories {
         register(C_CreeperIgniteGoal::createFactory);
         register(C_CrossbowAttackGoal::createFactory);
         register(C_EscapeDangerGoal::createFactory);
-        register(C_FlyGoal::createFactory);
         register(C_LookAroundGoal::createFactory);
         register(C_LookAtEntityGoal::createFactory);
         register(C_SwimGoal::createFactory);
