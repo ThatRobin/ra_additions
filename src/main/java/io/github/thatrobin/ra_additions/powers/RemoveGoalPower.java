@@ -65,7 +65,7 @@ public class RemoveGoalPower extends Power {
 
     @SuppressWarnings("rawtypes")
     public static PowerFactory createFactory() {
-        return new PowerFactory<>(RA_Additions.identifier("prevent_goal_usage"),
+        return new PowerFactory<>(RA_Additions.identifier("remove_goal"),
                 new SerializableData()
                         .add("goal", SerializableDataTypes.STRING, null)
                         .add("goals", SerializableDataTypes.STRINGS, null),

@@ -26,23 +26,6 @@ import java.util.List;
 public class EntityConditions {
 
     public static void register() {
-        if(FabricLoader.getInstance().isModLoaded("trinkets")) {
-            register(new ConditionFactory<>(RA_Additions.identifier("equipped_trinket"), new SerializableData()
-                    .add("item_condition", ApoliDataTypes.ITEM_CONDITION),
-                    (data, entity) -> {
-                        if (entity instanceof PlayerEntity player) {
-                            try {
-
-                                return TrinketsCompat.trinketCheck(player, data.get("item_condition"));
-                            } catch (Exception e) {
-                                return false;
-                            }
-                        } else {
-                            return false;
-                        }
-                    }));
-        }
-
         register(new ConditionFactory<>(RA_Additions.identifier("active_power_type"), new SerializableData()
                 .add("power_type", SerializableDataTypes.IDENTIFIER)
                 .add("blacklisted_powers", SerializableDataType.list(ApoliDataTypes.POWER_TYPE)),
@@ -75,7 +58,7 @@ public class EntityConditions {
                     Power p = component.getPower((PowerType<?>)data.get("resource"));
                     if(p instanceof VariableIntPower r) {
                         resourceValue = r.getValue();
-                        percentageValue = ((float)resourceValue / (float)r.getMax()) * 100;
+                        percentageValue = ((float)resourceValue / ((float)r.getMax()) - (float)r.getMin()) * 100;
 
                     } else if(p instanceof CooldownPower cp) {
                         resourceValue = cp.getRemainingTicks();
@@ -83,6 +66,24 @@ public class EntityConditions {
                     }
                     return ((Comparison)data.get("comparison")).compare(percentageValue, data.getInt("percentage"));
                 }));
+
+        if(FabricLoader.getInstance().isModLoaded("trinkets")) {
+            register(new ConditionFactory<>(RA_Additions.identifier("equipped_trinket"), new SerializableData()
+                    .add("item_condition", ApoliDataTypes.ITEM_CONDITION),
+                    (data, entity) -> {
+                        if (entity instanceof PlayerEntity player) {
+                            try {
+
+                                return TrinketsCompat.trinketCheck(player, data.get("item_condition"));
+                            } catch (Exception e) {
+                                return false;
+                            }
+                        } else {
+                            return false;
+                        }
+                    }));
+        }
+
     }
 
     private static void register(ConditionFactory<Entity> conditionFactory) {

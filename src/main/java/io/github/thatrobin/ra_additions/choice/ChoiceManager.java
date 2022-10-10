@@ -39,6 +39,6 @@ public class ChoiceManager extends MultiJsonDataLoader implements IdentifiableRe
 
     @Override
     public Identifier getFabricId() {
-        return new Identifier("ccpacks", "choices");
+        return RA_Additions.identifier("choices");
     }
 }

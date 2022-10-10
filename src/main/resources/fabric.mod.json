@@ -3,7 +3,7 @@
     "id": "ra_additions",
     "version": "${version}",
     "name": "Robin's Apoli Additions",
-    "description": "",
+    "description": "An Apoli addon made to implement some features that I thought would be useful for datapack and origin developers.",
     "authors": [],
     "contact": {},
     "license": "MIT",
@@ -37,6 +37,6 @@
     "depends": {
         "fabricloader": ">=0.14.8",
         "fabric": "*",
-        "minecraft": "1.19"
+        "minecraft": ">=1.19"
     }
 }

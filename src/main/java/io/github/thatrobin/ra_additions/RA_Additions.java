@@ -13,6 +13,7 @@ import io.github.thatrobin.ra_additions.powers.BorderPower;
 import io.github.thatrobin.ra_additions.goals.factories.GoalFactories;
 import io.github.thatrobin.ra_additions.goals.factories.GoalTypes;
 import io.github.thatrobin.ra_additions.powers.factories.*;
+import io.github.thatrobin.ra_additions.util.EmptyManager;
 import io.github.thatrobin.ra_additions.util.RAA_ClassDataRegistry;
 import io.github.thatrobin.ra_additions.util.RenderBorderPower;
 import io.github.thatrobin.ra_additions.util.UniversalPowerManager;
@@ -65,7 +66,6 @@ public class RA_Additions implements ModInitializer {
         EntityConditions.register();
         EntityActions.register();
         BiEntityActions.register();
-        ItemConditions.register();
         ItemActions.register();
 
         RAA_ModPacketC2S.register();
@@ -86,7 +86,8 @@ public class RA_Additions implements ModInitializer {
             }
         });
 
-        OrderedResourceListeners.register(new UniversalPowerManager()).after(new Identifier("apoli","powers")).complete();
+        OrderedResourceListeners.register(new EmptyManager()).after(new Identifier("apoli","powers")).complete();
+        OrderedResourceListeners.register(new UniversalPowerManager()).before(new Identifier("apoli","powers")).complete();
         OrderedResourceListeners.register(new ChoiceManager()).before(new Identifier("apoli","powers")).complete();
         OrderedResourceListeners.register(new ChoiceLayers()).before(new Identifier("apoli","powers")).complete();
         OrderedResourceListeners.register(new GoalTypes()).before(new Identifier("apoli","powers")).complete();

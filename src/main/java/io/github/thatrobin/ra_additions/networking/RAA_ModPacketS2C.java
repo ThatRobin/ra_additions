@@ -46,7 +46,6 @@ public class RAA_ModPacketS2C {
             ClientPlayNetworking.registerReceiver(RAA_ModPackets.OPEN_CHOICE_SCREEN, RAA_ModPacketS2C::openChoiceScreen);
             ClientPlayNetworking.registerReceiver(RAA_ModPackets.CHOICE_LIST, RAA_ModPacketS2C::receiveChoiceList);
             ClientPlayNetworking.registerReceiver(RAA_ModPackets.LAYER_LIST, RAA_ModPacketS2C::receiveLayerList);
-            ClientPlayNetworking.registerReceiver(RAA_ModPackets.UPDATE_RESOURCE_MAX, RAA_ModPacketS2C::updateResource);
         }));
     }
 
@@ -133,24 +132,6 @@ public class RAA_ModPacketS2C {
                 component.setChoice(layer, choice);
             }
 
-        });
-    }
-
-    @Environment(EnvType.CLIENT)
-    private static void updateResource(MinecraftClient minecraftClient, ClientPlayNetworkHandler clientPlayNetworkHandler, PacketByteBuf packetByteBuf, PacketSender packetSender) {
-        int newMax = packetByteBuf.readInt();
-        Identifier powerID = packetByteBuf.readIdentifier();
-        minecraftClient.execute(() -> {
-            if (minecraftClient.player != null) {
-                PowerHolderComponent component = PowerHolderComponent.KEY.get(minecraftClient.player);
-                List<VariableIntPower> powers = component.getPowers(VariableIntPower.class);
-                for (VariableIntPower power : powers) {
-                    if (power.getType().getIdentifier().equals(powerID)) {
-                        ((VariableIntPowerAccessor) power).setMax(newMax);
-                        component.sync();
-                    }
-                }
-            }
         });
     }
 

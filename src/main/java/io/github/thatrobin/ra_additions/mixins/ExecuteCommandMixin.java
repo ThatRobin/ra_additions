@@ -51,7 +51,7 @@ public class ExecuteCommandMixin {
 
     @Inject(method = "addStoreArguments(Lcom/mojang/brigadier/tree/LiteralCommandNode;Lcom/mojang/brigadier/builder/LiteralArgumentBuilder;Z)Lcom/mojang/brigadier/builder/ArgumentBuilder;", at = @At("HEAD"))
     private static void addResourceArg(LiteralCommandNode<ServerCommandSource> node, LiteralArgumentBuilder<ServerCommandSource> builder, boolean requestResult, CallbackInfoReturnable<ArgumentBuilder<ServerCommandSource, ?>> cir) {
-        builder.then(CommandManager.literal("resource").then(CommandManager.argument("targets", EntityArgumentType.entities()).then(CommandManager.argument("power", PowerTypeArgumentType.power()).then(CommandManager.literal("value").redirect(node, context -> executeStoreResource(context, true, requestResult))).then(CommandManager.literal("max").redirect(node, context -> executeStoreResource(context, false, requestResult))))));
+        builder.then(CommandManager.literal("resource").then(CommandManager.argument("targets", EntityArgumentType.entities()).then(CommandManager.argument("power", PowerTypeArgumentType.power()).then(CommandManager.literal("value").redirect(node, context -> executeStoreResource(context, requestResult))))));
     }
 
     @Inject(method = "addConditionArguments", at = @At("HEAD"))
@@ -104,7 +104,7 @@ public class ExecuteCommandMixin {
 
     }
 
-    private static ServerCommandSource executeStoreResource(CommandContext<ServerCommandSource> command, boolean storeInValue, boolean requestResult) throws CommandSyntaxException {
+    private static ServerCommandSource executeStoreResource(CommandContext<ServerCommandSource> command, boolean requestResult) throws CommandSyntaxException {
         Collection<? extends Entity> targets = EntityArgumentType.getEntities(command, "targets");
         PowerType<?> powerType = PowerTypeArgumentType.getPower(command, "power");
         return command.getSource().mergeConsumers((context, success, result) -> {
@@ -113,18 +113,7 @@ public class ExecuteCommandMixin {
                     Power power = PowerHolderComponent.KEY.get(player).getPower(powerType);
                     if (power instanceof VariableIntPower vp) {
                         int i = requestResult ? result : (success ? 1 : 0);
-                        if (storeInValue) {
-                            vp.setValue(i);
-                        } else {
-                            ((VariableIntPowerAccessor) vp).setMax(i);
-                            if(!player.world.isClient) {
-                                PacketByteBuf buf = PacketByteBufs.create();
-                                buf.writeInt(i);
-                                buf.writeIdentifier(vp.getType().getIdentifier());
-                                ServerPlayNetworking.send((ServerPlayerEntity) player, RAA_ModPackets.UPDATE_RESOURCE_MAX, buf);
-                            }
-                        }
-
+                        vp.setValue(i);
                         PowerHolderComponent.syncPower(player, powerType);
                     }
                 }

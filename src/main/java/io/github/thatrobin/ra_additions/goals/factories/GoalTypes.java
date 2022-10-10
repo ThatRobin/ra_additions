@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.github.apace100.apoli.power.PowerTypes;
 import io.github.apace100.calio.data.MultiJsonDataLoader;
 import io.github.thatrobin.ra_additions.RA_Additions;
+import io.github.thatrobin.ra_additions.choice.ChoiceRegistry;
 import io.github.thatrobin.ra_additions.util.RAA_Registries;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.resource.ResourceManager;
@@ -28,15 +30,17 @@ public class GoalTypes extends MultiJsonDataLoader implements IdentifiableResour
 
     @Override
     protected void apply(Map<Identifier, List<JsonElement>> prepared, ResourceManager manager, Profiler profiler) {
+        GoalRegistry.reset();
         prepared.forEach((id, jel) -> {
             try {
                 for (JsonElement je : jel) {
                     readTask(id, je, GoalType::new);
                 }
             } catch (Exception e) {
-                RA_Additions.LOGGER.error(e.getMessage());
+                RA_Additions.LOGGER.error("There was a problem reading Goal file " + id.toString() + " (skipping): " + e.getMessage());
             }
         });
+        RA_Additions.LOGGER.info("Finished loading goals from data files. Registry contains " + GoalRegistry.size() + " goals.");
     }
 
     @SuppressWarnings("rawtypes")
@@ -60,6 +64,6 @@ public class GoalTypes extends MultiJsonDataLoader implements IdentifiableResour
 
     @Override
     public Identifier getFabricId() {
-        return null;
+        return RA_Additions.identifier("goals");
     }
 }

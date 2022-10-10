@@ -86,5 +86,3 @@ accessible    field    net/minecraft/entity/ai/goal/CreeperIgniteGoal    creeper
 accessible    method    net/minecraft/entity/ai/goal/CrossbowAttackGoal    isEntityHoldingCrossbow    ()Z
 
 accessible    method    net/minecraft/entity/ai/goal/CrossbowAttackGoal    hasAliveTarget    ()Z
-
-mutable    field    io/github/apace100/apoli/power/VariableIntPower     max      I
