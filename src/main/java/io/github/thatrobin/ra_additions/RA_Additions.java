@@ -1,22 +1,29 @@
 package io.github.thatrobin.ra_additions;
 
+import com.google.common.collect.Lists;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import io.github.apace100.apoli.util.NamespaceAlias;
+import io.github.apace100.calio.data.SerializableData;
+import io.github.apace100.calio.data.SerializableDataType;
+import io.github.apace100.calio.data.SerializableDataTypes;
 import io.github.apace100.calio.util.OrderedResourceListeners;
+import io.github.apace100.origins.data.CompatibilityDataTypes;
+import io.github.apace100.origins.data.OriginsDataTypes;
+import io.github.apace100.origins.origin.Impact;
+import io.github.apace100.origins.origin.Origin;
 import io.github.thatrobin.ra_additions.choice.Choice;
 import io.github.thatrobin.ra_additions.choice.ChoiceLayers;
 import io.github.thatrobin.ra_additions.choice.ChoiceManager;
 import io.github.thatrobin.ra_additions.commands.ChoiceCommand;
 import io.github.thatrobin.ra_additions.commands.LayerArgument;
+import io.github.thatrobin.ra_additions.commands.PowerTypeArgumentType;
+import io.github.thatrobin.ra_additions.commands.RAAPowerCommand;
 import io.github.thatrobin.ra_additions.networking.RAA_ModPacketC2S;
 import io.github.thatrobin.ra_additions.powers.BorderPower;
 import io.github.thatrobin.ra_additions.goals.factories.GoalFactories;
 import io.github.thatrobin.ra_additions.goals.factories.GoalTypes;
 import io.github.thatrobin.ra_additions.powers.factories.*;
-import io.github.thatrobin.ra_additions.util.EmptyManager;
-import io.github.thatrobin.ra_additions.util.RAA_ClassDataRegistry;
-import io.github.thatrobin.ra_additions.util.RenderBorderPower;
-import io.github.thatrobin.ra_additions.util.UniversalPowerManager;
+import io.github.thatrobin.ra_additions.util.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
@@ -26,6 +33,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,6 +45,8 @@ public class RA_Additions implements ModInitializer {
     public static int[] SEMVER;
     public static String MODID = "ra_additions";
     public static String VERSION = "";
+
+
 
     @SuppressWarnings("deprecation")
     @Override
@@ -70,7 +81,10 @@ public class RA_Additions implements ModInitializer {
 
         RAA_ModPacketC2S.register();
 
-        CommandRegistrationCallback.EVENT.register((dispatcher, commandRegistryAccess, registrationEnvironment) -> ChoiceCommand.register(dispatcher));
+        CommandRegistrationCallback.EVENT.register((dispatcher, commandRegistryAccess, registrationEnvironment) -> {
+            ChoiceCommand.register(dispatcher);
+            RAAPowerCommand.register(dispatcher);
+        });
 
         WorldRenderEvents.LAST.register(identifier("render_border"), (context) -> {
             if (MinecraftClient.getInstance().world != null) {
@@ -91,8 +105,10 @@ public class RA_Additions implements ModInitializer {
         OrderedResourceListeners.register(new ChoiceManager()).before(new Identifier("apoli","powers")).complete();
         OrderedResourceListeners.register(new ChoiceLayers()).before(new Identifier("apoli","powers")).complete();
         OrderedResourceListeners.register(new GoalTypes()).before(new Identifier("apoli","powers")).complete();
+        OrderedResourceListeners.register(PowerTagManager.POWER_TAG_LOADER).before(new Identifier("apoli","powers")).complete();
 
         ArgumentTypeRegistry.registerArgumentType(identifier("choice_layer"), LayerArgument.class, ConstantArgumentSerializer.of((test) -> LayerArgument.layer()));
+        ArgumentTypeRegistry.registerArgumentType(identifier("power_tag_layer"), PowerTypeArgumentType.class, ConstantArgumentSerializer.of((test) -> PowerTypeArgumentType.power()));
 
 
     }

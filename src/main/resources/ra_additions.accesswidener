@@ -86,3 +86,5 @@ accessible    field    net/minecraft/entity/ai/goal/CreeperIgniteGoal    creeper
 accessible    method    net/minecraft/entity/ai/goal/CrossbowAttackGoal    isEntityHoldingCrossbow    ()Z
 
 accessible    method    net/minecraft/entity/ai/goal/CrossbowAttackGoal    hasAliveTarget    ()Z
+
+mutable    field    Lio/github/apace100/origins/origin/Origin    DATA    Lio/github/apace100/calio/data/SerializableData;

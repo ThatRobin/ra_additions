@@ -15,7 +15,8 @@
         "ProjectileEntityMixin",
         "SlotMixin",
         "TemptGoalAccessorMixin",
-        "WanderAroundGoalAccessorMixin"
+        "WanderAroundGoalAccessorMixin",
+        "OriginMixin"
     ],
     "client": [
         "BossBarHudMixin",
