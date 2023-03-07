@@ -24,7 +24,7 @@ public class RenderBorderPower {
             matrixStack.push();
             RenderSystem.applyModelViewMatrix();
             RenderSystem.setShaderColor(border.red, border.green, border.blue, border.alpha);
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShader(GameRenderer::getPositionTexProgram);
             RenderSystem.polygonOffset(-3.0F, -3.0F);
             RenderSystem.enablePolygonOffset();
             RenderSystem.disableCull();
@@ -90,7 +90,7 @@ public class RenderBorderPower {
                     ++t;
                 }
             }
-            BufferRenderer.drawWithShader(bufferBuilder.end());
+            BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
             RenderSystem.enableCull();
             RenderSystem.polygonOffset(0.0F, 0.0F);
             RenderSystem.disablePolygonOffset();

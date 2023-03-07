@@ -4,8 +4,8 @@ import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.apoli.power.VariableIntPower;
 import io.github.apace100.apoli.power.factory.PowerFactory;
-import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.data.RAA_DataTypes;
 import io.github.thatrobin.ra_additions.util.BossBarHudRender;
@@ -76,16 +76,16 @@ public class BossBarPower extends VariableIntPower implements BossBarHudRendered
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory() {
+    public static PowerFactory createFactory(String label) {
         return new PowerFactory<>(RA_Additions.identifier("boss_bar"),
-                new SerializableData()
-                        .add("min", SerializableDataTypes.INT)
-                        .add("max", SerializableDataTypes.INT)
-                        .addFunctionedDefault("start_value", SerializableDataTypes.INT, data -> data.getInt("min"))
-                        .add("hud_render", RAA_DataTypes.HUD_RENDER)
-                        .add("text", SerializableDataTypes.TEXT, null)
-                        .add("min_action", ApoliDataTypes.ENTITY_ACTION, null)
-                        .add("max_action", ApoliDataTypes.ENTITY_ACTION, null),
+                new SerializableDataExt(label)
+                        .add("min", "The minimum value of the boss bar.", SerializableDataTypes.INT)
+                        .add("max", "The maximum value of the boss bar.", SerializableDataTypes.INT)
+                        .addFunctionedDefault("start_value", "The value of the boss bar when the entity first receives the power. If not set, this will be set to the value of the min integer field.", SerializableDataTypes.INT, data -> data.getInt("min"))
+                        .add("hud_render", "Determines how the boss bar is visualized on the HUD.", RAA_DataTypes.HUD_RENDER)
+                        .add("text", "The text displayed above the boss bar.", SerializableDataTypes.TEXT, null)
+                        .add("min_action", "If specified, this action will be executed on the entity whenever the minimum value is reached.", ApoliDataTypes.ENTITY_ACTION, null)
+                        .add("max_action", "If specified, this action will be executed on the entity whenever the maximum value is reached.", ApoliDataTypes.ENTITY_ACTION, null),
                 data ->
                         (type, entity) -> new BossBarPower(type, entity, data.getInt("min"), data.getInt("max"), data.get("hud_render"), data.getInt("start_value"), data.get("min_action"), data.get("max_action"), data.get("text")))
                 .allowCondition();

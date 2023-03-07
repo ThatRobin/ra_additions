@@ -25,7 +25,7 @@ public class SelectableButtonWidget extends ButtonWidget {
     public Choice choice;
 
     public SelectableButtonWidget(Choice choice, ItemStack itemStack, ItemRenderer itemRenderer, int x, int y, int width, int height, Text text, int u, int v, int hoveredVOffset, Identifier texture, int textureWidth, int textureHeight, PressAction onPress) {
-        super(x, y, width, height, text, onPress, EMPTY);
+        super(x, y, width, height, text, onPress, ButtonWidget.DEFAULT_NARRATION_SUPPLIER);
         this.choice = choice;
         this.itemIcon = itemStack;
         this.itemRenderer = itemRenderer;
@@ -38,7 +38,7 @@ public class SelectableButtonWidget extends ButtonWidget {
     }
 
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderTexture(0, this.texture);
 
         int i = this.v;
@@ -48,17 +48,12 @@ public class SelectableButtonWidget extends ButtonWidget {
         }
 
         RenderSystem.enableDepthTest();
-        drawTexture(matrices, this.x, this.y, (float)this.u, (float)i, this.width, this.height, this.textureWidth, this.textureHeight);
+        drawTexture(matrices, this.getX(), this.getY(), (float)this.u, (float)i, this.width, this.height, this.textureWidth, this.textureHeight);
         if (this.isHovered()) {
-            this.renderTooltip(matrices, mouseX, mouseY);
+            //this.renderTooltip(matrices, mouseX, mouseY);
         }
-        this.itemRenderer.renderInGui(itemIcon,x+4,y+4);
+        this.itemRenderer.renderInGui(itemIcon,this.getX()+4,this.getY()+4);
 
-    }
-
-    @Override
-    public void renderTooltip(MatrixStack matrices, int mouseX, int mouseY) {
-        this.tooltipSupplier.onTooltip(this, matrices, mouseX, mouseY);
     }
 
 }

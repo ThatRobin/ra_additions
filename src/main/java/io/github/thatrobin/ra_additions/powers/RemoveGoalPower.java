@@ -5,8 +5,8 @@ import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.apoli.power.factory.PowerFactory;
 import io.github.apace100.calio.ClassUtil;
 import io.github.apace100.calio.data.ClassDataRegistry;
-import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -64,11 +64,11 @@ public class RemoveGoalPower extends Power {
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory() {
+    public static PowerFactory createFactory(String label) {
         return new PowerFactory<>(RA_Additions.identifier("remove_goal"),
-                new SerializableData()
-                        .add("goal", SerializableDataTypes.STRING, null)
-                        .add("goals", SerializableDataTypes.STRINGS, null),
+                new SerializableDataExt(label)
+                        .add("goal", "The goal to remove from the mob.", SerializableDataTypes.STRING, null)
+                        .add("goals", "The goals to remove from the mob.", SerializableDataTypes.STRINGS, null),
                 data ->
                         (type, entity) -> {
                             RemoveGoalPower power = new RemoveGoalPower(type, entity);

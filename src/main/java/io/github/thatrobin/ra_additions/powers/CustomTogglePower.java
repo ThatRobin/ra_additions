@@ -6,8 +6,8 @@ import io.github.apace100.apoli.power.Active;
 import io.github.apace100.apoli.power.Power;
 import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.apoli.power.factory.PowerFactory;
-import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -98,14 +98,14 @@ public class CustomTogglePower extends Power implements Active {
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory() {
+    public static PowerFactory createFactory(String label) {
         return new PowerFactory<>(RA_Additions.identifier("toggle"),
-                new SerializableData()
-                        .add("active_by_default", SerializableDataTypes.BOOLEAN, true)
-                        .add("retain_state", SerializableDataTypes.BOOLEAN, true)
-                        .add("toggle_on_action", ApoliDataTypes.ENTITY_ACTION, null)
-                        .add("toggle_off_action", ApoliDataTypes.ENTITY_ACTION, null)
-                        .add("key", ApoliDataTypes.BACKWARDS_COMPATIBLE_KEY, new Active.Key()),
+                new SerializableDataExt(label)
+                        .add("active_by_default", "Whether this power starts in the on or off state.", SerializableDataTypes.BOOLEAN, true)
+                        .add("retain_state", "Whether this power switches back to default if the condition is no longer met.", SerializableDataTypes.BOOLEAN, true)
+                        .add("toggle_on_action", "The entity action to be executed when the power is toggled on.", ApoliDataTypes.ENTITY_ACTION, null)
+                        .add("toggle_off_action", "The entity action to be executed when the power is toggled off.", ApoliDataTypes.ENTITY_ACTION, null)
+                        .add("key", "Which active key this power should respond to.", ApoliDataTypes.BACKWARDS_COMPATIBLE_KEY, new Active.Key()),
                 data ->
                         (type, entity) -> {
                             CustomTogglePower toggle = new CustomTogglePower(type, entity, data.get("toggle_on_action"), data.get("toggle_off_action"), data.getBoolean("active_by_default"), data.getBoolean("retain_state"));

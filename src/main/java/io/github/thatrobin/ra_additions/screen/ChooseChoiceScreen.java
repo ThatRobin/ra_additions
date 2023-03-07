@@ -1,6 +1,7 @@
 package io.github.thatrobin.ra_additions.screen;
 
 import io.github.apace100.apoli.power.factory.action.ActionFactory;
+import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.choice.Choice;
 import io.github.thatrobin.ra_additions.choice.ChoiceLayer;
 import io.github.thatrobin.ra_additions.choice.ChoiceRegistry;
@@ -57,21 +58,25 @@ public class ChooseChoiceScreen extends ChoiceDisplayScreen {
     @Override
     protected void init() {
         super.init();
-        addDrawableChild(new ButtonWidget(guiLeft - 40,this.height / 2 - 10, 20, 20, Text.literal("<"), b -> {
+
+        addDrawableChild(ButtonWidget.builder(Text.of("<"), b -> {
             currentChoice = (currentChoice - 1 + maxSelection) % maxSelection;
             Choice newChoice = getCurrentChoiceInternal();
             description = newChoice.getDescription();
             showChoice(newChoice, layerList.get(currentLayerIndex));
             MinecraftClient.getInstance().setScreen(this);
-        }));
-        addDrawableChild(new ButtonWidget(guiLeft + windowWidth + 20, this.height / 2 - 10, 20, 20, Text.literal(">"), b -> {
+        }).dimensions(guiLeft - 40,this.height / 2 - 10, 20, 20).build());
+
+
+        addDrawableChild(ButtonWidget.builder(Text.of(">"), b -> {
             currentChoice = (currentChoice + 1) % maxSelection;
             Choice newChoice = getCurrentChoiceInternal();
             description = newChoice.getDescription();
             showChoice(newChoice, layerList.get(currentLayerIndex));
             MinecraftClient.getInstance().setScreen(this);
-        }));
-        addDrawableChild(new ButtonWidget(guiLeft + windowWidth / 2 - 50, guiTop + windowHeight + 5, 100, 20, Text.translatable("ccpacks.gui.select"), b -> {
+        }).dimensions(guiLeft + windowWidth + 20, this.height / 2 - 10, 20, 20).build());
+
+        addDrawableChild(ButtonWidget.builder(Text.translatable(RA_Additions.MODID + ".gui.select"), b -> {
             PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
             buf.writeString(getCurrentChoice().getIdentifier().toString());
             buf.writeString(layerList.get(currentLayerIndex).getIdentifier().toString());
@@ -81,7 +86,7 @@ public class ChooseChoiceScreen extends ChoiceDisplayScreen {
             }
             ClientPlayNetworking.send(RAA_ModPackets.CHOOSE_CHOICE, buf);
             openNextLayerScreen();
-        }));
+        }).dimensions(guiLeft + windowWidth / 2 - 50, guiTop + windowHeight + 5, 100, 20).build());
 
     }
 
@@ -93,8 +98,6 @@ public class ChooseChoiceScreen extends ChoiceDisplayScreen {
     private ChoiceLayer getCurrentLayerInternal() {
         return layerList.get(currentLayerIndex);
     }
-
-
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {

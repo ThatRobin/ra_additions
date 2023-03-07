@@ -1,5 +1,6 @@
 package io.github.thatrobin.ra_additions.util;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
@@ -7,10 +8,11 @@ import com.mojang.logging.LogUtils;
 import io.github.apace100.apoli.Apoli;
 import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.apoli.power.PowerTypeRegistry;
+import io.github.thatrobin.ra_additions.RA_Additions;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.minecraft.registry.tag.TagGroupLoader;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.ResourceReloader;
-import net.minecraft.tag.TagGroupLoader;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 import org.slf4j.Logger;
@@ -70,6 +72,11 @@ public class PowerTagManager implements ResourceReloader, IdentifiableResourceRe
 
     @Override
     public Identifier getFabricId() {
-        return Apoli.identifier("power_tags");
+        return RA_Additions.identifier("power_tags");
+    }
+
+    @Override
+    public Collection<Identifier> getFabricDependencies() {
+        return ImmutableList.of(Apoli.identifier("powers"));
     }
 }

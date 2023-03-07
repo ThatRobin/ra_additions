@@ -9,6 +9,6 @@ public class RAA_ModPackets {
     public static final Identifier CHOOSE_CHOICE = RA_Additions.identifier("choose_choice");
     public static final Identifier CONFIRM_CHOICE = RA_Additions.identifier("confirm_powers");
     public static final Identifier CHOICE_LIST = RA_Additions.identifier("choice_list");
+    public static final Identifier SEND_KEYBINDS = RA_Additions.identifier("send_keybinds");
     public static final Identifier LAYER_LIST = RA_Additions.identifier("layer_list");
-    public static final Identifier UPDATE_RESOURCE_MAX = RA_Additions.identifier("update_resource");
 }

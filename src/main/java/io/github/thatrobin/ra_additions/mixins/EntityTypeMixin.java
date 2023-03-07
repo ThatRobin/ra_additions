@@ -32,7 +32,6 @@ public class EntityTypeMixin<T extends Entity> {
                     up.powerTypes.forEach(powerType -> PowerHolderComponent.KEY.get(livingEntity).addPower(powerType, id));
                 }
             }));
-
         }
         cir.setReturnValue(entity);
     }

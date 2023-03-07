@@ -1,8 +1,8 @@
 package io.github.thatrobin.ra_additions.goals;
 
 import io.github.apace100.apoli.data.ApoliDataTypes;
-import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.goals.factories.Goal;
 import io.github.thatrobin.ra_additions.goals.factories.GoalFactory;
@@ -41,8 +41,8 @@ public class C_ActiveTargetGoal extends Goal {
     }
 
     @SuppressWarnings("rawtypes")
-    public static GoalFactory createFactory() {
-        return new GoalFactory<>(RA_Additions.identifier("active_target"), new SerializableData()
+    public static GoalFactory createFactory(String label) {
+        return new GoalFactory<>(RA_Additions.identifier("active_target"), new SerializableDataExt(label)
                 .add("priority", SerializableDataTypes.INT, 0)
                 .add("reciprocal_chance", SerializableDataTypes.INT, 10)
                 .add("check_visibility", SerializableDataTypes.BOOLEAN)

@@ -4,8 +4,8 @@ import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.power.Power;
 import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.apoli.power.factory.PowerFactory;
-import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -28,11 +28,11 @@ public class BundlePower extends Power {
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory() {
+    public static PowerFactory createFactory(String label) {
         return new PowerFactory<>(RA_Additions.identifier("use_as_bundle"),
-                new SerializableData()
-                        .add("max_amount", SerializableDataTypes.INT, 64)
-                        .add("item_condition", ApoliDataTypes.ITEM_CONDITION),
+                new SerializableDataExt(label)
+                        .add("max_amount", "the amount of items you can store in the bundle.", SerializableDataTypes.INT, 64)
+                        .add("item_condition", "Items that fulfil this condition, will be bundle-like.", ApoliDataTypes.ITEM_CONDITION),
                 data ->
                         (type, entity) -> new BundlePower(type, entity, data.getInt("max_amount"), data.get("item_condition")))
                 .allowCondition();

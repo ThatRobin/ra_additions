@@ -2,8 +2,8 @@ package io.github.thatrobin.ra_additions.goals;
 
 import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.power.factory.condition.ConditionFactory;
-import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.goals.factories.Goal;
 import io.github.thatrobin.ra_additions.goals.factories.GoalFactory;
@@ -48,8 +48,8 @@ public class C_LookAtEntityGoal extends Goal {
     }
 
     @SuppressWarnings("rawtypes")
-    public static GoalFactory createFactory() {
-        return new GoalFactory<>(RA_Additions.identifier("look_at_entity"), new SerializableData()
+    public static GoalFactory createFactory(String label) {
+        return new GoalFactory<>(RA_Additions.identifier("look_at_entity"), new SerializableDataExt(label)
                 .add("priority", SerializableDataTypes.INT, 0)
                 .add("range", SerializableDataTypes.FLOAT, 6.0f)
                 .add("bientity_condition", ApoliDataTypes.BIENTITY_CONDITION, null),

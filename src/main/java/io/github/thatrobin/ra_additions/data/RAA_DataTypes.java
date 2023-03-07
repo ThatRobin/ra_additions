@@ -2,27 +2,26 @@ package io.github.thatrobin.ra_additions.data;
 
 import com.google.gson.JsonParseException;
 import io.github.apace100.apoli.data.ApoliDataTypes;
-import io.github.apace100.apoli.power.factory.condition.ConditionFactory;
 import io.github.apace100.calio.ClassUtil;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataType;
 import io.github.apace100.calio.data.SerializableDataTypes;
-import io.github.thatrobin.ra_additions.goals.factories.GoalType;
-import io.github.thatrobin.ra_additions.goals.factories.GoalTypeReference;
-import io.github.thatrobin.ra_additions.util.BossBarHudRender;
-import io.github.thatrobin.ra_additions.util.BossBarHudRenderOverlay;
-import io.github.thatrobin.ra_additions.util.StatBarHudRender;
+import io.github.thatrobin.docky.utils.SerializableDataTypesRegistry;
+import io.github.thatrobin.ra_additions.util.*;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class RAA_DataTypes {
+
+    static {
+        SerializableDataTypesRegistry.register(RAA_DataTypes.class);
+    }
 
     public static final SerializableDataType<StatBarHudRender> STAT_BAR_HUD_RENDER = SerializableDataType.compound(StatBarHudRender.class, new
                     SerializableData()
@@ -116,7 +115,7 @@ public class RAA_DataTypes {
                 }
                 if(tagPresent) {
                     TagKey<EntityType<?>> tag = dataInstance.get("tag");
-                    var entryList = Registry.ENTITY_TYPE.getEntryList(tag);
+                    var entryList = Registries.ENTITY_TYPE.getEntryList(tag);
                     return entryList.<List<EntityType<?>>>map(registryEntries -> registryEntries.stream().map(RegistryEntry::value).collect(Collectors.toList())).orElseGet(List::of);
                 } else {
                     return List.of((EntityType<?>)dataInstance.get("entity"));
@@ -126,10 +125,10 @@ public class RAA_DataTypes {
                 if(entities.size() == 1) {
                     inst.set("entity", entities.get(0));
                 } else {
-                    var itemTags = Registry.ENTITY_TYPE.streamTags();
+                    var itemTags = Registries.ENTITY_TYPE.streamTags();
                     //filter out any tags where the entries do not completely match the items list
                     itemTags = itemTags.filter(tag -> {
-                        var entryList = Registry.ENTITY_TYPE.getEntryList(tag);
+                        var entryList = Registries.ENTITY_TYPE.getEntryList(tag);
                         if (entryList.isPresent()) {
                             var tagItems = entryList.get().stream().map(RegistryEntry::value).toList();
                             return entities.equals(tagItems);
@@ -146,5 +145,17 @@ public class RAA_DataTypes {
                 }
                 return inst;
             });
+
+    public static final SerializableDataType<KeybindingData> KEYBINDING = SerializableDataType.compound(KeybindingData.class,
+            new SerializableData()
+                    .add("key", SerializableDataTypes.STRING)
+                    .add("category", SerializableDataTypes.STRING),
+            (data) -> new KeybindingData(data.get("key"), data.get("key"), data.get("category")),
+            ((serializableData, keyBinding) -> {
+                SerializableData.Instance data = serializableData.new Instance();
+                data.set("key", keyBinding.keyKey());
+                data.set("category", keyBinding.category());
+                return data;
+            }));
 
 }

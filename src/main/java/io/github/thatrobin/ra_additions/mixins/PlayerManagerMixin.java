@@ -8,6 +8,8 @@ import io.github.thatrobin.ra_additions.choice.ChoiceRegistry;
 import io.github.thatrobin.ra_additions.component.ChoiceComponent;
 import io.github.thatrobin.ra_additions.component.ModComponents;
 import io.github.thatrobin.ra_additions.networking.RAA_ModPackets;
+import io.github.thatrobin.ra_additions.util.KeybindRegistry;
+import io.github.thatrobin.ra_additions.util.KeybindingData;
 import io.github.thatrobin.ra_additions.util.UniversalPower;
 import io.github.thatrobin.ra_additions.util.UniversalPowerRegistry;
 import io.netty.buffer.Unpooled;
@@ -55,6 +57,16 @@ public abstract class PlayerManagerMixin {
                 }
             }
         });
+        PacketByteBuf keybindData = new PacketByteBuf(Unpooled.buffer());
+        keybindData.writeInt(KeybindRegistry.size());
+        KeybindRegistry.entries().forEach((bindingEntry) -> {
+            Identifier identifier = bindingEntry.getKey();
+            KeybindingData data = bindingEntry.getValue();
+            keybindData.writeString(identifier.toString());
+            data.toBuffer(keybindData, identifier);
+        });
+
+        ServerPlayNetworking.send(player, RAA_ModPackets.SEND_KEYBINDS, keybindData);
         ServerPlayNetworking.send(player, RAA_ModPackets.CHOICE_LIST, choiceListData);
         ServerPlayNetworking.send(player, RAA_ModPackets.LAYER_LIST, choiceLayerData);
 
@@ -62,7 +74,6 @@ public abstract class PlayerManagerMixin {
         playerList.forEach(spe -> ModComponents.CHOICE.syncWith(spe, (ComponentProvider)player));
         ChoiceComponent.sync(player);
         component.sync();
-
 
         UniversalPowerRegistry.entries().forEach((identifierUniversalPowerEntry -> {
             Identifier id = identifierUniversalPowerEntry.getKey();

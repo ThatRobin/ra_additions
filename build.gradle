@@ -1,3 +1,41 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenLocal()
+        maven {
+            name = "JitPack"
+            url = "https://jitpack.io"
+        }
+        maven {
+            url "https://maven.shedaniel.me/"
+        }
+        maven {
+            url "https://maven.terraformersmc.com/"
+        }
+        maven {
+            name = "Ladysnake Libs"
+            url = 'https://ladysnake.jfrog.io/artifactory/mods'
+        }
+        maven {
+            url = 'https://maven.cafeteria.dev'
+            content {
+                includeGroup 'net.adriantodt.fabricmc'
+            }
+        }
+        maven {
+            url "https://maven.jamieswhiteshirt.com/libs-release"
+            content {
+                includeGroup "com.jamieswhiteshirt"
+            }
+        }
+    }
+    dependencies {
+        classpath 'io.github.thatrobin.docky:Docky:0.1.1'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
 plugins {
     id 'fabric-loom' version '0.12-SNAPSHOT'
     id 'maven-publish'
@@ -15,7 +53,8 @@ repositories {
         url "https://maven.shedaniel.me/"
     }
     maven {
-        url "https://maven.terraformersmc.com/"
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
     }
     maven {
         name = "Ladysnake Libs"
@@ -27,10 +66,22 @@ repositories {
             includeGroup "com.jamieswhiteshirt"
         }
     }
+    mavenLocal()
 }
 
 loom {
     accessWidenerPath = file("src/main/resources/ra_additions.accesswidener")
+    runs {
+        CreateDocs {
+            inherit client
+            name "Create Docs"
+            vmArg "-Dfabric-api.datagen"
+            vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
+            vmArg "-Dfabric-api.datagen.modid=${archives_base_name}"
+
+            runDir "build/docky"
+        }
+    }
 }
 
 dependencies {
@@ -43,10 +94,16 @@ dependencies {
     modImplementation "com.github.apace100:calio:${project.calio_version}"
     include "com.github.apace100:calio:${project.calio_version}"
 
-    modImplementation ("com.github.apace100:apoli:${project.apoli_version}")
-    include ("com.github.apace100:apoli:${project.apoli_version}")
+    modImplementation "com.github.apace100:apoli:${project.apoli_version}"
+    include "com.github.apace100:apoli:${project.apoli_version}"
 
-    modImplementation "com.github.emilyalexandra:trinkets:${project.trinkets_version}"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${project.cca_version}"
+    include "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${project.cca_version}"
+
+    modImplementation "dev.emi:trinkets:${project.trinkets_version}"
+
+    modImplementation  'io.github.thatrobin.docky:Docky:0.1.1'
+    include  'io.github.thatrobin.docky:Docky:0.1.1'
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }

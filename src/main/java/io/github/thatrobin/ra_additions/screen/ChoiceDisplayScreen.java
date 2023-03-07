@@ -141,8 +141,8 @@ public class ChoiceDisplayScreen extends Screen {
 
     private void renderBadgeTooltip(MatrixStack matrices, int mouseX, int mouseY) {
         buttons.forEach(selectableButtonWidget -> {
-            if(mouseX >=selectableButtonWidget.x && mouseX < selectableButtonWidget.x + 24) {
-                if(mouseY >= selectableButtonWidget.y && mouseY < selectableButtonWidget.y + 24) {
+            if(mouseX >=selectableButtonWidget.getX() && mouseX < selectableButtonWidget.getX() + 24) {
+                if(mouseY >= selectableButtonWidget.getY() && mouseY < selectableButtonWidget.getY() + 24) {
                     String hoverText;
                     if(buttons.indexOf(selectableButtonWidget) == 0) {
                         hoverText = "Description";

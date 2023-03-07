@@ -87,4 +87,7 @@ accessible    method    net/minecraft/entity/ai/goal/CrossbowAttackGoal    isEnt
 
 accessible    method    net/minecraft/entity/ai/goal/CrossbowAttackGoal    hasAliveTarget    ()Z
 
-mutable    field    Lio/github/apace100/origins/origin/Origin    DATA    Lio/github/apace100/calio/data/SerializableData;
+mutable    field    net/minecraft/client/option/GameOptions    allKeys    [Lnet/minecraft/client/option/KeyBinding;
+accessible    field    net/minecraft/client/util/InputUtil$Type    map    Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;
+
+accessible    class    net/minecraft/client/gui/tooltip/BundleTooltipComponent$Sprite

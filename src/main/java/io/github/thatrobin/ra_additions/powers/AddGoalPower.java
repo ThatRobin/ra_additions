@@ -3,8 +3,8 @@ package io.github.thatrobin.ra_additions.powers;
 import io.github.apace100.apoli.power.Power;
 import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.apoli.power.factory.PowerFactory;
-import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.goals.factories.Goal;
 import io.github.thatrobin.ra_additions.goals.factories.GoalRegistry;
@@ -66,11 +66,11 @@ public class AddGoalPower extends Power {
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory() {
+    public static PowerFactory createFactory(String label) {
         return new PowerFactory<>(RA_Additions.identifier("add_goal"),
-                new SerializableData()
-                        .add("goal", SerializableDataTypes.IDENTIFIER, null)
-                        .add("goals", SerializableDataTypes.IDENTIFIERS, Lists.newArrayList()),
+                new SerializableDataExt(label)
+                        .add("goal", "The goal to add to the mob.", SerializableDataTypes.IDENTIFIER, null)
+                        .add("goals", "The goals to add to the mob.", SerializableDataTypes.IDENTIFIERS, Lists.newArrayList()),
                 data ->
                         (type, entity) -> new AddGoalPower(type, entity, data.getId("goal"), data.get("goals")))
                 .allowCondition();

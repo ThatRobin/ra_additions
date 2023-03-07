@@ -4,8 +4,8 @@ import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.power.Power;
 import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.apoli.power.factory.PowerFactory;
-import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -42,12 +42,12 @@ public class BindPower extends Power {
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory() {
+    public static PowerFactory createFactory(String label) {
         return new PowerFactory<>(RA_Additions.identifier("bind_item"),
-                new SerializableData()
-                        .add("item_condition", ApoliDataTypes.ITEM_CONDITION, null)
-                        .add("prevent_use_condition", ApoliDataTypes.ITEM_CONDITION, null)
-                        .add("slots", SerializableDataTypes.INTS, null),
+                new SerializableDataExt(label)
+                        .add("item_condition", "If specified, only make the items that fulfill the specified item condition are unable to leave the players inventory.", ApoliDataTypes.ITEM_CONDITION, null)
+                        .add("prevent_use_condition", "If specified, it won't let the player use the items that fulfill the specified item condition.", ApoliDataTypes.ITEM_CONDITION, null)
+                        .add("slots", "If specified, only make the items that are in the listed inventory slots are unable to leave the players inventory. See the \"Item Stack Slot\" column of [Positioned Item Stack Slots](https://origins.readthedocs.io/en/latest/misc/extras/positioned_item_stack_slots/) for possible values.", SerializableDataTypes.INTS, null),
                 data ->
                         (type, entity) -> new BindPower(type, entity, data.get("item_condition"), data.get("slots"), data.get("prevent_use_condition")))
                 .allowCondition();

@@ -3,7 +3,7 @@ package io.github.thatrobin.ra_additions.util;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.goals.factories.GoalFactory;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 @SuppressWarnings("rawtypes")
 public class RAA_Registries {

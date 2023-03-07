@@ -1,24 +1,17 @@
 package io.github.thatrobin.ra_additions.goals;
 
 import io.github.apace100.apoli.data.ApoliDataTypes;
-import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.goals.factories.Goal;
 import io.github.thatrobin.ra_additions.goals.factories.GoalFactory;
 import io.github.thatrobin.ra_additions.goals.factories.GoalType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.ChaseBoatGoal;
 import net.minecraft.entity.ai.goal.CreeperIgniteGoal;
 import net.minecraft.entity.mob.CreeperEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.util.math.MathHelper;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.function.Predicate;
 
 public class C_CreeperIgniteGoal extends Goal {
@@ -44,8 +37,8 @@ public class C_CreeperIgniteGoal extends Goal {
     }
 
     @SuppressWarnings("rawtypes")
-    public static GoalFactory createFactory() {
-        return new GoalFactory<>(RA_Additions.identifier("creeper_ignite"), new SerializableData()
+    public static GoalFactory createFactory(String label) {
+        return new GoalFactory<>(RA_Additions.identifier("creeper_ignite"), new SerializableDataExt(label)
                 .add("priority", SerializableDataTypes.INT, 0)
                 .add("condition", ApoliDataTypes.ENTITY_CONDITION, null),
                 data ->

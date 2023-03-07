@@ -1,31 +1,34 @@
 {
-    "required": true,
-    "minVersion": "0.8",
-    "package": "io.github.thatrobin.ra_additions.mixins",
-    "compatibilityLevel": "JAVA_17",
-    "mixins": [
-        "EntityMixin",
-        "EntityTypeMixin",
-        "ExecuteCommandMixin",
-        "ItemFrameEntityMixin",
-        "ItemMixin",
-        "ItemStackMixin",
-        "LivingEntityMixin",
-        "PlayerManagerMixin",
-        "ProjectileEntityMixin",
-        "SlotMixin",
-        "TemptGoalAccessorMixin",
-        "WanderAroundGoalAccessorMixin",
-        "OriginMixin"
-    ],
-    "client": [
-        "BossBarHudMixin",
-        "BundleTooltipComponentMixin",
-        "InGameHudMixin",
-        "KeyBindingMixin",
-        "MinecraftClientMixin"
-    ],
-    "injectors": {
-        "defaultRequire": 1
-    }
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.github.thatrobin.ra_additions.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ApoliDataTypesMixin",
+    "EntityMixin",
+    "EntitySelectorOptionsAccessor",
+    "EntityTypeMixin",
+    "ItemFrameEntityMixin",
+    "ItemMixin",
+    "ItemStackMixin",
+    "LivingEntityMixin",
+    "OriginMixin",
+    "PlayerManagerMixin",
+    "ProjectileEntityMixin",
+    "SlotMixin",
+    "TemptGoalAccessorMixin",
+    "WanderAroundGoalAccessorMixin"
+  ],
+  "client": [
+    "ApoliClientAccessorMixin",
+    "BossBarHudMixin",
+    "BundleTooltipComponentMixin",
+    "InGameHudMixin",
+    "KeyBindingMixin",
+    "KeyBindingRegistryImplAccessorMixin",
+    "MinecraftClientMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

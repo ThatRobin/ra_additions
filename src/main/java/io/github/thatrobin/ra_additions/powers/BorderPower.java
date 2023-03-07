@@ -5,8 +5,8 @@ import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.power.Power;
 import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.apoli.power.factory.PowerFactory;
-import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -189,18 +189,18 @@ public class BorderPower extends Power {
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory() {
+    public static PowerFactory createFactory(String label) {
         return new PowerFactory<>(RA_Additions.identifier("border"),
-                new SerializableData()
-                        .add("border_texture", SerializableDataTypes.IDENTIFIER, new Identifier("textures/misc/forcefield.png"))
-                        .add("entity_condition", ApoliDataTypes.ENTITY_CONDITION, null)
-                        .add("bientity_condition", ApoliDataTypes.BIENTITY_CONDITION, null)
-                        .add("red", SerializableDataTypes.FLOAT, 0.1254901961f)
-                        .add("green", SerializableDataTypes.FLOAT, 0.6274509804f)
-                        .add("blue", SerializableDataTypes.FLOAT, 1f)
-                        .add("alpha", SerializableDataTypes.FLOAT, 0.5f)
-                        .add("scroll_texture", SerializableDataTypes.BOOLEAN, true)
-                        .add("size", SerializableDataTypes.DOUBLE, 6d),
+                new SerializableDataExt(label)
+                        .add("border_texture", "The texture used on the border.", SerializableDataTypes.IDENTIFIER, new Identifier("textures/misc/forcefield.png"))
+                        .add("entity_condition", "If specified, if the entity colliding with the border fulfils the condition, it can walk through the border.", ApoliDataTypes.ENTITY_CONDITION, null)
+                        .add("bientity_condition", "If specified, if the entity colliding with the border, and the entity with this power fulfil the condition, the colliding entity can walk through the border.", ApoliDataTypes.BIENTITY_CONDITION, null)
+                        .add("red", "The red value of the border.", SerializableDataTypes.FLOAT, 0.1254901961f)
+                        .add("green", "The green value of the border.", SerializableDataTypes.FLOAT, 0.6274509804f)
+                        .add("blue", "The blue value of the border.", SerializableDataTypes.FLOAT, 1f)
+                        .add("alpha", "The alpha (transparency) value of the border.", SerializableDataTypes.FLOAT, 0.5f)
+                        .add("scroll_texture", "Defines whether the border scrolls like the vanila border.", SerializableDataTypes.BOOLEAN, true)
+                        .add("size", "The distance to one side of the border from the center.", SerializableDataTypes.DOUBLE, 6d),
                 data ->
                         (type, entity) -> new BorderPower(type, entity, data.getId("border_texture"), data.get("entity_condition"), data.get("bientity_condition"), data.get("size"), data.getFloat("red"), data.getFloat("green"), data.getFloat("blue"), data.getFloat("alpha"), data.getBoolean("scroll_texture")))
                 .allowCondition();

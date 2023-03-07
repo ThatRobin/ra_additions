@@ -1,8 +1,10 @@
 package io.github.thatrobin.ra_additions.util;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import io.github.apace100.apoli.Apoli;
 import io.github.apace100.calio.data.MultiJsonDataLoader;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -10,6 +12,7 @@ import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -40,5 +43,10 @@ public class UniversalPowerManager extends MultiJsonDataLoader implements Identi
             }
         }));
         RA_Additions.LOGGER.info("Finished loading powers from data files. Registry contains " + UniversalPowerRegistry.size() + " Universal Power files.");
+    }
+
+    @Override
+    public Collection<Identifier> getFabricDependencies() {
+        return ImmutableList.of(Apoli.identifier("powers"));
     }
 }

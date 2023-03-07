@@ -2,9 +2,15 @@ package io.github.thatrobin.ra_additions.powers.factories;
 
 import io.github.apace100.apoli.power.factory.action.ActionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
-import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.DockyEntry;
+import io.github.thatrobin.docky.DockyRegistry;
+import io.github.thatrobin.docky.utils.SerializableDataExt;
+import io.github.thatrobin.docky.utils.SectionTitleManager;
 import io.github.thatrobin.ra_additions.RA_Additions;
+import io.github.thatrobin.ra_additions.util.ActionType;
+import io.github.thatrobin.ra_additions.util.BiEntityActionRegistry;
+import io.github.thatrobin.ra_additions.util.BiEntityActionTagManager;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
@@ -21,28 +27,32 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.Registry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 public class BiEntityActions {
 
-    public static void register() {
-        register(new ActionFactory<>(RA_Additions.identifier("attack"), new SerializableData()
-                .add("source", SerializableDataTypes.DAMAGE_SOURCE)
-                .add("allow_enchants", SerializableDataTypes.BOOLEAN, false)
-                .add("allow_weapons", SerializableDataTypes.BOOLEAN, false)
-                .add("allow_effects", SerializableDataTypes.BOOLEAN, false)
-                .add("allow_attributes", SerializableDataTypes.BOOLEAN, false),
+    public static void register(String label) {
+        SectionTitleManager.put("Action Types", "bientity_action");
+
+        register(new ActionFactory<>(RA_Additions.identifier("attack"), new SerializableDataExt(label)
+                .add("source", "The damage source to be used. Controls e.g. the death message, invulnerabilities (e.g. towards fire), or whether armor is taken into account.", SerializableDataTypes.DAMAGE_SOURCE)
+                .add("allow_enchants", "Should enchantments be taken into account in the attack.", SerializableDataTypes.BOOLEAN, false)
+                .add("allow_weapons", "Should weapons/tools be taken into account in the attack.", SerializableDataTypes.BOOLEAN, false)
+                .add("allow_effects", "Should effects be taken into account in the attack.", SerializableDataTypes.BOOLEAN, false)
+                .add("allow_attributes", "Should attributes be taken into account in the attack.", SerializableDataTypes.BOOLEAN, false),
                 (data, entities) -> {
                     if (entities.getLeft() instanceof LivingEntity livingEntity) {
                         DamageSource providedSource = data.get("source");
@@ -67,12 +77,34 @@ public class BiEntityActions {
                             actorEntity.resetLastAttackedTicks();
                         }
                     }
-                }));
+                }), "The actor entity will damage the target enemy as if they had just been hit with the weapon in the actors hand.");
 
+        register(new ActionFactory<>(RA_Additions.identifier("execute_action"), new SerializableDataExt(label)
+                .add("bientity_action", "The Identifier of the tag or action file to be executed", SerializableDataTypes.STRING),
+                (data, entities) -> {
+                    String idStr = data.getString("bientity_action");
+                    if(idStr.startsWith("#")) {
+                        Identifier id = Identifier.tryParse(idStr.substring(1));
+                        Collection<ActionType> actions = BiEntityActionTagManager.ACTION_TAG_LOADER.getTag(id);
+                        for (ActionType action : actions) {
+                            action.getAction().accept(entities);
+                        }
+                    } else {
+                        Identifier id = Identifier.tryParse(idStr);
+                        ActionFactory<Pair<Entity,Entity>>.Instance action =  BiEntityActionRegistry.get(id).getAction();
+                        action.accept(entities);
+                    }
+                }), "Executes a bi-entity action that is stored in a file.");
     }
 
-    private static void register(ActionFactory<Pair<Entity, Entity>> actionFactory) {
-        Registry.register(ApoliRegistries.BIENTITY_ACTION, actionFactory.getSerializerId(), actionFactory);
+    private static void register(ActionFactory<Pair<Entity,Entity>> factory, String description) {
+        DockyEntry entry = new DockyEntry()
+                .setHeader("Action Types")
+                .setFactory(factory)
+                .setDescription(description);
+                //.setExamplePath("C:\\Users\\robin\\IdeaProjects\\ra_additions\\run\\saves\\New World\\datapacks\\Test Pack\\data\\test_pack\\actions\\bientity\\" + factory.getSerializerId().getPath() + "_example.json");
+        DockyRegistry.register(entry);
+        Registry.register(ApoliRegistries.BIENTITY_ACTION, factory.getSerializerId(), factory);
     }
 
     public static void attack(LivingEntity actor, Entity target, DamageSource source, boolean useEnchants, boolean useAttributes, boolean useWeapon, boolean useEffects) {

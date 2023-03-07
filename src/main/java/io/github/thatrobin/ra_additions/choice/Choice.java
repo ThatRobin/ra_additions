@@ -11,6 +11,7 @@ import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.component.ModComponents;
+import io.github.thatrobin.ra_additions.util.PowerTagManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -20,6 +21,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -173,6 +175,12 @@ public class Choice {
                 RA_Additions.LOGGER.error("Choice \"" + id + "\" contained unregistered power: \"" + powerId + "\"");
             }
         });
+        Collection<PowerType<?>> tag = PowerTagManager.POWER_TAG_LOADER.getTagOrEmpty(id);
+        if(tag.size() > 0) {
+            for (PowerType<?> powerType : tag) {
+                choice.add(powerType);
+            }
+        }
         choice.setIcon(data.get("icon"));
         choice.setAction(data.get("action_on_chosen"));
         choice.setName(data.getString("name"));

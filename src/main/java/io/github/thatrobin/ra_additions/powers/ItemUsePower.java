@@ -4,8 +4,8 @@ import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.power.Power;
 import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.apoli.power.factory.PowerFactory;
-import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -53,13 +53,13 @@ public class ItemUsePower extends Power {
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory() {
+    public static PowerFactory createFactory(String label) {
         return new PowerFactory<>(RA_Additions.identifier("item_use"),
-                new SerializableData()
-                        .add("cooldown", SerializableDataTypes.INT, 0)
-                        .add("entity_action", ApoliDataTypes.ENTITY_ACTION, null)
-                        .add("item_condition", ApoliDataTypes.ITEM_CONDITION, null)
-                        .add("item_action", ApoliDataTypes.ITEM_ACTION, null),
+                new SerializableDataExt(label)
+                        .add("cooldown", "Sets a cooldown on the item (Similar to ender pearl cooldowns).", SerializableDataTypes.INT, 0)
+                        .add("entity_action", "The entity action to be executed on the player if specified.", ApoliDataTypes.ENTITY_ACTION, null)
+                        .add("item_condition", "If specified, only execute the action if the item condition is fulfilled.", ApoliDataTypes.ITEM_CONDITION, null)
+                        .add("item_action", "The item action to be executed if specified.", ApoliDataTypes.ITEM_ACTION, null),
                 data ->
                         (type, entity) -> new ItemUsePower(type, entity, data.get("item_condition"), data.get("entity_action"), data.get("item_action"), data.getInt("cooldown")))
                 .allowCondition();

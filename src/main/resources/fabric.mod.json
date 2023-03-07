@@ -10,6 +10,9 @@
     "icon": "assets/ra_additions/icon.png",
     "environment": "*",
     "entrypoints": {
+        "fabric-datagen": [
+            "io.github.thatrobin.ra_additions.data.DataGener"
+        ],
         "client": [
             "io.github.thatrobin.ra_additions.client.RA_AdditionsClient"
         ],
@@ -28,6 +31,9 @@
             "badges": [
                 "library"
             ]
+        },
+        "lithium:options": {
+            "mixin.entity.collisions.movement": false
         }
     },
     "mixins": [
