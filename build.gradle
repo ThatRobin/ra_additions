@@ -97,9 +97,6 @@ dependencies {
     modImplementation "com.github.apace100:apoli:${project.apoli_version}"
     include "com.github.apace100:apoli:${project.apoli_version}"
 
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${project.cca_version}"
-    include "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${project.cca_version}"
-
     modImplementation "dev.emi:trinkets:${project.trinkets_version}"
 
     modImplementation  'io.github.thatrobin.docky:Docky:0.1.1'
