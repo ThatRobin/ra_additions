@@ -99,8 +99,8 @@ dependencies {
 
     modImplementation "dev.emi:trinkets:${project.trinkets_version}"
 
-    modImplementation  'io.github.thatrobin.docky:Docky:0.1.1'
-    include  'io.github.thatrobin.docky:Docky:0.1.1'
+    modImplementation  'io.github.thatrobin.docky:Docky:73c8305e1d'
+    include  'io.github.thatrobin.docky:Docky:73c8305e1d'
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
