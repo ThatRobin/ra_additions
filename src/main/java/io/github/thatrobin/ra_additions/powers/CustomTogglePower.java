@@ -98,9 +98,9 @@ public class CustomTogglePower extends Power implements Active {
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory(String label) {
+    public static PowerFactory createFactory() {
         return new PowerFactory<>(RA_Additions.identifier("toggle"),
-                new SerializableDataExt(label)
+                new SerializableDataExt()
                         .add("active_by_default", "Whether this power starts in the on or off state.", SerializableDataTypes.BOOLEAN, true)
                         .add("retain_state", "Whether this power switches back to default if the condition is no longer met.", SerializableDataTypes.BOOLEAN, true)
                         .add("toggle_on_action", "The entity action to be executed when the power is toggled on.", ApoliDataTypes.ENTITY_ACTION, null)

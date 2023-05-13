@@ -127,7 +127,7 @@ public class PlayerChoiceComponent implements ChoiceComponent {
                             powerComponent.removeAllPowersFromSource(choiceId);
                         }
                         if (choice != null) {
-                            if (!layer.contains(choice)) {
+                            if (!layer.contains(choice) && !choice.isSpecial()) {
                                 RA_Additions.LOGGER.warn("Choice with id " + choice.getIdentifier().toString() + " is not in layer " + layer.getIdentifier().toString() + ", but was found on " + player.getDisplayName().getString() + ", setting to EMPTY.");
                                 choice = Choice.EMPTY;
                                 PowerHolderComponent powerComponent = PowerHolderComponent.KEY.get(player);

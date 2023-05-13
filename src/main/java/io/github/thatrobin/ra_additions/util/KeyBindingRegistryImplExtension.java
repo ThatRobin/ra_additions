@@ -6,7 +6,7 @@ import net.minecraft.client.option.KeyBinding;
 
 import java.util.List;
 
-public class KeyBindingRegistryImplExtention {
+public class KeyBindingRegistryImplExtension {
 
     public static KeyBinding[] removeAndProcess(KeyBinding[] keysAll, KeyBinding... keyBindings) {
         List<KeyBinding> moddedKeyBindings = KeyBindingRegistryImplAccessorMixin.getModdedKeyBindings();

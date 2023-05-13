@@ -26,7 +26,7 @@ public class MinecraftClientMixin {
     )
     private boolean handleInputEvents(KeyBinding instance) {
         for (BindPower bindPower : PowerHolderComponent.getPowers(this.player, BindPower.class)) {
-            if(bindPower.doesApply(this.player.getMainHandStack()) || bindPower.doesApply(this.player.getOffHandStack())) {
+            if((bindPower.doesApply(this.player.getMainHandStack()) || bindPower.doesApply(this.player.getOffHandStack())) && !player.isCreative()) {
                 return false;
             }
         }

@@ -41,9 +41,9 @@ public class ValuePower extends VariableIntPower {
         this.valueTranslationKey = valueTranslationKey;
     }
 
-    public static PowerFactory<?> createFactory(String label) {
+    public static PowerFactory<?> createFactory() {
         return new PowerFactory<>(RA_Additions.identifier("value"),
-                new SerializableDataExt(label)
+                new SerializableDataExt()
                         .add("min", "The minimum value of the power.", SerializableDataTypes.INT, Integer.MIN_VALUE)
                         .add("max", "The maximum value of the power.", SerializableDataTypes.INT,Integer.MAX_VALUE)
                         .add("x", "The X co-ordinate that the string will appear at.", SerializableDataTypes.INT, 0)

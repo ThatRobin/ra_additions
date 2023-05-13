@@ -42,9 +42,9 @@ public class BindPower extends Power {
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory(String label) {
+    public static PowerFactory createFactory() {
         return new PowerFactory<>(RA_Additions.identifier("bind_item"),
-                new SerializableDataExt(label)
+                new SerializableDataExt()
                         .add("item_condition", "If specified, only make the items that fulfill the specified item condition are unable to leave the players inventory.", ApoliDataTypes.ITEM_CONDITION, null)
                         .add("prevent_use_condition", "If specified, it won't let the player use the items that fulfill the specified item condition.", ApoliDataTypes.ITEM_CONDITION, null)
                         .add("slots", "If specified, only make the items that are in the listed inventory slots are unable to leave the players inventory. See the \"Item Stack Slot\" column of [Positioned Item Stack Slots](https://origins.readthedocs.io/en/latest/misc/extras/positioned_item_stack_slots/) for possible values.", SerializableDataTypes.INTS, null),

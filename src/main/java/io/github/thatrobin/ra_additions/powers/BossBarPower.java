@@ -76,9 +76,9 @@ public class BossBarPower extends VariableIntPower implements BossBarHudRendered
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory(String label) {
+    public static PowerFactory createFactory() {
         return new PowerFactory<>(RA_Additions.identifier("boss_bar"),
-                new SerializableDataExt(label)
+                new SerializableDataExt()
                         .add("min", "The minimum value of the boss bar.", SerializableDataTypes.INT)
                         .add("max", "The maximum value of the boss bar.", SerializableDataTypes.INT)
                         .addFunctionedDefault("start_value", "The value of the boss bar when the entity first receives the power. If not set, this will be set to the value of the min integer field.", SerializableDataTypes.INT, data -> data.getInt("min"))

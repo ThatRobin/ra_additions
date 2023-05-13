@@ -1,5 +1,6 @@
 package io.github.thatrobin.ra_additions.powers;
 
+import io.github.apace100.apoli.component.PowerHolderComponent;
 import io.github.apace100.apoli.power.Power;
 import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.apoli.power.factory.PowerFactory;
@@ -13,10 +14,7 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.Pair;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class RemoveGoalPower extends Power {
 
@@ -49,11 +47,20 @@ public class RemoveGoalPower extends Power {
         if(entity instanceof MobEntity mobEntity) {
             mobEntity.goalSelector.getGoals().forEach((goal) -> {
                 if(doesApply(goal.getGoal().getClass())) {
-                    Pair<Goal, Integer> goalIntegerPair = new Pair<>(goal.getGoal(), goal.getPriority());
-                    cachedGoals.add(goalIntegerPair);
-                    mobEntity.goalSelector.remove(goal.getGoal());
+                    boolean removeGoal = true;
+                    for (AddGoalPower power : PowerHolderComponent.getPowers(entity, AddGoalPower.class)) {
+                        if (power.getGoals().stream().anyMatch((goal1 -> goal1.getGoal().equals(goal.getGoal()))))
+                            removeGoal = false;
+                    }
+                    if (removeGoal) {
+                        Pair<Goal, Integer> goalIntegerPair = new Pair<>(goal.getGoal(), goal.getPriority());
+                        cachedGoals.add(goalIntegerPair);
+                    }
                 }
             });
+            for (Pair<Goal, Integer> cachedGoal : cachedGoals) {
+                mobEntity.goalSelector.remove(cachedGoal.getLeft());
+            }
         }
     }
 
@@ -64,9 +71,9 @@ public class RemoveGoalPower extends Power {
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory(String label) {
+    public static PowerFactory createFactory() {
         return new PowerFactory<>(RA_Additions.identifier("remove_goal"),
-                new SerializableDataExt(label)
+                new SerializableDataExt()
                         .add("goal", "The goal to remove from the mob.", SerializableDataTypes.STRING, null)
                         .add("goals", "The goals to remove from the mob.", SerializableDataTypes.STRINGS, null),
                 data ->

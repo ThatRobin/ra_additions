@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 @Mixin(EntitySelectorOptions.class)
 public interface EntitySelectorOptionsAccessor {
     @Invoker
-    static void callPutOption(String id, EntitySelectorOptions.SelectorHandler handler, Predicate<EntitySelectorReader> condition, Text description) {
+    static void callPutOption(String ignoredId, EntitySelectorOptions.SelectorHandler ignoredHandler, Predicate<EntitySelectorReader> ignoredCondition, Text ignoredDescription) {
         throw new NoSuchMethodError();
     }
 }

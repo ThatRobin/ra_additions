@@ -70,7 +70,7 @@ public class KeybindRegistry {
             keybinds.add(new KeyBinding(value.translationKey(), InputUtil.Type.KEYSYM, key.getCode(), value.category()));
         }
 
-        MinecraftClient.getInstance().options.allKeys = KeyBindingRegistryImplExtention.removeAndProcess(MinecraftClient.getInstance().options.allKeys, keybinds.toArray(new KeyBinding[]{}));
+        MinecraftClient.getInstance().options.allKeys = KeyBindingRegistryImplExtension.removeAndProcess(MinecraftClient.getInstance().options.allKeys, keybinds.toArray(new KeyBinding[]{}));
         idToUP.clear();
     }
 

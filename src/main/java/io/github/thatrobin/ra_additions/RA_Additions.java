@@ -1,6 +1,7 @@
 package io.github.thatrobin.ra_additions;
 
 import io.github.apace100.apoli.component.PowerHolderComponent;
+import io.github.apace100.apoli.power.PowerTypes;
 import io.github.apace100.apoli.util.NamespaceAlias;
 import io.github.thatrobin.ra_additions.choice.Choice;
 import io.github.thatrobin.ra_additions.choice.ChoiceLayers;
@@ -11,6 +12,7 @@ import io.github.thatrobin.ra_additions.goals.factories.GoalTypes;
 import io.github.thatrobin.ra_additions.networking.RAA_ModPacketC2S;
 import io.github.thatrobin.ra_additions.powers.BorderPower;
 import io.github.thatrobin.ra_additions.powers.factories.*;
+import io.github.thatrobin.ra_additions.registry.ItemRegistry;
 import io.github.thatrobin.ra_additions.util.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
@@ -21,12 +23,16 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import software.bernie.geckolib.GeckoLib;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 
 public class RA_Additions implements ModInitializer {
 
@@ -51,28 +57,29 @@ public class RA_Additions implements ModInitializer {
                 SEMVER[i] = Integer.parseInt(splitVersion[i]);
             }
         });
+        EntityBlockActions.register();
+        GoalFactories.register();
+        PowerFactories.register();
+        EntityConditions.register();
+        EntityActions.register();
+        BiEntityConditions.register();
+        BiEntityActions.register();
+        BlockConditions.register();
+        BlockActions.register();
+        ItemConditions.register();
+        ItemActions.register();
         Choice.init();
-
+        GeckoLib.initialize();
+        ItemRegistry.register();
         NamespaceAlias.addAlias(MODID, "apoli");
         NamespaceAlias.addAlias("origins", "apoli");
 
         RAA_ClassDataRegistry.registerAll();
 
-        GoalFactories.register("tasks");
-        PowerFactories.register("powers");
-        EntityConditions.register("entity_conditions");
-        EntityActions.register("entity_actions");
-        BiEntityConditions.register("bientity_conditions");
-        BiEntityActions.register("bientity_actions");
-        BlockConditions.register("block_conditions");
-        BlockActions.register("block_actions");
-        ItemConditions.register("item_conditions");
-        ItemActions.register("item_actions");
-
         RAA_ModPacketC2S.register();
 
         CommandRegistrationCallback.EVENT.register((dispatcher, commandRegistryAccess, registrationEnvironment) -> {
-            ExecuteCommandExtention.register(dispatcher);
+            ExecuteCommandExtension.register(dispatcher);
             ChoiceCommand.register(dispatcher);
             RAAPowerCommand.register(dispatcher);
             RAAActionCommand.register(dispatcher);
@@ -106,6 +113,7 @@ public class RA_Additions implements ModInitializer {
     }
 
     public void registerResourceListeners() {
+        PowerTypes.DEPENDENCIES.add(identifier("goals"));
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ActionTypes());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ConditionTypes());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(EntityActionTagManager.ACTION_TAG_LOADER);
@@ -122,6 +130,15 @@ public class RA_Additions implements ModInitializer {
 
     public static Identifier identifier(String path) {
         return new Identifier("ra_additions", path);
+    }
+
+    public static Path getExamplePathRoot() {
+        try {
+            return Path.of(new File("../../../").getCanonicalPath()).resolve("ra_additions");
+        } catch (IOException e) {
+            LOGGER.info("Path not found: " + e);
+            return null;
+        }
     }
 
 }

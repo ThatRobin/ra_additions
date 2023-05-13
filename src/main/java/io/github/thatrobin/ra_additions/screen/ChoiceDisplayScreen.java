@@ -132,7 +132,7 @@ public class ChoiceDisplayScreen extends Screen {
             renderChoiceContent(matrices);
             renderBadgeTooltip(matrices, mouseX, mouseY);
             RenderSystem.setShaderTexture(0, WINDOW);
-            Text title = Text.translatable("ra_additions" + ".gui.choice.title", Text.translatable(layer.getTranslationKey()));
+            Text title = Text.translatable("ra_additions.gui.choice.title", Text.translatable(layer.getTranslationKey()));
             drawCenteredText(matrices, this.textRenderer, title.getString(), width / 2, guiTop - 15, 0xFFFFFF);
         }
 

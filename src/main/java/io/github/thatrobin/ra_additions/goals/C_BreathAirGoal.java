@@ -1,47 +1,35 @@
 package io.github.thatrobin.ra_additions.goals;
 
-import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.calio.data.SerializableDataTypes;
 import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.goals.factories.Goal;
 import io.github.thatrobin.ra_additions.goals.factories.GoalFactory;
 import io.github.thatrobin.ra_additions.goals.factories.GoalType;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.BreatheAirGoal;
 import net.minecraft.entity.mob.PathAwareEntity;
 
-import java.util.function.Predicate;
-
 public class C_BreathAirGoal extends Goal {
 
-    public Predicate<Entity> condition;
-
-    public C_BreathAirGoal(GoalType<?> goalType, LivingEntity livingEntity, int priority, Predicate<Entity> condition) {
-        super(goalType, livingEntity);
+    public C_BreathAirGoal(GoalType<?> goalType, LivingEntity livingEntity, int priority) {
+        super(goalType, livingEntity, Type.GOAL);
         this.setPriority(priority);
-        this.condition = condition;
-        this.goal = new BreatheAirGoal((PathAwareEntity) livingEntity) {
+        this.setGoal(new BreatheAirGoal((PathAwareEntity) livingEntity) {
             @Override
             public boolean canStart() {
                 return this.mob.getAir() < 140 && doesApply(this.mob);
             }
-        };
-    }
-
-    @Override
-    public boolean doesApply(Entity entity){
-        return condition == null || condition.test(entity);
+        });
     }
 
     @SuppressWarnings("rawtypes")
-    public static GoalFactory createFactory(String label) {
-        return new GoalFactory<>(RA_Additions.identifier("breath_air"), new SerializableDataExt(label)
-                .add("priority", SerializableDataTypes.INT, 0)
-                .add("condition", ApoliDataTypes.ENTITY_CONDITION, null),
+    public static GoalFactory createFactory() {
+        return new GoalFactory<>(RA_Additions.identifier("breath_air"), new SerializableDataExt()
+                .add("priority", SerializableDataTypes.INT, 0),
                 data ->
-                        (type, entity) -> new C_BreathAirGoal(type, entity, data.getInt("priority"), data.get("condition")));
+                        (type, entity) -> new C_BreathAirGoal(type, entity, data.getInt("priority")))
+                .allowCondition();
     }
 
 }

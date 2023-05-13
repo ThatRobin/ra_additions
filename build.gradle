@@ -30,9 +30,7 @@ buildscript {
         }
     }
     dependencies {
-        //classpath 'io.github.thatrobin.docky:Docky:0.1.1'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath "io.github.thatrobin.docky:Docky:${project.docky_version}"
     }
 }
 
@@ -66,6 +64,9 @@ repositories {
             includeGroup "com.jamieswhiteshirt"
         }
     }
+    maven {
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+    }
     mavenLocal()
 }
 
@@ -98,9 +99,13 @@ dependencies {
     include "com.github.apace100:apoli:${project.apoli_version}"
 
     modImplementation "dev.emi:trinkets:${project.trinkets_version}"
+    modImplementation 'software.bernie.geckolib:geckolib-fabric-1.19.3:4.0.5'
 
-    modImplementation  'io.github.thatrobin.docky:Docky:73c8305e1d'
-    include  'io.github.thatrobin.docky:Docky:73c8305e1d'
+    implementation("com.github.LlamaLad7:MixinExtras:0.2.0-beta.4")
+    annotationProcessor("com.github.LlamaLad7:MixinExtras:0.2.0-beta.4")
+
+    modImplementation "io.github.thatrobin.docky:Docky:${project.docky_version}"
+    include "io.github.thatrobin.docky:Docky:${project.docky_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
@@ -111,6 +116,11 @@ processResources {
 
     filesMatching("fabric.mod.json") {
         expand "version": project.version
+    }
+
+    def environment = System.getenv("ENVIRONMENT")
+    if (environment != "production") {
+        from(rootProject.rootDir.absolutePath + "/testdata") { into 'data' }
     }
 }
 

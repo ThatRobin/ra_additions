@@ -9,24 +9,19 @@ import io.github.thatrobin.ra_additions.goals.factories.Goal;
 import io.github.thatrobin.ra_additions.goals.factories.GoalFactory;
 import io.github.thatrobin.ra_additions.goals.factories.GoalType;
 import io.github.thatrobin.ra_additions.util.FluidEnum;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.registry.tag.FluidTags;
 
-import java.util.function.Predicate;
-
 public class C_SwimGoal extends Goal {
 
-    public Predicate<Entity> condition;
 
-    public C_SwimGoal(GoalType<?> goalType, LivingEntity livingEntity, int priority, Predicate<Entity> condition, FluidEnum fluidEnum) {
-        super(goalType, livingEntity);
+    public C_SwimGoal(GoalType<?> goalType, LivingEntity livingEntity, int priority, FluidEnum fluidEnum) {
+        super(goalType, livingEntity, Type.GOAL);
         this.setPriority(priority);
-        this.condition = condition;
         this.setTicking();
-        this.goal = new SwimGoal((MobEntity) livingEntity) {
+        this.setGoal(new SwimGoal((MobEntity) livingEntity) {
             @Override
             public boolean canStart() {
                 switch(fluidEnum) {
@@ -42,22 +37,17 @@ public class C_SwimGoal extends Goal {
                 }
                 return false;
             }
-        };
-    }
-
-    @Override
-    public boolean doesApply(Entity entity) {
-        return condition == null || condition.test(entity);
+        });
     }
 
     @SuppressWarnings("rawtypes")
-    public static GoalFactory createFactory(String label) {
-        return new GoalFactory<>(RA_Additions.identifier("swim"), new SerializableDataExt(label)
+    public static GoalFactory createFactory() {
+        return new GoalFactory<>(RA_Additions.identifier("swim"), new SerializableDataExt()
                 .add("priority", SerializableDataTypes.INT, 0)
-                .add("fluid_type", SerializableDataType.enumValue(FluidEnum.class), FluidEnum.BOTH)
-                .add("condition", ApoliDataTypes.ENTITY_CONDITION, null),
+                .add("fluid_type", SerializableDataType.enumValue(FluidEnum.class), FluidEnum.BOTH),
                 data ->
-                        (type, entity) -> new C_SwimGoal(type, entity, data.getInt("priority"), data.get("condition"), data.get("fluid_type")));
+                        (type, entity) -> new C_SwimGoal(type, entity, data.getInt("priority"), data.get("fluid_type")))
+                .allowCondition();
     }
 
 }

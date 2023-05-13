@@ -53,9 +53,9 @@ public class ItemUsePower extends Power {
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory(String label) {
+    public static PowerFactory createFactory() {
         return new PowerFactory<>(RA_Additions.identifier("item_use"),
-                new SerializableDataExt(label)
+                new SerializableDataExt()
                         .add("cooldown", "Sets a cooldown on the item (Similar to ender pearl cooldowns).", SerializableDataTypes.INT, 0)
                         .add("entity_action", "The entity action to be executed on the player if specified.", ApoliDataTypes.ENTITY_ACTION, null)
                         .add("item_condition", "If specified, only execute the action if the item condition is fulfilled.", ApoliDataTypes.ITEM_CONDITION, null)

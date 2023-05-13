@@ -21,6 +21,7 @@ import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.scoreboard.ScoreboardPlayerScore;
 import net.minecraft.scoreboard.ServerScoreboard;
 import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.ExecuteCommand;
 import net.minecraft.server.command.ServerCommandSource;
 
 import java.util.Collection;
@@ -29,7 +30,7 @@ import java.util.function.BinaryOperator;
 
 import static net.minecraft.server.command.CommandManager.literal;
 
-public class ExecuteCommandExtention {
+public class ExecuteCommandExtension {
 
     private static final BinaryOperator<ResultConsumer<ServerCommandSource>> BINARY_RESULT_CONSUMER = (resultConsumer, resultConsumer2) -> (context, success, result) -> {
         resultConsumer.onCommandComplete(context, success, result);
@@ -58,30 +59,30 @@ public class ExecuteCommandExtention {
                                 .then(literal("=")
                                         .then(literal("score")
                                                 .then(CommandManager.argument("source", ScoreHolderArgumentType.scoreHolder()).suggests(ScoreHolderArgumentType.SUGGESTION_PROVIDER)
-                                                        .then(net.minecraft.server.command.ExecuteCommand.addConditionLogic(root, CommandManager.argument("sourceObjective", ScoreboardObjectiveArgumentType.scoreboardObjective()), positive, context -> testResourceCondition(context, Integer::equals)))))
+                                                        .then(ExecuteCommand.addConditionLogic(root, CommandManager.argument("sourceObjective", ScoreboardObjectiveArgumentType.scoreboardObjective()), positive, context -> testResourceCondition(context, Integer::equals)))))
 
                                 .then(literal("<")
                                         .then(literal("score")
                                                 .then(CommandManager.argument("source", ScoreHolderArgumentType.scoreHolder()).suggests(ScoreHolderArgumentType.SUGGESTION_PROVIDER)
-                                                        .then(net.minecraft.server.command.ExecuteCommand.addConditionLogic(root, CommandManager.argument("sourceObjective", ScoreboardObjectiveArgumentType.scoreboardObjective()), positive, context -> testResourceCondition(context, (a, b) -> a < b)))))
+                                                        .then(ExecuteCommand.addConditionLogic(root, CommandManager.argument("sourceObjective", ScoreboardObjectiveArgumentType.scoreboardObjective()), positive, context -> testResourceCondition(context, (a, b) -> a < b)))))
 
                                 .then(literal("<=")
                                         .then(literal("score")
                                                 .then(CommandManager.argument("source", ScoreHolderArgumentType.scoreHolder()).suggests(ScoreHolderArgumentType.SUGGESTION_PROVIDER)
-                                                        .then(net.minecraft.server.command.ExecuteCommand.addConditionLogic(root, CommandManager.argument("sourceObjective", ScoreboardObjectiveArgumentType.scoreboardObjective()), positive, context -> testResourceCondition(context, (a, b) -> a <= b)))))
+                                                        .then(ExecuteCommand.addConditionLogic(root, CommandManager.argument("sourceObjective", ScoreboardObjectiveArgumentType.scoreboardObjective()), positive, context -> testResourceCondition(context, (a, b) -> a <= b)))))
 
                                 .then(literal(">")
                                         .then(literal("score")
                                                 .then(CommandManager.argument("source", ScoreHolderArgumentType.scoreHolder()).suggests(ScoreHolderArgumentType.SUGGESTION_PROVIDER)
-                                                        .then(net.minecraft.server.command.ExecuteCommand.addConditionLogic(root, CommandManager.argument("sourceObjective", ScoreboardObjectiveArgumentType.scoreboardObjective()), positive, context -> testResourceCondition(context, (a, b) -> a > b)))))
+                                                        .then(ExecuteCommand.addConditionLogic(root, CommandManager.argument("sourceObjective", ScoreboardObjectiveArgumentType.scoreboardObjective()), positive, context -> testResourceCondition(context, (a, b) -> a > b)))))
 
                                 .then(literal(">=")
                                                 .then(literal("score")
                                                         .then(CommandManager.argument("source", ScoreHolderArgumentType.scoreHolder()).suggests(ScoreHolderArgumentType.SUGGESTION_PROVIDER)
-                                                                .then(net.minecraft.server.command.ExecuteCommand.addConditionLogic(root, CommandManager.argument("sourceObjective", ScoreboardObjectiveArgumentType.scoreboardObjective()), positive, context -> testResourceCondition(context, (a, b) -> a >= b)))))
+                                                                .then(ExecuteCommand.addConditionLogic(root, CommandManager.argument("sourceObjective", ScoreboardObjectiveArgumentType.scoreboardObjective()), positive, context -> testResourceCondition(context, (a, b) -> a >= b)))))
 
                                 .then(literal("matches")
-                                        .then(net.minecraft.server.command.ExecuteCommand.addConditionLogic(root, CommandManager.argument("range", NumberRangeArgumentType.intRange()), positive, context -> testResourceMatch(context, NumberRangeArgumentType.IntRangeArgumentType.getRangeArgument(context, "range")))))
+                                        .then(ExecuteCommand.addConditionLogic(root, CommandManager.argument("range", NumberRangeArgumentType.intRange()), positive, context -> testResourceMatch(context, NumberRangeArgumentType.IntRangeArgumentType.getRangeArgument(context, "range")))))
 
                                 )))))
         ))).then(literal("resource"));
@@ -94,18 +95,15 @@ public class ExecuteCommandExtention {
             Power power = PowerHolderComponent.KEY.get(player).getPower(powerType);
             if (power instanceof VariableIntPower vp) {
                 return range.test(vp.getValue());
-            } else {
-                return false;
             }
-        }else {
-            return false;
         }
+        return false;
     }
 
     private static boolean testResourceCondition(CommandContext<ServerCommandSource> context, BiPredicate<Integer, Integer> condition) throws CommandSyntaxException {
         Entity target = EntityArgumentType.getEntity(context, "target");
         PowerType<?> powerType = PowerTypeArgumentType.getPower(context, "power");
-        if(target instanceof PlayerEntity player) {
+        if (target instanceof PlayerEntity player) {
             Power power = PowerHolderComponent.KEY.get(player).getPower(powerType);
             if (power instanceof VariableIntPower vp) {
                 String string2 = ScoreHolderArgumentType.getScoreHolder(context, "source");
@@ -116,13 +114,9 @@ public class ExecuteCommandExtention {
                 }
                 ScoreboardPlayerScore scoreboardPlayerScore2 = scoreboard.getPlayerScore(string2, scoreboardObjective2);
                 return condition.test(vp.getValue(), scoreboardPlayerScore2.getScore());
-            } else {
-                return false;
             }
-        } else {
-            return false;
         }
-
+        return false;
     }
 
     private static ServerCommandSource executeStoreResource(CommandContext<ServerCommandSource> command, boolean requestResult) throws CommandSyntaxException {

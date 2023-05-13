@@ -24,9 +24,9 @@ public class StatBarPower extends VariableIntPower {
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory(String label) {
+    public static PowerFactory createFactory() {
         return new PowerFactory<>(RA_Additions.identifier("stat_bar"),
-                new SerializableDataExt(label)
+                new SerializableDataExt()
                         .add("start_value", "The value of the resource when the player first gains this power.", SerializableDataTypes.INT, 20)
                         .add("hud_render", "Specifies how and if the stat bar is displayed with a bar on the HUD.", RAA_DataTypes.STAT_BAR_HUD_RENDER),
                 data ->

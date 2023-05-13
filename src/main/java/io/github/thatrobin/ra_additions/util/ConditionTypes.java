@@ -42,19 +42,15 @@ public class ConditionTypes extends MultiJsonDataLoader implements IdentifiableR
                     String namespace = id.getNamespace();
                     if(id.getPath().startsWith("entity/")) {
                         Identifier newID = new Identifier(namespace, id.getPath().substring(7));
-                        RA_Additions.LOGGER.info(newID);
                         readEntityCondition(newID, je, ConditionType::new);
                     } else if(id.getPath().startsWith("block/")) {
                         Identifier newID = new Identifier(namespace, id.getPath().substring(6));
-                        RA_Additions.LOGGER.info(newID);
                         readBlockCondition(newID, je, ConditionType::new);
                     } else if(id.getPath().startsWith("item/")) {
                         Identifier newID = new Identifier(namespace, id.getPath().substring(5));
-                        RA_Additions.LOGGER.info(newID);
                         readItemCondition(newID, je, ConditionType::new);
                     } else if(id.getPath().startsWith("bientity/")) {
                         Identifier newID = new Identifier(namespace, id.getPath().substring(9));
-                        RA_Additions.LOGGER.info(newID);
                         readBiEntityCondition(newID, je, ConditionType::new);
                     }
 
@@ -72,22 +68,24 @@ public class ConditionTypes extends MultiJsonDataLoader implements IdentifiableR
         JsonObject jo = je.getAsJsonObject();
         Identifier factoryId = Identifier.tryParse(JsonHelper.getString(jo, "type"));
         Optional<ConditionFactory<Entity>> optionalFactory = ApoliRegistries.ENTITY_CONDITION.getOrEmpty(factoryId);
-        if(optionalFactory.isEmpty()) {
+        if (optionalFactory.isEmpty()) {
             if (factoryId != null && NamespaceAlias.hasAlias(factoryId)) {
                 optionalFactory = ApoliRegistries.ENTITY_CONDITION.getOrEmpty(NamespaceAlias.resolveAlias(factoryId));
             }
-            if(optionalFactory.isEmpty()) {
+            if (optionalFactory.isEmpty()) {
                 if (factoryId != null) {
                     throw new JsonSyntaxException("Condition type \"" + factoryId + "\" is not defined.");
                 }
             }
         }
-        ConditionFactory<Entity>.Instance factoryInstance = optionalFactory.get().read(jo);
-        ConditionType type = conditionTypeFactory.apply(id, factoryInstance);
-        if(!EntityConditionRegistry.contains(id)) {
-            EntityConditionRegistry.register(id, type);
-        } else {
-            EntityConditionRegistry.update(id, type);
+        if (optionalFactory.isPresent()) {
+            ConditionFactory<Entity>.Instance factoryInstance = optionalFactory.get().read(jo);
+            ConditionType type = conditionTypeFactory.apply(id, factoryInstance);
+            if (!EntityConditionRegistry.contains(id)) {
+                EntityConditionRegistry.register(id, type);
+            } else {
+                EntityConditionRegistry.update(id, type);
+            }
         }
     }
 

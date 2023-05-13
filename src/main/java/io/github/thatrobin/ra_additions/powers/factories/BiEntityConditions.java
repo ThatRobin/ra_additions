@@ -6,7 +6,6 @@ import io.github.apace100.calio.data.SerializableDataTypes;
 import io.github.thatrobin.docky.DockyEntry;
 import io.github.thatrobin.docky.DockyRegistry;
 import io.github.thatrobin.docky.utils.SerializableDataExt;
-import io.github.thatrobin.docky.utils.SectionTitleManager;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.util.*;
 import net.minecraft.entity.Entity;
@@ -18,10 +17,8 @@ import java.util.Collection;
 
 public class BiEntityConditions {
 
-    public static void register(String label) {
-        SectionTitleManager.put("Condition Types", "bientity_condition");
-
-        register(new ConditionFactory<>(RA_Additions.identifier("evaluate_condition"), new SerializableDataExt(label)
+    public static void register(){
+        register(new ConditionFactory<>(RA_Additions.identifier("evaluate_condition"), new SerializableDataExt()
                 .add("bientity_condition", "The Identifier of the tag or condition file to be evaluated", SerializableDataTypes.STRING),
                 (data, entities) -> {
                     String idStr = data.getString("bientity_condition");
@@ -43,12 +40,14 @@ public class BiEntityConditions {
                 }), "Evaluates a bi-entity condition that is stored in a file.");
     }
 
+    @SuppressWarnings("SameParameterValue")
     private static void register(ConditionFactory<Pair<Entity,Entity>> factory, String description) {
         DockyEntry entry = new DockyEntry()
                 .setHeader("Condition Types")
                 .setFactory(factory)
                 .setDescription(description)
-                .setExamplePath("C:\\Users\\robin\\IdeaProjects\\ra_additions\\run\\saves\\New World\\datapacks\\Test Pack\\data\\test_pack\\conditions\\bientity\\" + factory.getSerializerId().getPath() + "_example.json");
+                .setType("bientity_condition_types");
+        if(RA_Additions.getExamplePathRoot() != null) entry.setExamplePath(RA_Additions.getExamplePathRoot() + "\\testdata\\ra_additions\\conditions\\bientity\\" + factory.getSerializerId().getPath() + "_example.json");
         DockyRegistry.register(entry);
         Registry.register(ApoliRegistries.BIENTITY_CONDITION, factory.getSerializerId(), factory);
     }

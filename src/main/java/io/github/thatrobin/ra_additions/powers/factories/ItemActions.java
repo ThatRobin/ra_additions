@@ -4,8 +4,9 @@ import io.github.apace100.apoli.Apoli;
 import io.github.apace100.apoli.power.factory.action.ActionFactory;
 import io.github.apace100.apoli.registry.ApoliRegistries;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.DockyEntry;
+import io.github.thatrobin.docky.DockyRegistry;
 import io.github.thatrobin.docky.utils.SerializableDataExt;
-import io.github.thatrobin.docky.utils.SectionTitleManager;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.util.*;
 import net.minecraft.item.ItemStack;
@@ -26,10 +27,8 @@ import java.util.Collection;
 
 public class ItemActions {
 
-    public static void register(String label) {
-        SectionTitleManager.put("Action Types", "item_action");
-
-        register(new ActionFactory<>(RA_Additions.identifier("modify_item"), new SerializableDataExt(label)
+    public static void register() {
+        register(new ActionFactory<>(RA_Additions.identifier("modify_item"), new SerializableDataExt()
                 .add("modifier", "The Identifier of an item modifier.", SerializableDataTypes.IDENTIFIER),
                 (data, worldAndStack) -> {
                     MinecraftServer server = worldAndStack.getLeft().getServer();
@@ -50,9 +49,9 @@ public class ItemActions {
                         stack.setCount(newStack.getCount());
                         stack.setNbt(newStack.getNbt());
                     }
-                }), "Applies an item modifier to the item stack with a player fulfilling the \"this\" criteria.");
+                }), "Applies an item modifier to the item stack with a player fulfilling the \"this\" criteria. The player is currently random.");
 
-        register(new ActionFactory<>(RA_Additions.identifier("execute_action"), new SerializableDataExt(label)
+        register(new ActionFactory<>(RA_Additions.identifier("execute_action"), new SerializableDataExt()
                 .add("item_action", "The Identifier of the tag or action file to be executed", SerializableDataTypes.STRING),
                 (data, itemStackPair) -> {
                     String idStr = data.getString("item_action");
@@ -71,8 +70,14 @@ public class ItemActions {
     }
 
     private static void register(ActionFactory<Pair<World, ItemStack>> factory, String description) {
-        //DockyRegistry.register(factory, "item_action", description,
-        //        "C:\\Users\\robin\\IdeaProjects\\ra_additions\\run\\saves\\New World\\datapacks\\Test Pack\\data\\test_pack\\actions\\item\\" + factory.getSerializerId().getPath() + "_example.json");
+
+        DockyEntry entry = new DockyEntry()
+                .setHeader("Action Types")
+                .setFactory(factory)
+                .setDescription(description)
+                .setType("item_action_types");
+        if(RA_Additions.getExamplePathRoot() != null) entry.setExamplePath(RA_Additions.getExamplePathRoot() + "\\testdata\\ra_additions\\actions\\item\\" + factory.getSerializerId().getPath() + "_example.json");
+        DockyRegistry.register(entry);
         Registry.register(ApoliRegistries.ITEM_ACTION, factory.getSerializerId(), factory);
     }
 

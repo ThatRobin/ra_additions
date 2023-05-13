@@ -19,7 +19,7 @@ public abstract class SlotMixin {
     @Inject(method = "canTakeItems", at= @At("RETURN"), cancellable = true)
     public void canTakeItems(PlayerEntity playerEntity, CallbackInfoReturnable<Boolean> cir) {
         PowerHolderComponent.getPowers(playerEntity, BindPower.class).forEach(preventItemSelectionPower -> {
-            if(preventItemSelectionPower.doesApply(this.getStack())) {
+            if(preventItemSelectionPower.doesApply(this.getStack()) && !playerEntity.isCreative()) {
                 if (preventItemSelectionPower.checkSlot(((Slot)(Object)this).getIndex())) {
                     cir.setReturnValue(false);
                 }

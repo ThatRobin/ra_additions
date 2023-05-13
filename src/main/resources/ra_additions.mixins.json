@@ -1,34 +1,36 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "io.github.thatrobin.ra_additions.mixins",
-  "compatibilityLevel": "JAVA_17",
-  "mixins": [
-    "ApoliDataTypesMixin",
-    "EntityMixin",
-    "EntitySelectorOptionsAccessor",
-    "EntityTypeMixin",
-    "ItemFrameEntityMixin",
-    "ItemMixin",
-    "ItemStackMixin",
-    "LivingEntityMixin",
-    "OriginMixin",
-    "PlayerManagerMixin",
-    "ProjectileEntityMixin",
-    "SlotMixin",
-    "TemptGoalAccessorMixin",
-    "WanderAroundGoalAccessorMixin"
-  ],
-  "client": [
-    "ApoliClientAccessorMixin",
-    "BossBarHudMixin",
-    "BundleTooltipComponentMixin",
-    "InGameHudMixin",
-    "KeyBindingMixin",
-    "KeyBindingRegistryImplAccessorMixin",
-    "MinecraftClientMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
+    "required": true,
+    "minVersion": "0.8",
+    "package": "io.github.thatrobin.ra_additions.mixins",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [
+        "ApoliDataTypesMixin",
+        "EntityMixin",
+        "EntitySelectorOptionsAccessor",
+        "EntityTypeMixin",
+        "ItemFrameEntityMixin",
+        "ItemMixin",
+        "ItemStackMixin",
+        "LivingEntityMixin",
+        "OriginMixin",
+        "PlayerManagerMixin",
+        "ProjectileEntityMixin",
+        "RegistryMixin",
+        "SlotMixin"
+    ],
+    "client": [
+        "ApoliClientAccessorMixin",
+        "ArmorFeatureRendererMixin",
+        "BossBarHudMixin",
+        "BundleTooltipComponentMixin",
+        "GeoArmorRendererAccessor",
+        "InGameHudMixin",
+        "KeyBindingMixin",
+        "KeyBindingRegistryImplAccessorMixin",
+        "LivingEntityRendererMixin",
+        "MinecraftClientMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
   }
 }

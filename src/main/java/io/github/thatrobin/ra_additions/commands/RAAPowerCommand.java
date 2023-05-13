@@ -34,7 +34,6 @@ public class RAAPowerCommand {
     };
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        // TODO: Clean up this mess.
         dispatcher.register(
                 literal("raa").then(
                         literal("power").requires(cs -> cs.hasPermissionLevel(2))

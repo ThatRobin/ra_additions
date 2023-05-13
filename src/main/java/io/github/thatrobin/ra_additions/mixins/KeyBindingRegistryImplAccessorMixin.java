@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.List;
 
+@SuppressWarnings("UnstableApiUsage")
 @Mixin(value = KeyBindingRegistryImpl.class, remap = false)
 public interface KeyBindingRegistryImplAccessorMixin {
 

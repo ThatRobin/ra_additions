@@ -1,29 +1,22 @@
 package io.github.thatrobin.ra_additions.goals;
 
-import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.calio.data.SerializableDataTypes;
 import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.goals.factories.GoalFactory;
 import io.github.thatrobin.ra_additions.goals.factories.Goal;
 import io.github.thatrobin.ra_additions.goals.factories.GoalType;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.util.math.Vec3d;
 
-import java.util.function.Predicate;
-
 public class C_WanderAroundGoal extends Goal {
 
-    public Predicate<Entity> condition;
-
-    public C_WanderAroundGoal(GoalType<?> goalType, LivingEntity livingEntity, int priority, Predicate<Entity> condition, double speed) {
-        super(goalType, livingEntity);
+    public C_WanderAroundGoal(GoalType<?> goalType, LivingEntity livingEntity, int priority, double speed) {
+        super(goalType, livingEntity, Type.GOAL);
         this.setPriority(priority);
-        this.condition = condition;
-        this.goal = new WanderAroundGoal((PathAwareEntity) livingEntity, speed) {
+        this.setGoal(new WanderAroundGoal((PathAwareEntity) livingEntity, speed) {
             @Override
             public boolean canStart() {
                 if (this.mob.hasPassengers()) {
@@ -51,22 +44,17 @@ public class C_WanderAroundGoal extends Goal {
                     }
                 }
             }
-        };
-    }
-
-    @Override
-    public boolean doesApply(Entity entity){
-        return condition == null || condition.test(entity);
+        });
     }
 
     @SuppressWarnings("rawtypes")
-    public static GoalFactory createFactory(String label) {
-        return new GoalFactory<>(RA_Additions.identifier("wander_around"), new SerializableDataExt(label)
+    public static GoalFactory createFactory() {
+        return new GoalFactory<>(RA_Additions.identifier("wander_around"), new SerializableDataExt()
                 .add("priority", SerializableDataTypes.INT, 0)
-                .add("speed", SerializableDataTypes.DOUBLE, 1.0d)
-                .add("condition", ApoliDataTypes.ENTITY_CONDITION, null),
+                .add("speed", SerializableDataTypes.DOUBLE, 1.0d),
                 data ->
-                        (type, entity) -> new C_WanderAroundGoal(type, entity, data.getInt("priority"), data.get("condition"), data.getDouble("speed")));
+                        (type, entity) -> new C_WanderAroundGoal(type, entity, data.getInt("priority"), data.getDouble("speed")))
+                .allowCondition();
     }
 
 }

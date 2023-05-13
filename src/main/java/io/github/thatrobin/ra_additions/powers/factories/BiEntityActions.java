@@ -6,7 +6,6 @@ import io.github.apace100.calio.data.SerializableDataTypes;
 import io.github.thatrobin.docky.DockyEntry;
 import io.github.thatrobin.docky.DockyRegistry;
 import io.github.thatrobin.docky.utils.SerializableDataExt;
-import io.github.thatrobin.docky.utils.SectionTitleManager;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.util.ActionType;
 import io.github.thatrobin.ra_additions.util.BiEntityActionRegistry;
@@ -44,10 +43,8 @@ import java.util.UUID;
 
 public class BiEntityActions {
 
-    public static void register(String label) {
-        SectionTitleManager.put("Action Types", "bientity_action");
-
-        register(new ActionFactory<>(RA_Additions.identifier("attack"), new SerializableDataExt(label)
+    public static void register() {
+        register(new ActionFactory<>(RA_Additions.identifier("attack"), new SerializableDataExt()
                 .add("source", "The damage source to be used. Controls e.g. the death message, invulnerabilities (e.g. towards fire), or whether armor is taken into account.", SerializableDataTypes.DAMAGE_SOURCE)
                 .add("allow_enchants", "Should enchantments be taken into account in the attack.", SerializableDataTypes.BOOLEAN, false)
                 .add("allow_weapons", "Should weapons/tools be taken into account in the attack.", SerializableDataTypes.BOOLEAN, false)
@@ -79,7 +76,7 @@ public class BiEntityActions {
                     }
                 }), "The actor entity will damage the target enemy as if they had just been hit with the weapon in the actors hand.");
 
-        register(new ActionFactory<>(RA_Additions.identifier("execute_action"), new SerializableDataExt(label)
+        register(new ActionFactory<>(RA_Additions.identifier("execute_action"), new SerializableDataExt()
                 .add("bientity_action", "The Identifier of the tag or action file to be executed", SerializableDataTypes.STRING),
                 (data, entities) -> {
                     String idStr = data.getString("bientity_action");
@@ -101,8 +98,9 @@ public class BiEntityActions {
         DockyEntry entry = new DockyEntry()
                 .setHeader("Action Types")
                 .setFactory(factory)
-                .setDescription(description);
-                //.setExamplePath("C:\\Users\\robin\\IdeaProjects\\ra_additions\\run\\saves\\New World\\datapacks\\Test Pack\\data\\test_pack\\actions\\bientity\\" + factory.getSerializerId().getPath() + "_example.json");
+                .setDescription(description)
+                .setType("bientity_action_types");
+        if(RA_Additions.getExamplePathRoot() != null) entry.setExamplePath(RA_Additions.getExamplePathRoot() + "\\testdata\\ra_additions\\actions\\bientity\\" + factory.getSerializerId().getPath() + "_example.json");
         DockyRegistry.register(entry);
         Registry.register(ApoliRegistries.BIENTITY_ACTION, factory.getSerializerId(), factory);
     }

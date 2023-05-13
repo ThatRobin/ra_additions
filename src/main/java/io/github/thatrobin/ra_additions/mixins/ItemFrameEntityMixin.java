@@ -23,7 +23,7 @@ public class ItemFrameEntityMixin {
     private void preventInteract(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         ItemStack itemStack = player.getStackInHand(hand);
         PowerHolderComponent.getPowers(player, BindPower.class).forEach(preventItemSelectionPower -> {
-            if(preventItemSelectionPower.doesApply(itemStack)) {
+            if(preventItemSelectionPower.doesApply(itemStack) && !player.isCreative()) {
                 if (preventItemSelectionPower.checkSlot((player.getInventory().getSlotWithStack(itemStack)))) {
                     cir.setReturnValue(ActionResult.FAIL);
                 }

@@ -28,9 +28,9 @@ public class BundlePower extends Power {
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory(String label) {
+    public static PowerFactory createFactory() {
         return new PowerFactory<>(RA_Additions.identifier("use_as_bundle"),
-                new SerializableDataExt(label)
+                new SerializableDataExt()
                         .add("max_amount", "the amount of items you can store in the bundle.", SerializableDataTypes.INT, 64)
                         .add("item_condition", "Items that fulfil this condition, will be bundle-like.", ApoliDataTypes.ITEM_CONDITION),
                 data ->

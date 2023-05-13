@@ -26,7 +26,7 @@ public class KeyBindingMixin {
         if((Object)this == swapKey) {
             PlayerEntity player = MinecraftClient.getInstance().player;
             PowerHolderComponent.getPowers(player, BindPower.class).forEach(preventItemSelectionPower -> {
-                if(preventItemSelectionPower.doesApply(player.getMainHandStack()) || preventItemSelectionPower.doesApply(player.getOffHandStack())) {
+                if((preventItemSelectionPower.doesApply(player.getMainHandStack()) || preventItemSelectionPower.doesApply(player.getOffHandStack())) && !player.isCreative()) {
                     if (preventItemSelectionPower.checkSlot(player.getInventory().getSlotWithStack(player.getMainHandStack())) || preventItemSelectionPower.checkSlot(player.getInventory().getSlotWithStack(player.getOffHandStack()))) {
                         cir.setReturnValue(false);
                     }
@@ -35,7 +35,7 @@ public class KeyBindingMixin {
         } else if ((Object) this == dropKey) {
             PlayerEntity player = MinecraftClient.getInstance().player;
             PowerHolderComponent.getPowers(player, BindPower.class).forEach(preventItemSelectionPower -> {
-                if(preventItemSelectionPower.doesApply(player.getMainHandStack())) {
+                if(preventItemSelectionPower.doesApply(player.getMainHandStack()) && !player.isCreative()) {
                     if (preventItemSelectionPower.checkSlot(player.getInventory().getSlotWithStack(player.getMainHandStack()))) {
                         cir.setReturnValue(false);
                     }

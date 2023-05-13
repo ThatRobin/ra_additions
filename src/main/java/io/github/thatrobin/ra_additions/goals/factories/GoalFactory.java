@@ -1,6 +1,7 @@
 package io.github.thatrobin.ra_additions.goals.factories;
 
 import com.google.gson.JsonObject;
+import io.github.apace100.apoli.data.ApoliDataTypes;
 import io.github.apace100.apoli.power.factory.Factory;
 import io.github.apace100.calio.data.SerializableData;
 import net.minecraft.entity.LivingEntity;
@@ -13,6 +14,7 @@ import java.util.function.Function;
 public class GoalFactory<G extends Goal> implements Factory {
 
     private final Identifier id;
+    private boolean hasConditions = false;
     protected SerializableData data;
     protected Function<SerializableData.Instance, BiFunction<GoalType<?>, LivingEntity, G>>  factoryConstructor;
 
@@ -27,6 +29,13 @@ public class GoalFactory<G extends Goal> implements Factory {
             return id;
         }
 
+    public GoalFactory<G> allowCondition() {
+        if(!hasConditions) {
+            hasConditions = true;
+            data.add("condition", ApoliDataTypes.ENTITY_CONDITION, null);
+        }
+        return this;
+    }
 
     @Override
     public SerializableData getSerializableData() {
@@ -43,8 +52,12 @@ public class GoalFactory<G extends Goal> implements Factory {
 
         @Override
         public G apply(GoalType<?> goalType, LivingEntity livingEntity) {
-            BiFunction<GoalType<?>, LivingEntity, G> itemFactory = factoryConstructor.apply(dataInstance);
-            return itemFactory.apply(goalType, livingEntity);
+            BiFunction<GoalType<?>, LivingEntity, G> goalFactory = factoryConstructor.apply(dataInstance);
+            G g = goalFactory.apply(goalType, livingEntity);
+            if(hasConditions && dataInstance.isPresent("condition")) {
+                g.addCondition(dataInstance.get("condition"));
+            }
+            return g;
         }
     }
 

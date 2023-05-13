@@ -43,19 +43,15 @@ public class ActionTypes extends MultiJsonDataLoader implements IdentifiableReso
                     String namespace = id.getNamespace();
                     if(id.getPath().startsWith("entity/")) {
                         Identifier newID = new Identifier(namespace, id.getPath().substring(7));
-                        RA_Additions.LOGGER.info(newID);
                         readEntityAction(newID, je, ActionType::new);
                     } else if(id.getPath().startsWith("block/")) {
                         Identifier newID = new Identifier(namespace, id.getPath().substring(6));
-                        RA_Additions.LOGGER.info(newID);
                         readBlockAction(newID, je, ActionType::new);
                     } else if(id.getPath().startsWith("item/")) {
                         Identifier newID = new Identifier(namespace, id.getPath().substring(5));
-                        RA_Additions.LOGGER.info(newID);
                         readItemAction(newID, je, ActionType::new);
                     } else if(id.getPath().startsWith("bientity/")) {
                         Identifier newID = new Identifier(namespace, id.getPath().substring(9));
-                        RA_Additions.LOGGER.info(newID);
                         readBiEntityAction(newID, je, ActionType::new);
                     }
 
@@ -83,12 +79,14 @@ public class ActionTypes extends MultiJsonDataLoader implements IdentifiableReso
                 }
             }
         }
-        ActionFactory<Entity>.Instance factoryInstance = optionalFactory.get().read(jo);
-        ActionType type = actionTypeFactory.apply(id, factoryInstance);
-        if(!EntityActionRegistry.contains(id)) {
-            EntityActionRegistry.register(id, type);
-        } else {
-            EntityActionRegistry.update(id, type);
+        if(optionalFactory.isPresent()) {
+            ActionFactory<Entity>.Instance factoryInstance = optionalFactory.get().read(jo);
+            ActionType type = actionTypeFactory.apply(id, factoryInstance);
+            if (!EntityActionRegistry.contains(id)) {
+                EntityActionRegistry.register(id, type);
+            } else {
+                EntityActionRegistry.update(id, type);
+            }
         }
     }
 
@@ -106,12 +104,14 @@ public class ActionTypes extends MultiJsonDataLoader implements IdentifiableReso
                 }
             }
         }
-        ActionFactory<Triple<World, BlockPos, Direction>>.Instance factoryInstance = optionalFactory.get().read(jo);
-        ActionType type = actionTypeFactory.apply(id, factoryInstance);
-        if(!BlockActionRegistry.contains(id)) {
-            BlockActionRegistry.register(id, type);
-        } else {
-            BlockActionRegistry.update(id, type);
+        if(optionalFactory.isPresent()) {
+            ActionFactory<Triple<World, BlockPos, Direction>>.Instance factoryInstance = optionalFactory.get().read(jo);
+            ActionType type = actionTypeFactory.apply(id, factoryInstance);
+            if (!BlockActionRegistry.contains(id)) {
+                BlockActionRegistry.register(id, type);
+            } else {
+                BlockActionRegistry.update(id, type);
+            }
         }
     }
 
@@ -129,12 +129,14 @@ public class ActionTypes extends MultiJsonDataLoader implements IdentifiableReso
                 }
             }
         }
-        ActionFactory<Pair<World, ItemStack>>.Instance factoryInstance = optionalFactory.get().read(jo);
-        ActionType type = actionTypeFactory.apply(id, factoryInstance);
-        if(!ItemActionRegistry.contains(id)) {
-            ItemActionRegistry.register(id, type);
-        } else {
-            ItemActionRegistry.update(id, type);
+        if(optionalFactory.isPresent()) {
+            ActionFactory<Pair<World, ItemStack>>.Instance factoryInstance = optionalFactory.get().read(jo);
+            ActionType type = actionTypeFactory.apply(id, factoryInstance);
+            if (!ItemActionRegistry.contains(id)) {
+                ItemActionRegistry.register(id, type);
+            } else {
+                ItemActionRegistry.update(id, type);
+            }
         }
     }
 
@@ -152,12 +154,14 @@ public class ActionTypes extends MultiJsonDataLoader implements IdentifiableReso
                 }
             }
         }
-        ActionFactory<Pair<Entity, Entity>>.Instance factoryInstance = optionalFactory.get().read(jo);
-        ActionType type = actionTypeFactory.apply(id, factoryInstance);
-        if(!BiEntityActionRegistry.contains(id)) {
-            BiEntityActionRegistry.register(id, type);
-        } else {
-            BiEntityActionRegistry.update(id, type);
+        if(optionalFactory.isPresent()) {
+            ActionFactory<Pair<Entity, Entity>>.Instance factoryInstance = optionalFactory.get().read(jo);
+            ActionType type = actionTypeFactory.apply(id, factoryInstance);
+            if (!BiEntityActionRegistry.contains(id)) {
+                BiEntityActionRegistry.register(id, type);
+            } else {
+                BiEntityActionRegistry.update(id, type);
+            }
         }
     }
 

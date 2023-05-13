@@ -11,25 +11,25 @@ import java.util.function.Predicate;
 
 public class Goal {
     protected LivingEntity entity;
-    protected GoalType<?> type;
+    protected GoalType<?> goalType;
 
-    public net.minecraft.entity.ai.goal.Goal goal;
+    private net.minecraft.entity.ai.goal.Goal goal;
+    private final Type type;
     private int priority;
     private boolean shouldTick = false;
     private boolean shouldTickWhenInactive = false;
 
     protected List<Predicate<Entity>> conditions;
 
-    public Goal(GoalType<?> type, LivingEntity entity) {
-        this.type = type;
+    public Goal(GoalType<?> goalType, LivingEntity entity, Type type) {
+        this.goalType = goalType;
         this.entity = entity;
+        this.type = type;
         this.conditions = new LinkedList<>();
     }
 
-    @SuppressWarnings("unused")
-    public Goal addCondition(Predicate<Entity> condition) {
+    public void addCondition(Predicate<Entity> condition) {
         this.conditions.add(condition);
-        return this;
     }
 
     protected void setTicking() {
@@ -51,7 +51,7 @@ public class Goal {
     }
 
     public boolean doesApply(Entity entity){
-        return true;
+        return conditions.stream().allMatch(entityPredicate -> entityPredicate.test(entity));
     }
 
     @SuppressWarnings("unused")
@@ -78,8 +78,8 @@ public class Goal {
 
     }
 
-    public GoalType<?> getType() {
-        return type;
+    public GoalType<?> getGoalType() {
+        return goalType;
     }
 
     public void setGoal(net.minecraft.entity.ai.goal.Goal goal) {
@@ -88,6 +88,15 @@ public class Goal {
 
     public net.minecraft.entity.ai.goal.Goal getGoal() {
         return this.goal;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public enum Type {
+        TARGET,
+        GOAL
     }
 
 }

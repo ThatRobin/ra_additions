@@ -11,8 +11,9 @@ import io.github.apace100.apoli.registry.ApoliRegistries;
 import io.github.apace100.apoli.util.Comparison;
 import io.github.apace100.calio.data.SerializableDataType;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.DockyEntry;
+import io.github.thatrobin.docky.DockyRegistry;
 import io.github.thatrobin.docky.utils.SerializableDataExt;
-import io.github.thatrobin.docky.utils.SectionTitleManager;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.compat.TrinketsCompat;
 import io.github.thatrobin.ra_additions.util.*;
@@ -28,10 +29,8 @@ import java.util.List;
 
 public class EntityConditions {
 
-    public static void register(String label) {
-        SectionTitleManager.put("Condition Types", "entity_condition");
-
-        register(new ConditionFactory<>(RA_Additions.identifier("active_power_type"), new SerializableDataExt(label)
+    public static void register() {
+        register(new ConditionFactory<>(RA_Additions.identifier("active_power_type"), new SerializableDataExt()
                 .add("power_type", "The namespace ID of the power type which will be checked to see if any are active.", SerializableDataTypes.IDENTIFIER)
                 .add("blacklisted_powers", "The namespace IDs of powers that will be excluded from the check.", SerializableDataType.list(ApoliDataTypes.POWER_TYPE)),
                 (data, entity) -> {
@@ -50,9 +49,9 @@ public class EntityConditions {
                     });
 
                     return correctPowers.stream().anyMatch(pt -> pt.isActive(entity));
-                }));
+                }), "Checks whether the entity has a power that uses the specified Power Type, excluding those in the blacklist, and is \"active\", meaning that the entity has the power and the power has all its conditions fulfilled.");
 
-        register(new ConditionFactory<>(RA_Additions.identifier("resource_percentage"), new SerializableDataExt(label)
+        register(new ConditionFactory<>(RA_Additions.identifier("resource_percentage"), new SerializableDataExt()
                 .add("resource", "The Identifier of the power type that defines the resource which exists on the player.", ApoliDataTypes.POWER_TYPE)
                 .add("comparison", "How the value of the power that will be evaluated should be compared to the specified value.", ApoliDataTypes.COMPARISON, Comparison.EQUAL)
                 .add("percentage", "The percentage value to compare the value of the power that will be evaluated to. `(e.g 50%)`", SerializableDataTypes.INT, 50),
@@ -70,9 +69,9 @@ public class EntityConditions {
                         percentageValue = ((float)resourceValue / (float)cp.cooldownDuration) * 100;
                     }
                     return ((Comparison)data.get("comparison")).compare(percentageValue, data.getInt("percentage"));
-                }));
+                }), "Checks the percentage of a resource.");
 
-        register(new ConditionFactory<>(RA_Additions.identifier("evaluate_condition"), new SerializableDataExt(label)
+        register(new ConditionFactory<>(RA_Additions.identifier("evaluate_condition"), new SerializableDataExt()
                 .add("entity_condition", "The Identifier of the tag or condition file to be evaluated", SerializableDataTypes.STRING),
                 (data, entity) -> {
                     String idStr = data.getString("entity_condition");
@@ -91,10 +90,10 @@ public class EntityConditions {
                         ConditionFactory<Entity>.Instance condition =  EntityConditionRegistry.get(id).getCondition();
                         return condition.test(entity);
                     }
-                }));
+                }), "Evaluates an entity condition that is stored in a file.");
 
         if(FabricLoader.getInstance().isModLoaded("trinkets")) {
-            register(new ConditionFactory<>(RA_Additions.identifier("equipped_trinket"), new SerializableDataExt(label)
+            register(new ConditionFactory<>(RA_Additions.identifier("equipped_trinket"), new SerializableDataExt()
                     .add("item_condition", "The items that are searched for in the trinket slots.", ApoliDataTypes.ITEM_CONDITION),
                     (data, entity) -> {
                         if (entity instanceof PlayerEntity player) {
@@ -106,12 +105,23 @@ public class EntityConditions {
                         } else {
                             return false;
                         }
-                    }));
+                    }), """
+                    Checks all the players trinket slots with an Item Condition.
+                    
+                    This condition type requires the Trinkets mod to be installed in order to function.""");
         }
 
     }
 
-    private static void register(ConditionFactory<Entity> factory) {
+    private static void register(ConditionFactory<Entity> factory, String description) {
+        DockyEntry entry = new DockyEntry()
+                .setHeader("Condition Types")
+                .setFactory(factory)
+                .setDescription(description)
+                .setType("entity_condition_types");
+        if(RA_Additions.getExamplePathRoot() != null) entry.setExamplePath(RA_Additions.getExamplePathRoot() + "\\testdata\\ra_additions\\conditions\\entity\\" + factory.getSerializerId().getPath() + "_example.json");
+        DockyRegistry.register(entry);
         Registry.register(ApoliRegistries.ENTITY_CONDITION, factory.getSerializerId(), factory);
     }
+
 }

@@ -41,8 +41,8 @@ public class ChoiceLayers extends MultiJsonDataLoader implements IdentifiableRes
                     boolean replace = JsonHelper.getBoolean(jo, "replace", false);
                     int priority = JsonHelper.getInt(jo, "loading_priority", 0);
                     if(priority >= minLayerPriority) {
-                        HashMap<Integer, List<JsonObject>> inner = layers.computeIfAbsent(id, ident -> new HashMap<>());
-                        List<JsonObject> layerList = inner.computeIfAbsent(priority, prio -> new LinkedList<>());
+                        HashMap<Integer, List<JsonObject>> inner = layers.computeIfAbsent(id, var -> new HashMap<>());
+                        List<JsonObject> layerList = inner.computeIfAbsent(priority, var -> new LinkedList<>());
                         if(replace) {
                             layerList.clear();
                             minLayerPriority = priority + 1;
@@ -95,7 +95,7 @@ public class ChoiceLayers extends MultiJsonDataLoader implements IdentifiableRes
 
     @Override
     public Identifier getFabricId() {
-        return new Identifier("ccpacks", "choice_layers");
+        return RA_Additions.identifier("choice_layers");
     }
 
     @Override

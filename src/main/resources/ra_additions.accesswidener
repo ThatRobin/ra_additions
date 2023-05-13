@@ -84,10 +84,12 @@ accessible    field    net/minecraft/entity/ai/goal/ChaseBoatGoal    passenger  
 accessible    field    net/minecraft/entity/ai/goal/CreeperIgniteGoal    creeper    Lnet/minecraft/entity/mob/CreeperEntity;
 
 accessible    method    net/minecraft/entity/ai/goal/CrossbowAttackGoal    isEntityHoldingCrossbow    ()Z
-
 accessible    method    net/minecraft/entity/ai/goal/CrossbowAttackGoal    hasAliveTarget    ()Z
 
+accessible field net/minecraft/client/util/InputUtil$Type map Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;
+
 mutable    field    net/minecraft/client/option/GameOptions    allKeys    [Lnet/minecraft/client/option/KeyBinding;
-accessible    field    net/minecraft/client/util/InputUtil$Type    map    Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;
+
+accessible method net/minecraft/world/World getEntityLookup ()Lnet/minecraft/world/entity/EntityLookup;
 
 accessible    class    net/minecraft/client/gui/tooltip/BundleTooltipComponent$Sprite

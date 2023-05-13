@@ -189,9 +189,9 @@ public class BorderPower extends Power {
     }
 
     @SuppressWarnings("rawtypes")
-    public static PowerFactory createFactory(String label) {
+    public static PowerFactory createFactory() {
         return new PowerFactory<>(RA_Additions.identifier("border"),
-                new SerializableDataExt(label)
+                new SerializableDataExt()
                         .add("border_texture", "The texture used on the border.", SerializableDataTypes.IDENTIFIER, new Identifier("textures/misc/forcefield.png"))
                         .add("entity_condition", "If specified, if the entity colliding with the border fulfils the condition, it can walk through the border.", ApoliDataTypes.ENTITY_CONDITION, null)
                         .add("bientity_condition", "If specified, if the entity colliding with the border, and the entity with this power fulfil the condition, the colliding entity can walk through the border.", ApoliDataTypes.BIENTITY_CONDITION, null)

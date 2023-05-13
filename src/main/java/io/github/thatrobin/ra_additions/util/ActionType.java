@@ -3,6 +3,7 @@ package io.github.thatrobin.ra_additions.util;
 import io.github.apace100.apoli.power.factory.action.ActionFactory;
 import net.minecraft.util.Identifier;
 
+@SuppressWarnings("unchecked")
 public class ActionType {
 
     private final ActionFactory<?>.Instance factory;

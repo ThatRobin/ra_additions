@@ -27,13 +27,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
+@SuppressWarnings("UnstableApiUsage")
 @Mixin(PlayerManager.class)
 public abstract class PlayerManagerMixin {
 
     @Shadow public abstract List<ServerPlayerEntity> getPlayerList();
 
-
-    @SuppressWarnings("UnstableApiUsage")
     @Inject(at = @At("TAIL"), method = "onPlayerConnect(Lnet/minecraft/network/ClientConnection;Lnet/minecraft/server/network/ServerPlayerEntity;)V")
     private void openChoiceGui(ClientConnection connection, ServerPlayerEntity player, CallbackInfo info) {
         ChoiceComponent component = ModComponents.CHOICE.get(player);
@@ -57,6 +56,7 @@ public abstract class PlayerManagerMixin {
                 }
             }
         });
+
         PacketByteBuf keybindData = new PacketByteBuf(Unpooled.buffer());
         keybindData.writeInt(KeybindRegistry.size());
         KeybindRegistry.entries().forEach((bindingEntry) -> {

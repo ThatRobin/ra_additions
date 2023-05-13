@@ -21,26 +21,28 @@ public abstract class ProjectileEntityMixin {
 
     @Shadow @Nullable public abstract Entity getOwner();
 
-    @SuppressWarnings("deprecation")
-    @Inject(method = "onCollision", at = @At(value = "HEAD"))
+    @Inject(method = "onCollision", at = @At(value = "HEAD"), cancellable = true)
     public void onCollision(HitResult hitResult, CallbackInfo ci) {
-        PowerHolderComponent.withPower(this.getOwner(), ActionOnProjectileLand.class, null, actionOnProjectileLand -> {
+        boolean shouldDamage = true;
+        for (ActionOnProjectileLand actionOnProjectileLand : PowerHolderComponent.getPowers(this.getOwner(), ActionOnProjectileLand.class)) {
             EntityType<?> projectile = actionOnProjectileLand.getProjectile();
-            if(((ProjectileEntity)(Object)this).getType() == projectile || projectile == null) {
+            if(((ProjectileEntity)(Object)this).getType() == projectile || actionOnProjectileLand.getProjectileId() == null) {
                 if (hitResult.getType() == HitResult.Type.BLOCK) {
                     BlockHitResult blockHitResult = (BlockHitResult) hitResult;
 
-                    if (actionOnProjectileLand.doesApply(blockHitResult.getBlockPos())) {
-                        actionOnProjectileLand.executeActions(blockHitResult.getBlockPos(), Direction.UP, ((ProjectileEntity)(Object)this));
+                    if (actionOnProjectileLand.doesApplyBlock(blockHitResult.getBlockPos())) {
+                        actionOnProjectileLand.executeBlockAction(blockHitResult.getBlockPos(), Direction.UP);
                     }
                 } else if (hitResult.getType() == HitResult.Type.ENTITY) {
                     EntityHitResult entityHitResult = (EntityHitResult) hitResult;
 
-                    if (actionOnProjectileLand.doesApply(entityHitResult.getEntity().getLandingPos())) {
-                        actionOnProjectileLand.executeActions(entityHitResult.getEntity().getLandingPos(), Direction.UP, ((ProjectileEntity)(Object)this));
+                    if (actionOnProjectileLand.doesApplyEntity(entityHitResult.getEntity())) {
+                        actionOnProjectileLand.executeEntityAction(entityHitResult.getEntity());
                     }
                 }
             }
-        });
+            if(!actionOnProjectileLand.shouldDamage()) shouldDamage = false;
+        }
+        if(!shouldDamage) ci.cancel();
     }
 }

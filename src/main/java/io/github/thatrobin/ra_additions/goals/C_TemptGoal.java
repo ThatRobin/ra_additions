@@ -18,14 +18,12 @@ import net.minecraft.util.Pair;
 public class C_TemptGoal extends Goal {
 
     private final ConditionFactory<Pair<Entity, Entity>>.Instance bientityCondition;
-    private final LivingEntity livingEntity;
 
     public C_TemptGoal(GoalType<?> goalType, LivingEntity livingEntity, int priority, ConditionFactory<Pair<Entity, Entity>>.Instance bientityCondition, double speed, boolean canBeScared) {
-        super(goalType, livingEntity);
-        this.livingEntity = livingEntity;
+        super(goalType, livingEntity, Type.GOAL);
         this.setPriority(priority);
         this.bientityCondition = bientityCondition;
-        this.goal = new TemptGoal((PathAwareEntity) livingEntity, speed, null, canBeScared) {
+        this.setGoal(new TemptGoal((PathAwareEntity) livingEntity, speed, null, canBeScared) {
             @Override
             public boolean canStart() {
                 if (this.cooldown > 0) {
@@ -36,23 +34,24 @@ public class C_TemptGoal extends Goal {
                     return this.closestPlayer != null && doesApply(this.closestPlayer);
                 }
             }
-        };
+        });
     }
 
     @Override
     public boolean doesApply(Entity entity) {
-        return bientityCondition == null || bientityCondition.test(new Pair<>(livingEntity, entity));
+        return super.doesApply(this.entity) && (bientityCondition == null || bientityCondition.test(new Pair<>(this.entity, entity)));
     }
 
     @SuppressWarnings("rawtypes")
-    public static GoalFactory createFactory(String label) {
-        return new GoalFactory<>(RA_Additions.identifier("tempt"), new SerializableDataExt(label)
+    public static GoalFactory createFactory() {
+        return new GoalFactory<>(RA_Additions.identifier("tempt"), new SerializableDataExt()
                 .add("priority", SerializableDataTypes.INT, 0)
                 .add("speed", SerializableDataTypes.DOUBLE, 1.2d)
-                .add("can_be_scared", SerializableDataTypes.BOOLEAN, false)
+                .add("can_be_scared", SerializableDataTypes.BOOLEAN, true)
                 .add("bientity_condition", ApoliDataTypes.BIENTITY_CONDITION, null),
                 data ->
-                        (type, entity) -> new C_TemptGoal(type, entity, data.getInt("priority"), data.get("bientity_condition"), data.getDouble("speed"), data.getBoolean("can_be_scared")));
+                        (type, entity) -> new C_TemptGoal(type, entity, data.getInt("priority"), data.get("bientity_condition"), data.getDouble("speed"), data.getBoolean("can_be_scared")))
+                .allowCondition();
     }
 
 }

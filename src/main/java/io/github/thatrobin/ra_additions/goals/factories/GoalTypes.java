@@ -1,11 +1,9 @@
 package io.github.thatrobin.ra_additions.goals.factories;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.github.apace100.apoli.Apoli;
 import io.github.apace100.calio.data.MultiJsonDataLoader;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.util.RAA_Registries;
@@ -15,7 +13,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.profiler.Profiler;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -68,8 +65,4 @@ public class GoalTypes extends MultiJsonDataLoader implements IdentifiableResour
         return RA_Additions.identifier("goals");
     }
 
-    @Override
-    public Collection<Identifier> getFabricDependencies() {
-        return ImmutableList.of(Apoli.identifier("powers"));
-    }
 }

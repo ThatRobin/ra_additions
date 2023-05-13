@@ -39,7 +39,7 @@ public class Choice {
     public static final Choice EMPTY;
 
     static {
-        EMPTY = register(new Choice(RA_Additions.identifier("empty")));
+        EMPTY = register(new Choice(RA_Additions.identifier("empty")).setSpecial());
     }
 
     public static void init() {
@@ -68,6 +68,8 @@ public class Choice {
     private String nameTranslationKey;
     private String descriptionTranslationKey;
 
+    private boolean isSpecial;
+
     public Choice(Identifier id) {
         this.identifier = id;
     }
@@ -78,6 +80,11 @@ public class Choice {
 
     public Choice add(PowerType<?>... powerTypes) {
         this.powerTypes.addAll(Lists.newArrayList(powerTypes));
+        return this;
+    }
+
+    public Choice setSpecial() {
+        this.isSpecial = true;
         return this;
     }
 
@@ -116,6 +123,9 @@ public class Choice {
         return false;
     }
 
+    public boolean isSpecial() {
+        return this.isSpecial;
+    }
 
     public Iterable<PowerType<?>> getPowerTypes() {
         return powerTypes;

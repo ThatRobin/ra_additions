@@ -30,7 +30,7 @@ public abstract class ItemStackMixin {
         if(user != null) {
             ItemStack stackInHand = user.getStackInHand(hand);
             PowerHolderComponent.getPowers(user, BindPower.class).forEach(bindPower -> {
-                if(bindPower.doesApply(stackInHand)) {
+                if(bindPower.doesApply(stackInHand) && !user.isCreative()) {
                     if (bindPower.checkSlot((user.getInventory().getSlotWithStack(stackInHand)))) {
                         if(bindPower.doesPrevent(stackInHand)) {
                             info.setReturnValue(TypedActionResult.fail(stackInHand));

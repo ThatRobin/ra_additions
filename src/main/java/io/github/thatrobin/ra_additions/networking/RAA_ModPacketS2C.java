@@ -34,18 +34,19 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
+@SuppressWarnings("UnstableApiUsage")
 public class RAA_ModPacketS2C {
 
     @Environment(EnvType.CLIENT)
     public static void register() {
         ClientLoginNetworking.registerGlobalReceiver(RAA_ModPackets.HANDSHAKE, RAA_ModPacketS2C::handleHandshake);
-        ClientPlayConnectionEvents.INIT.register(((clientPlayNetworkHandler, minecraftClient) -> {
+        ClientPlayConnectionEvents.INIT.register((clientPlayNetworkHandler, minecraftClient) -> {
             ClientPlayNetworking.registerReceiver(RAA_ModPackets.CONFIRM_CHOICE, RAA_ModPacketS2C::chosenPowers);
             ClientPlayNetworking.registerReceiver(RAA_ModPackets.SEND_KEYBINDS, RAA_ModPacketS2C::sendKeyBinds);
             ClientPlayNetworking.registerReceiver(RAA_ModPackets.OPEN_CHOICE_SCREEN, RAA_ModPacketS2C::openChoiceScreen);
             ClientPlayNetworking.registerReceiver(RAA_ModPackets.CHOICE_LIST, RAA_ModPacketS2C::receiveChoiceList);
             ClientPlayNetworking.registerReceiver(RAA_ModPackets.LAYER_LIST, RAA_ModPacketS2C::receiveLayerList);
-        }));
+        });
     }
 
     @Environment(EnvType.CLIENT)
@@ -55,7 +56,7 @@ public class RAA_ModPacketS2C {
         for(int i = 0; i < RA_Additions.SEMVER.length; i++) {
             buf.writeInt(RA_Additions.SEMVER[i]);
         }
-        RA_AdditionsClient.isServerRunningCCPacks = true;
+        RA_AdditionsClient.isServerRunningRAA = true;
         return CompletableFuture.completedFuture(buf);
     }
 
@@ -87,7 +88,7 @@ public class RAA_ModPacketS2C {
                 choices[i] = Choice.DATA.read(packetByteBuf);
             }
             minecraftClient.execute(() -> {
-                RA_AdditionsClient.isServerRunningCCPacks = true;
+                RA_AdditionsClient.isServerRunningRAA = true;
                 ChoiceRegistry.reset();
                 for(int i = 0; i < ids.length; i++) {
                     ChoiceRegistry.register(ids[i], Choice.createFromData(ids[i], choices[i]));
