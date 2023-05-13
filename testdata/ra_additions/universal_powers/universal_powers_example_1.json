@@ -1,0 +1,9 @@
+{
+    "powers": [
+        "ra_additions:no_wool"
+    ],
+    "entity_entry": {
+        "entity": "minecraft:sheep"
+    },
+    "example_description": "This example would apply the power `ra_additions:no_wool` to all sheep."
+}

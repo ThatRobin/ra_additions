@@ -1,0 +1,5 @@
+{
+    "type": "ra_additions:execute_action",
+    "block_action": "ra_additions:add_block",
+    "example_description": "This example will run the `ra_additions:add_block` block action."
+}

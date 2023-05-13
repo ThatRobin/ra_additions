@@ -1,0 +1,6 @@
+{
+    "choices": [
+        "ra_additions:choice_example"
+    ],
+    "example_description": "This example choice layer allows you to choose an example choice."
+}

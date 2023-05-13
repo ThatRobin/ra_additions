@@ -1,0 +1,5 @@
+{
+    "key": "key.keyboard.h",
+    "category": "key.category.test_category",
+    "example_description": "This example keybind will create a keybind bound to the \"h\" key, in the category called `key.category.test_category`."
+}

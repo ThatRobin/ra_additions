@@ -1,0 +1,7 @@
+{
+    "type": "ra_additions:attack",
+    "priority": 0,
+    "bientity_condition": {
+        "type": "apoli:attacker"
+    }
+}

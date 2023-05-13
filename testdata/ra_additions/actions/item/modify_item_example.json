@@ -1,0 +1,5 @@
+{
+    "type": "ra_additions:modify_item",
+    "modifier": "ra_additions:set_name",
+    "example_description": "This example will apply the `ra_additions:set_name` item modifier to the item."
+}

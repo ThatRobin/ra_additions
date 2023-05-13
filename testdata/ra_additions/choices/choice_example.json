@@ -1,0 +1,11 @@
+{
+    "powers": [
+        "example_pack:mana_bar",
+        "example_pack:mana_recharge",
+        "example_pack:mana_recharge_2"
+    ],
+    "icon": "minecraft:diamond",
+    "name": "Magic User",
+    "description": "You can harness mana to use in a staff!",
+    "example_description": "This example choice adds with a `minecraft:diamond` as its icon."
+}

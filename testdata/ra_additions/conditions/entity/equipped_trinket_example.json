@@ -1,0 +1,10 @@
+{
+    "type": "ra_additions:equipped_trinket",
+    "item_condition": {
+        "type": "apoli:ingredient",
+        "ingredient": {
+            "item": "minecraft:emerald"
+        }
+    },
+    "example_description": "This example will check if the entity has an emerald equipped in any of their trinkets slots."
+}

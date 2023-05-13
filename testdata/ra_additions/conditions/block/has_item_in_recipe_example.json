@@ -1,0 +1,8 @@
+{
+    "type": "ra_additions:has_item_in_recipe",
+    "recipe_type": "smelting",
+    "item_condition": {
+        "type": "ra_additions:is_block"
+    },
+    "example_description": "This example will check if the smelting recipe to create this block, is also a block"
+}

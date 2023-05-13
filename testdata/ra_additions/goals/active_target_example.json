@@ -1,0 +1,10 @@
+{
+    "type": "ra_additions:active_target",
+    "priority": 0,
+    "reciprocal_chance": 10,
+    "check_visibility": true,
+    "check_can_navigate": false,
+    "bientity_condition": {
+        "type": "apoli:attacker"
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "type": "ra_additions:melee_attack",
+    "priority": 0,
+    "bientity_condition": {
+        "type": "apoli:target_condition",
+        "condition": {
+            "type": "apoli:entity_type",
+            "entity_type": "minecraft:creeper"
+        }
+    }
+}

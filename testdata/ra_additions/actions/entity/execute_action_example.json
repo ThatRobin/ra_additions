@@ -1,0 +1,5 @@
+{
+    "type": "ra_additions:execute_action",
+    "entity_action": "ra_additions:action_example_1",
+    "example_description": "This example will run the `ra_additions:action_example_1` entity action."
+}

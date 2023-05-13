@@ -1,0 +1,12 @@
+{
+    "type": "ra_additions:escape_danger",
+    "priority": 0,
+    "speed": 1.25,
+    "bientity_condition": {
+        "type": "apoli:target_condition",
+        "condition": {
+            "type": "apoli:entity_type",
+            "entity_type": "minecraft:creeper"
+        }
+    }
+}

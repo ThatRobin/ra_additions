@@ -1,0 +1,7 @@
+{
+    "replace": false,
+    "values": [
+        "ra_additions:condition_example_2"
+    ],
+    "example_description": "This example creates a tag out of the `ra_additions:condition_example_2` power, stored at `ra_additions:powers/condition_example_2.json`, and will add the listed powers to the choice `ra_additions:choice_example`"
+}

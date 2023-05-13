@@ -1,0 +1,16 @@
+{
+    "type": "ra_additions:bind_item",
+    "item_condition": {
+        "type": "apoli:ingredient",
+        "ingredient": {
+            "item": "minecraft:trident"
+        }
+    },
+    "prevent_use_condition": {
+        "type": "apoli:ingredient",
+        "ingredient": {
+            "item": "minecraft:trident"
+        }
+    },
+    "example_description": "This example would make it so that any trident that enters your inventory can't leave it until death, and can't be thrown."
+}

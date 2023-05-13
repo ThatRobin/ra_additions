@@ -1,0 +1,8 @@
+{
+    "type": "ra_additions:active_power_type",
+    "power_type": "apoli:elytra_flight",
+    "blacklisted_powers": [
+        "origins:elytra"
+    ],
+    "example_description": "This example will check if the player has an elytra flight power that is not the elytrian's power."
+}

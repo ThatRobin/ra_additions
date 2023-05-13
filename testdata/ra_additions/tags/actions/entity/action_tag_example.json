@@ -1,0 +1,7 @@
+{
+    "replace": false,
+    "values": [
+        "ra_additions:action_example_1"
+    ],
+    "example_description": "This example creates a tag out of the `ra_additions:action_example_1` entity action, stored at `ra_additions:actions/entity/action_example_1.json`"
+}

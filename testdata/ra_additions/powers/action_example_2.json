@@ -1,0 +1,52 @@
+{
+    "type": "apoli:active_self",
+    "entity_action": {
+        "type": "origins:raycast",
+        "distance": 16,
+        "block": true,
+        "entity": true,
+        "shape_type": "visual",
+        "fluid_handling": "any",
+        "bientity_action": {
+            "type": "origins:target_action",
+            "action": {
+                "type": "origins:execute_command",
+                "command": "say I've been hit!"
+            }
+        },
+        "block_action": {
+            "type": "origins:execute_command",
+            "command": "say Block (hit)"
+        },
+        "entityblock_action": {
+            "type": "ra_additions:mimic_item_on_block",
+            "item_stack": {
+                "item": "minecraft:flint_and_steel"
+            }
+        },
+        "before_action": {
+            "type": "origins:execute_command",
+            "command": "say Before"
+        },
+        "hit_action": {
+            "type": "origins:execute_command",
+            "command": "say After (hit)"
+        },
+        "miss_action": {
+            "type": "origins:execute_command",
+            "command": "say After (miss)"
+        },
+        "command_at_hit": "particle minecraft:block_marker minecraft:emerald_block ~ ~ ~ 0 0 0 0.0 1 normal @a",
+        "command_along_ray": "particle minecraft:soul_fire_flame",
+        "command_step": 1,
+        "command_along_ray_only_on_hit": true
+    },
+    "cooldown": 20,
+    "hud_render": {
+        "should_render": false
+    },
+    "key": {
+        "key": "key.use"
+    },
+    "example_description": "This is an example of one way that you can use an entity action from a file"
+}

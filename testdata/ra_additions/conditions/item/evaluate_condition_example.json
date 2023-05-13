@@ -1,0 +1,5 @@
+{
+    "type": "ra_additions:evaluate_condition",
+    "item_condition": "test_pack:test_condition",
+    "example_description": "This example will check the `test_pack:test_condition` item condition."
+}

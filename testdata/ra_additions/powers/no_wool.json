@@ -1,0 +1,40 @@
+{
+    "type": "apoli:multiple",
+    "prevent_render": {
+        "type": "apoli:prevent_feature_render",
+        "features": [
+            "sheep_wool"
+        ]
+    },
+    "prevent_use": {
+        "type": "apoli:prevent_being_used",
+        "bientity_condition": {
+            "type": "apoli:actor_condition",
+            "condition": {
+                "type": "apoli:and",
+                "conditions": [
+                    {
+                        "type": "apoli:equipped_item",
+                        "equipment_slot": "mainhand",
+                        "item_condition": {
+                            "type": "apoli:ingredient",
+                            "ingredient": {
+                                "item": "minecraft:shears"
+                            }
+                        }
+                    },
+                    {
+                        "type": "apoli:equipped_item",
+                        "equipment_slot": "mainhand",
+                        "item_condition": {
+                            "type": "apoli:ingredient",
+                            "ingredient": {
+                                "item": "minecraft:shears"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

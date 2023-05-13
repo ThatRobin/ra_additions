@@ -1,0 +1,5 @@
+{
+    "type": "ra_additions:open_choice_screen",
+    "choice_layer": "ra_additions:choice_layer_example",
+    "example_description": "This example will open the choice screen for the `ra_additions:choice_layer_example` layer."
+}

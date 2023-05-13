@@ -1,0 +1,19 @@
+{
+    "type": "apoli:active_self",
+    "entity_action": {
+        "type": "apoli:add_velocity",
+        "y": 2
+    },
+    "condition": {
+        "type": "ra_additions:evaluate_condition",
+        "entity_condition": "ra_additions:condition_example_1"
+    },
+    "cooldown": 20,
+    "hud_render": {
+        "should_render": false
+    },
+    "key": {
+        "key": "key.ra_additions.keybind_example"
+    },
+    "example_description": "This is an example of one way that you can use an entity condition from a file"
+}

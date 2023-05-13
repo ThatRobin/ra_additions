@@ -1,0 +1,9 @@
+{
+    "type": "ra_additions:use_as_bundle",
+    "hold_amount": 64,
+    "item_condition": {
+        "type": "apoli:nbt",
+        "nbt": "{isBundle:1b}"
+    },
+    "example_description": "This example makes it so that any item with the nbt data `{isBundle:1b}` is able to be used as a bundle."
+}

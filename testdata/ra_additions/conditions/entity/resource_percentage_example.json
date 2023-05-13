@@ -1,0 +1,7 @@
+{
+    "type": "ra_additions:resource_percentage",
+    "resource": "test_pack:test_resource",
+    "comparison": ">=",
+    "percentage": 75,
+    "example_description": "This example will check if the `test_pack:test_resource` is above 75% full."
+}

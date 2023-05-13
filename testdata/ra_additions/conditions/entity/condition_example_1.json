@@ -1,0 +1,4 @@
+{
+    "type": "apoli:sneaking",
+    "example_description": "This example is a condition that checks if the player is sneaking."
+}

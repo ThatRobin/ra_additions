@@ -1,0 +1,6 @@
+{
+    "should_render": true,
+    "bar_index": 0,
+    "side": "right",
+    "sprite_location": "example_pack:textures/gui/icons.png"
+}

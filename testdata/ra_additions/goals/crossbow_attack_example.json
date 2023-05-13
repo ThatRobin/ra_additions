@@ -1,0 +1,13 @@
+{
+    "type": "ra_additions:bow_attack",
+    "priority": 0,
+    "speed": 1,
+    "range": 15,
+    "bientity_condition": {
+        "type": "apoli:target_condition",
+        "condition": {
+            "type": "apoli:entity_type",
+            "entity_type": "minecraft:creeper"
+        }
+    }
+}

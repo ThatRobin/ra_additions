@@ -1,0 +1,17 @@
+{
+    "type": "ra_additions:attack_with_owner",
+    "priority": 0,
+    "attacking_condition": {
+        "type": "apoli:target_condition",
+        "condition": {
+            "type": "apoli:entity_type",
+            "entity_type": "minecraft:creeper"
+        }
+    },
+    "owner_condition": {
+        "type": "apoli:target_condition",
+        "condition": {
+            "type": "apoli:sneaking"
+        }
+    }
+}

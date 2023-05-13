@@ -1,0 +1,15 @@
+{
+    "type": "ra_additions:boss_bar",
+    "min": 0,
+    "max": 20,
+    "start_value": 20,
+    "hud_render": {
+        "should_render": true,
+        "bar_index": 0,
+        "sprite_location": "textures/gui/bars.png"
+    },
+    "icon": "minecraft:emerald",
+    "name": "Mana Abilities",
+    "description": "You can use mana with your magical staff to activate its powers.",
+    "example_description": "This example is a boss bar, which creates a bar that is already completely filled."
+}

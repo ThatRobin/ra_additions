@@ -1,0 +1,13 @@
+{
+    "type": "ra_additions:follow_mob",
+    "priority": 0,
+    "speed": 1,
+    "can_be_scared": false,
+    "bientity_condition": {
+        "type": "apoli:target_condition",
+        "condition": {
+            "type": "apoli:entity_type",
+            "entity_type": "minecraft:creeper"
+        }
+    }
+}

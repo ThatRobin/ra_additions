@@ -1,0 +1,4 @@
+{
+    "type": "ra_additions:is_block",
+    "example_description": "This example will check if the item is a block."
+}

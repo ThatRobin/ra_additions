@@ -1,0 +1,5 @@
+{
+    "type": "origins:add_velocity",
+    "y": 2,
+    "example_description": "This example is an action that launches the player into the air."
+}
