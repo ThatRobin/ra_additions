@@ -164,10 +164,12 @@ dependencies {
     modImplementation "dev.emi:trinkets:${project.trinkets_version}"
     modImplementation "software.bernie.geckolib:geckolib-fabric-${project.minecraft_version}:${project.geckolib_version}"
 
+
+    implementation(project(path: ":ra_additions_tags", configuration: "namedElements"))
+    implementation(project(path: ":ra_additions_choices", configuration: "namedElements"))
+    implementation(project(path: ":ra_additions_goals", configuration: "namedElements"))
+
     subprojects.forEach((project) -> {
-        include(project) {
-            transitive = false
-        }
         modRuntimeOnly(project) {
             transitive = false
         }
