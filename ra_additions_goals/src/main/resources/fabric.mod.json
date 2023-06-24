@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "ra_additions_goals",
+  "version": "${version}",
+  "name": "ra_additions_goals",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/robin/ra_additions_goals"
+  },
+  "license": "MIT",
+  "icon": "assets/ra_additions_goals/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "io.github.thatrobin.ra_additions_goals.client.RAA_Goals_Client"
+    ],
+    "main": [
+      "io.github.thatrobin.ra_additions_goals.RAA_Goals"
+    ]
+  },
+  "mixins": [
+    "ra_additions_goals.mixins.json"
+  ],
+  "accessWidener": "raa_goals.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.14.8",
+    "fabric": "*",
+    "minecraft": ">=1.19"
+  }
+}

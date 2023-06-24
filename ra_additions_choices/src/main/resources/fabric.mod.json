@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "ra_additions_choices",
+  "version": "${version}",
+  "name": "ra_additions_choices",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/robin/ra_additions_choices"
+  },
+  "license": "MIT",
+  "icon": "assets/ra_additions_choices/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "io.github.thatrobin.ra_additions_choices.client.RAA_Choices_Client"
+    ],
+    "main": [
+      "io.github.thatrobin.ra_additions_choices.RAA_Choices"
+    ],
+    "cardinal-components-entity": [
+      "io.github.thatrobin.ra_additions_choices.component.ModComponents"
+    ]
+  },
+  "custom": {
+    "cardinal-components": [
+      "ra_additions:choice"
+    ]
+  },
+  "mixins": [
+    "ra_additions_choices.mixins.json"
+  ],
+  "accessWidener": "raa_choices.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.14.8",
+    "fabric": "*",
+    "minecraft": ">=1.19"
+  }
+}

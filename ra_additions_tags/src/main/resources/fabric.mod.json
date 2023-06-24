@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "ra_additions_tags",
+  "version": "${version}",
+  "name": "ra_additions_tags",
+  "description": "",
+  "authors": [
+    "ThatRobin3001"
+  ],
+  "contact": {
+    "repo": "https://github.com/robin/ra_additions_tags"
+  },
+  "license": "MIT",
+  "icon": "assets/ra_additions_tags/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.thatrobin.ra_additions_tags.RAA_Tags"
+    ]
+  },
+  "mixins": [
+    "ra_additions_tags.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.8",
+    "fabric": "*",
+    "minecraft": ">=1.19"
+  }
+}
