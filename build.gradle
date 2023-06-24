@@ -168,12 +168,6 @@ dependencies {
     implementation(project(path: ":ra_additions_tags", configuration: "namedElements"))
     implementation(project(path: ":ra_additions_choices", configuration: "namedElements"))
     implementation(project(path: ":ra_additions_goals", configuration: "namedElements"))
-
-    subprojects.forEach((project) -> {
-        modRuntimeOnly(project) {
-            transitive = false
-        }
-    })
 }
 
 subprojects {
