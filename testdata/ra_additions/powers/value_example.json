@@ -2,6 +2,8 @@
     "type": "ra_additions:value",
     "x": 70,
     "y": 70,
+    "min": 5,
+    "max": 10,
     "value_key": "You have %s value",
-    "example_description": "This example is a value, which creates a string of text that says `you have X value` where X is the internal value of the power."
+    "example_description": "This example is a value, which creates a string of text that says `you have %s value` where %s is the internal value of the power."
 }

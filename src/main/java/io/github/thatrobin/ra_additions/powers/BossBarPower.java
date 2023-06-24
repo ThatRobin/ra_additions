@@ -82,7 +82,7 @@ public class BossBarPower extends VariableIntPower implements BossBarHudRendered
                         .add("min", "The minimum value of the boss bar.", SerializableDataTypes.INT)
                         .add("max", "The maximum value of the boss bar.", SerializableDataTypes.INT)
                         .addFunctionedDefault("start_value", "The value of the boss bar when the entity first receives the power. If not set, this will be set to the value of the min integer field.", SerializableDataTypes.INT, data -> data.getInt("min"))
-                        .add("hud_render", "Determines how the boss bar is visualized on the HUD.", RAA_DataTypes.HUD_RENDER)
+                        .add("hud_render", "Determines how the boss bar is visualized on the HUD.", RAA_DataTypes.BOSS_BAR_HUD_RENDER)
                         .add("text", "The text displayed above the boss bar.", SerializableDataTypes.TEXT, null)
                         .add("min_action", "If specified, this action will be executed on the entity whenever the minimum value is reached.", ApoliDataTypes.ENTITY_ACTION, null)
                         .add("max_action", "If specified, this action will be executed on the entity whenever the maximum value is reached.", ApoliDataTypes.ENTITY_ACTION, null),

@@ -1,24 +1,19 @@
 package io.github.thatrobin.ra_additions.data;
 
-import io.github.apace100.calio.data.SerializableData;
-import io.github.apace100.calio.data.SerializableDataType;
-import io.github.thatrobin.docky.Docky;
 import io.github.thatrobin.docky.DockyEntry;
 import io.github.thatrobin.docky.DockyGenerator;
 import io.github.thatrobin.docky.DockyRegistry;
-import io.github.thatrobin.docky.mixin.SerializableDataTypeAccessor;
 import io.github.thatrobin.docky.providers.*;
-import io.github.thatrobin.docky.utils.*;
+import io.github.thatrobin.docky.utils.DataTypeLoader;
+import io.github.thatrobin.docky.utils.MkdocsBuilder;
+import io.github.thatrobin.docky.utils.PageBuilder;
+import io.github.thatrobin.docky.utils.TypeManager;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import org.apache.commons.lang3.text.WordUtils;
 
-import java.lang.reflect.Field;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import static io.github.thatrobin.docky.utils.MkdocsBuilder.createPage;
 import static io.github.thatrobin.docky.utils.MkdocsBuilder.createSection;
@@ -37,7 +32,6 @@ public class DataGener implements DockyGenerator {
 
             pack.addProvider((output, future) -> new DockyPageProvider(output, outputPath, "index", "docs", index()));
 
-            pack.addProvider((output, future) -> new DockyPageProvider(output, outputPath, "universal_powers", "docs", universalPowers()));
             pack.addProvider((output, future) -> new DockyPageProvider(output, outputPath, "choice_layer_json", "docs", layerJson()));
             pack.addProvider((output, future) -> new DockyPageProvider(output, outputPath, "choice_json", "docs", choiceJson()));
             pack.addProvider((output, future) -> new DockyPageProvider(output, outputPath, "keybinding_json", "docs", keybindingJson()));
@@ -50,7 +44,9 @@ public class DataGener implements DockyGenerator {
 
             DataTypeLoader.provideApoliDataTypes(pack, outputPath);
 
-            for (DockyEntry dockyEntry : DockyRegistry.entries()) {
+            List<DockyEntry> entries = DockyRegistry.entries();
+            entries.sort(Comparator.comparing(a -> a.getFactory().getSerializerId()));
+            for (DockyEntry dockyEntry : entries) {
                 pack.addProvider((output, future) -> new DockyEntryProvider(output, outputPath, dockyEntry));
             }
             for (String type : TypeManager.getTypes()) {
@@ -65,30 +61,9 @@ public class DataGener implements DockyGenerator {
 
         pageBuilder.addTitle("Welcome to the documentation for Robin's Apoli Additions!").newLine();
         pageBuilder.addText("This wiki will show you how to use the features and power types in this Apoli Addon.").newLine();
-        pageBuilder.addSubTitle("Helpful Links")
+        pageBuilder.addTitle2("Helpful Links")
                 .addText("* ", false).addLink("Minecraft Wiki: Data Pack", "https://minecraft.gamepedia.com/Data_Pack")
                 .addText("* ", false).addLink("Minecraft Wiki: Creating a Data Pack", "https://minecraft.gamepedia.com/Tutorials/Creating_a_data_pack");
-        return pageBuilder;
-    }
-
-    public PageBuilder universalPowers() {
-        PageBuilder pageBuilder = PageBuilder.init();
-
-        pageBuilder.addTitle("Universal Powers");
-        pageBuilder.addText("In order to use the universal power system. you make your power files as you would in Origins. And then make the directories `/data/<namespace>/universal_powers/` and create a JSON file in there (it can be named anything)\n" +
-                "Then, in this file, you enter your powers, and entities.");
-
-        PageBuilder.TableBuilder tableBuilder = PageBuilder.TableBuilder.init();
-        tableBuilder.addRow("Fields", "Type", "Default", "Description")
-                .addBreak()
-                .addRow("`powers`", "[Array](data_types/array.md) of [Identifiers](data_types/identifier.md)", "_optional_", "The namespace and IDs of the powers you want to give to all entities.")
-                .addRow("`entity_entry`", "[Entity Entry](data_types/entity_entry.md)", "_optional_", "An object that accepts either an `entity` or a `tag` [Identifier](data_types/identifier.md). Cannot be both.");
-        pageBuilder.addTable(tableBuilder);
-
-        pageBuilder.addText("### Examples")
-                .addJson(RA_Additions.getExamplePathRoot() + "/testdata/ra_additions/universal_powers/universal_powers_example_1.json")
-                .addJson(RA_Additions.getExamplePathRoot() + "/testdata/ra_additions/universal_powers/universal_powers_example_2.json");
-
         return pageBuilder;
     }
 
@@ -108,7 +83,7 @@ public class DataGener implements DockyGenerator {
                 .addRow("`enabled`", "[Boolean](data_types/boolean.md)", "`true`", "If set to false, this layer will be unavailable.");
         pageBuilder.addTable(tableBuilder);
 
-        pageBuilder.addText("### Examples")
+        pageBuilder.addTitle3("Examples")
                 .addJson(RA_Additions.getExamplePathRoot() + "/testdata/ra_additions/choice_layers/choice_layer_example.json");
 
         return pageBuilder;
@@ -130,7 +105,7 @@ public class DataGener implements DockyGenerator {
                 .addRow("`action_on_chosen`", "[Entity Action Type](entity_action_types.md)", "_optional_", "The action that is run when they player selects this choice.");
         pageBuilder.addTable(tableBuilder);
 
-        pageBuilder.addText("### Examples")
+        pageBuilder.addTitle3("Examples")
                 .addJson(RA_Additions.getExamplePathRoot() + "/testdata/ra_additions/choices/choice_example.json");
 
         return pageBuilder;
@@ -149,7 +124,7 @@ public class DataGener implements DockyGenerator {
                 .addRow("`category`", "[String](data_types/string.md)", " ", "The category this key will fall under.");
         pageBuilder.addTable(tableBuilder);
 
-        pageBuilder.addText("### Examples")
+        pageBuilder.addTitle3("Examples")
                 .addJson(RA_Additions.getExamplePathRoot() + "/testdata/ra_additions/keybinds/keybind_example.json");
 
         return pageBuilder;
@@ -160,11 +135,11 @@ public class DataGener implements DockyGenerator {
 
         pageBuilder.addTitle("Action JSON Format");
         pageBuilder.addText("""
-                This is the format of a JSON file describing an action. These can be used in place of creating an action inside of an origin.\s
+                This is the format of a JSON file describing an action. These can be used in place of creating an action inside of a power.\s
 
                 Action JSON files need to be placed inside the `data/<namespace>/{Action Type}` folder of your datapack. Where the `{Action Type}` is either `entity`, `bientity`, `block` or `item`.""");
 
-        pageBuilder.addText("### Examples")
+        pageBuilder.addTitle3("Examples")
                 .addJson(RA_Additions.getExamplePathRoot() + "/testdata/ra_additions/actions/entity/action_example_1.json")
                 .addJson(RA_Additions.getExamplePathRoot() + "/testdata/ra_additions/powers/action_example_2.json");
 
@@ -176,11 +151,11 @@ public class DataGener implements DockyGenerator {
 
         pageBuilder.addTitle("Condition JSON Format");
         pageBuilder.addText("""
-                This is the format of a JSON file describing an action. These can be used in place of creating an action inside of an origin.\s
+                This is the format of a JSON file describing a condition. These can be used in place of creating an condition inside of a power.\s
 
-                Action JSON files need to be placed inside the `data/<namespace>/{Action Type}` folder of your datapack. Where the `{Action Type}` is either `entity`, `bientity`, `block` or `item`.""");
+                Condition JSON files need to be placed inside the `data/<namespace>/{Condition Type}` folder of your datapack. Where the `{Condition Type}` is either `entity`, `bientity`, `block` or `item`.""");
 
-        pageBuilder.addText("### Examples")
+        pageBuilder.addTitle3("Examples")
                 .addJson(RA_Additions.getExamplePathRoot() + "/testdata/ra_additions/conditions/entity/condition_example_1.json")
                 .addJson(RA_Additions.getExamplePathRoot() + "/testdata/ra_additions/powers/condition_example_2.json");
 
@@ -198,7 +173,7 @@ public class DataGener implements DockyGenerator {
                 
                 Power Tags can also be used in conjunction with Origins, and also RAA Choices. If you have origins installed, you can make a power tag with the same id as an origin/choice, and the powers specified will be added to the origin/choice, without the need to edit that origin/choice's datapack.""");
 
-        pageBuilder.addText("### Examples")
+        pageBuilder.addTitle3("Examples")
                 .addJson(RA_Additions.getExamplePathRoot() + "/testdata/ra_additions/tags/powers/choice_example.json")
                 .addJson(RA_Additions.getExamplePathRoot() + "/testdata/ra_additions/tags/actions/entity/action_tag_example.json");
 
@@ -220,7 +195,6 @@ public class DataGener implements DockyGenerator {
         mkdocsBuilder.setName("Robin's Apoli Additions")
                 .navigation(
                         createPage("Home", "index.md"),
-                        createPage("Universal Powers", "universal_powers.md"),
                         createSection("Types",
                                 createPage("Task Types", "task_types.md"),
                                 createPage("Power Types", "power_types.md"),

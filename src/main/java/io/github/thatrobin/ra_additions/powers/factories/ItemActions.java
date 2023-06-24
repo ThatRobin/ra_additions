@@ -8,7 +8,6 @@ import io.github.thatrobin.docky.DockyEntry;
 import io.github.thatrobin.docky.DockyRegistry;
 import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
-import io.github.thatrobin.ra_additions.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
@@ -22,8 +21,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-import java.util.Collection;
 
 public class ItemActions {
 
@@ -50,23 +47,6 @@ public class ItemActions {
                         stack.setNbt(newStack.getNbt());
                     }
                 }), "Applies an item modifier to the item stack with a player fulfilling the \"this\" criteria. The player is currently random.");
-
-        register(new ActionFactory<>(RA_Additions.identifier("execute_action"), new SerializableDataExt()
-                .add("item_action", "The Identifier of the tag or action file to be executed", SerializableDataTypes.STRING),
-                (data, itemStackPair) -> {
-                    String idStr = data.getString("item_action");
-                    if(idStr.startsWith("#")) {
-                        Identifier id = Identifier.tryParse(idStr.substring(1));
-                        Collection<ActionType> actions = ItemActionTagManager.ACTION_TAG_LOADER.getTag(id);
-                        for (ActionType action : actions) {
-                            action.getAction().accept(itemStackPair);
-                        }
-                    } else {
-                        Identifier id = Identifier.tryParse(idStr);
-                        ActionFactory<Pair<World,ItemStack>>.Instance action =  ItemActionRegistry.get(id).getAction();
-                        action.accept(itemStackPair);
-                    }
-                }), "Executes an item action that is stored in a file.");
     }
 
     private static void register(ActionFactory<Pair<World, ItemStack>> factory, String description) {

@@ -22,5 +22,4 @@ public class TrinketsCompat {
         }
         return found;
     }
-
 }

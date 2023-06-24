@@ -19,12 +19,19 @@
         "main": [
             "io.github.thatrobin.ra_additions.RA_Additions"
         ],
-        "cardinal-components-entity": [
+        "server": [
+            "io.github.thatrobin.ra_additions.RA_AdditionsServer"
+        ],
+        "cardinal-components-world": [
             "io.github.thatrobin.ra_additions.component.ModComponents"
+        ],
+        "cardinal-components-entity": [
+            "io.github.thatrobin.ra_additions_choices.component.ModComponents"
         ]
     },
     "custom": {
         "cardinal-components": [
+            "ra_additions:claim_data",
             "ra_additions:choice"
         ],
         "modmenu": {

@@ -1,5 +1,5 @@
 {
     "type": "ra_additions:add_goal",
-    "goal": "example:stuff",
+    "goal": "ra_additions:revenge_example",
     "example_description": "This example will apply the `example:stuff` mob goal to the entity with the power."
 }

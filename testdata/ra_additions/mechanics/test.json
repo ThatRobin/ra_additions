@@ -1,0 +1,6 @@
+{
+  "type": "ra_additions:resource",
+  "start_value": 7,
+  "min": 0,
+  "max": 10
+}

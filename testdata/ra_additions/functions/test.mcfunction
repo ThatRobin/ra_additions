@@ -1,0 +1,1 @@
+data modify power @s ra_additions:inventory Items set from power @s ra_additions:nbt_example Items

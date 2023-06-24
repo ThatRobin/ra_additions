@@ -15,11 +15,15 @@ public class RenderValuePowerOverlay extends DrawableHelper implements HudRender
     @Override
     public void onHudRender(MatrixStack matrixStack, float tickDelta) {
         if (MinecraftClient.getInstance().player != null) {
+            //RA_Additions.LOGGER.info("player exists");
             PlayerEntity player = MinecraftClient.getInstance().player;
             if(PowerHolderComponent.hasPower(player, ValuePower.class)) {
+                //RA_Additions.LOGGER.info("player has power");
                 List<ValuePower> powers = PowerHolderComponent.getPowers(player, ValuePower.class);
                 for (ValuePower power : powers) {
-                    DrawableHelper.drawCenteredText(matrixStack, MinecraftClient.getInstance().textRenderer, power.getOrCreateValueTranslationKey(), power.getPosX(), power.getPosY(), 0xFFFFFF);
+                    //RA_Additions.LOGGER.info("render the power");
+                    //RA_Additions.LOGGER.info(power.getValue());
+                    DrawableHelper.drawCenteredTextWithShadow(matrixStack, MinecraftClient.getInstance().textRenderer, power.getOrCreateValueTranslationKey(), power.getPosX(), power.getPosY(), 0xFFFFFF);
                 }
             }
         }

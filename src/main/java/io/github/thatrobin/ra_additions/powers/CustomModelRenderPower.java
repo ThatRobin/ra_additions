@@ -8,9 +8,7 @@ import io.github.apace100.calio.data.SerializableDataTypes;
 import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.client.TestArmorItem;
-import io.github.thatrobin.ra_additions.client.TestArmorRenderer;
 import io.github.thatrobin.ra_additions.data.RAA_DataTypes;
-import io.github.thatrobin.ra_additions.mixins.GeoArmorRendererAccessor;
 import io.github.thatrobin.ra_additions.registry.ItemRegistry;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -19,8 +17,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import software.bernie.geckolib.GeckoLib;
 import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.model.DefaultedItemGeoModel;
-import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
 import java.util.List;
 
@@ -53,10 +49,10 @@ public class CustomModelRenderPower<T extends Item & GeoItem> extends Power {
     public static PowerFactory createFactory() {
         return new PowerFactory<>(RA_Additions.identifier("custom_model_render"),
                 new SerializableDataExt()
-                        .add("model_path", SerializableDataTypes.IDENTIFIER, new Identifier(GeckoLib.MOD_ID, "armor/gecko_armor"))
-                        .add("slots", RAA_DataTypes.DISPLAY_MODEL_TYPES, SLOTS),
+                        .add("model_location", "The model location to use for the power.", SerializableDataTypes.IDENTIFIER, new Identifier(GeckoLib.MOD_ID, "armor/gecko_armor"))
+                        .add("slots", "An array of slots used to determine which areas the model should render on.", RAA_DataTypes.DISPLAY_MODEL_TYPES, SLOTS),
                 data ->
-                        (type, entity) -> new CustomModelRenderPower<>(type, entity, data.getId("model_path"), data.get("slots")))
+                        (type, entity) -> new CustomModelRenderPower<>(type, entity, data.getId("model_location"), data.get("slots")))
                 .allowCondition();
     }
 

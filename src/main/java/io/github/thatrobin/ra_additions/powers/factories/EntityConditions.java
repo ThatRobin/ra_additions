@@ -16,7 +16,6 @@ import io.github.thatrobin.docky.DockyRegistry;
 import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions.compat.TrinketsCompat;
-import io.github.thatrobin.ra_additions.util.*;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,7 +23,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.apache.commons.compress.utils.Lists;
 
-import java.util.Collection;
 import java.util.List;
 
 public class EntityConditions {
@@ -70,27 +68,6 @@ public class EntityConditions {
                     }
                     return ((Comparison)data.get("comparison")).compare(percentageValue, data.getInt("percentage"));
                 }), "Checks the percentage of a resource.");
-
-        register(new ConditionFactory<>(RA_Additions.identifier("evaluate_condition"), new SerializableDataExt()
-                .add("entity_condition", "The Identifier of the tag or condition file to be evaluated", SerializableDataTypes.STRING),
-                (data, entity) -> {
-                    String idStr = data.getString("entity_condition");
-                    if(idStr.startsWith("#")) {
-                        Identifier id = Identifier.tryParse(idStr.substring(1));
-                        Collection<ConditionType> conditions = EntityConditionTagManager.CONDITION_TAG_LOADER.getTag(id);
-                        boolean result = true;
-                        for (ConditionType condition : conditions) {
-                            if(!condition.getCondition().test(entity)) {
-                                result = false;
-                            }
-                        }
-                        return result;
-                    } else {
-                        Identifier id = Identifier.tryParse(idStr);
-                        ConditionFactory<Entity>.Instance condition =  EntityConditionRegistry.get(id).getCondition();
-                        return condition.test(entity);
-                    }
-                }), "Evaluates an entity condition that is stored in a file.");
 
         if(FabricLoader.getInstance().isModLoaded("trinkets")) {
             register(new ConditionFactory<>(RA_Additions.identifier("equipped_trinket"), new SerializableDataExt()

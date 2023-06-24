@@ -1,5 +1,10 @@
 {
     "type": "ra_additions:animated_overlay",
-    "texture": "minecraft:textures/models/armor/diamond_layer_1.png",
+    "texture_locations": [
+        "minecraft:textures/entity/zombie/drowned_outer_layer.png",
+        "minecraft:textures/entity/zombie/zombie.png",
+        "minecraft:textures/entity/zombie/husk.png"
+    ],
+    "interval": 10,
     "example_description": "This example will make the player look like they are wearing some diamond armour."
 }

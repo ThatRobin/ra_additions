@@ -88,8 +88,45 @@ accessible    method    net/minecraft/entity/ai/goal/CrossbowAttackGoal    hasAl
 
 accessible field net/minecraft/client/util/InputUtil$Type map Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;
 
-mutable    field    net/minecraft/client/option/GameOptions    allKeys    [Lnet/minecraft/client/option/KeyBinding;
+mutable field net/minecraft/client/option/GameOptions allKeys [Lnet/minecraft/client/option/KeyBinding;
 
 accessible method net/minecraft/world/World getEntityLookup ()Lnet/minecraft/world/entity/EntityLookup;
 
 accessible    class    net/minecraft/client/gui/tooltip/BundleTooltipComponent$Sprite
+
+accessible field net/minecraft/block/entity/BlockEntityType$Builder blocks Ljava/util/Set;
+accessible method net/minecraft/block/entity/FurnaceBlockEntity createScreenHandler (ILnet/minecraft/entity/player/PlayerInventory;)Lnet/minecraft/screen/ScreenHandler;
+accessible method net/minecraft/block/entity/AbstractFurnaceBlockEntity isBurning ()Z
+accessible field net/minecraft/block/entity/AbstractFurnaceBlockEntity burnTime I
+accessible method net/minecraft/block/entity/AbstractFurnaceBlockEntity getFuelTime (Lnet/minecraft/item/ItemStack;)I
+accessible field net/minecraft/block/entity/AbstractFurnaceBlockEntity inventory Lnet/minecraft/util/collection/DefaultedList;
+accessible field net/minecraft/block/entity/AbstractFurnaceBlockEntity matchGetter Lnet/minecraft/recipe/RecipeManager$MatchGetter;
+accessible field net/minecraft/block/entity/AbstractFurnaceBlockEntity fuelTime I
+accessible method net/minecraft/block/entity/AbstractFurnaceBlockEntity canAcceptRecipeOutput (Lnet/minecraft/registry/DynamicRegistryManager;Lnet/minecraft/recipe/Recipe;Lnet/minecraft/util/collection/DefaultedList;I)Z
+accessible field net/minecraft/block/entity/AbstractFurnaceBlockEntity cookTime I
+accessible field net/minecraft/block/entity/AbstractFurnaceBlockEntity cookTimeTotal I
+accessible method net/minecraft/block/entity/AbstractFurnaceBlockEntity getCookTime (Lnet/minecraft/world/World;Lnet/minecraft/block/entity/AbstractFurnaceBlockEntity;)I
+accessible method net/minecraft/block/entity/AbstractFurnaceBlockEntity craftRecipe (Lnet/minecraft/registry/DynamicRegistryManager;Lnet/minecraft/recipe/Recipe;Lnet/minecraft/util/collection/DefaultedList;I)Z
+accessible field net/minecraft/entity/player/PlayerEntity sleepTimer I
+accessible method net/minecraft/block/entity/BlockEntity markDirty (Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V
+accessible field net/minecraft/block/entity/BrewingStandBlockEntity inventory Lnet/minecraft/util/collection/DefaultedList;
+accessible field net/minecraft/block/entity/BrewingStandBlockEntity fuel I
+accessible field net/minecraft/block/entity/BrewingStandBlockEntity brewTime I
+accessible field net/minecraft/block/entity/BrewingStandBlockEntity itemBrewing Lnet/minecraft/item/Item;
+accessible method net/minecraft/block/entity/BrewingStandBlockEntity getSlotsEmpty ()[Z
+accessible field net/minecraft/block/entity/BrewingStandBlockEntity slotsEmptyLastTick [Z
+accessible method net/minecraft/block/entity/BrewingStandBlockEntity craft (Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/collection/DefaultedList;)V
+accessible method net/minecraft/block/entity/BrewingStandBlockEntity canCraft (Lnet/minecraft/util/collection/DefaultedList;)Z
+
+accessible method net/minecraft/server/command/DataCommand addModifyArgument (Ljava/util/function/BiConsumer;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+accessible method net/minecraft/server/command/DataCommand$ModifyArgumentCreator create (Lnet/minecraft/server/command/DataCommand$ModifyOperation;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
+accessible method net/minecraft/server/command/DataCommand executeGet (Lnet/minecraft/server/command/ServerCommandSource;Lnet/minecraft/command/DataCommandObject;)I
+accessible method net/minecraft/server/command/DataCommand executeGet (Lnet/minecraft/server/command/ServerCommandSource;Lnet/minecraft/command/DataCommandObject;Lnet/minecraft/command/argument/NbtPathArgumentType$NbtPath;)I
+accessible method net/minecraft/server/command/DataCommand executeGet (Lnet/minecraft/server/command/ServerCommandSource;Lnet/minecraft/command/DataCommandObject;Lnet/minecraft/command/argument/NbtPathArgumentType$NbtPath;D)I
+accessible method net/minecraft/server/command/DataCommand executeMerge (Lnet/minecraft/server/command/ServerCommandSource;Lnet/minecraft/command/DataCommandObject;Lnet/minecraft/nbt/NbtCompound;)I
+accessible method net/minecraft/server/command/DataCommand executeRemove (Lnet/minecraft/server/command/ServerCommandSource;Lnet/minecraft/command/DataCommandObject;Lnet/minecraft/command/argument/NbtPathArgumentType$NbtPath;)I
+accessible method net/minecraft/server/command/DataCommand executeModify (Lcom/mojang/brigadier/context/CommandContext;Lnet/minecraft/server/command/DataCommand$ObjectType;Lnet/minecraft/server/command/DataCommand$ModifyOperation;Ljava/util/List;)I
+accessible method net/minecraft/server/command/DataCommand getValues (Lcom/mojang/brigadier/context/CommandContext;Lnet/minecraft/server/command/DataCommand$ObjectType;)Ljava/util/List;
+accessible method net/minecraft/server/command/DataCommand mapValues (Ljava/util/List;Ljava/util/function/Function;)Ljava/util/List;
+accessible method net/minecraft/server/command/DataCommand getValuesByPath (Lcom/mojang/brigadier/context/CommandContext;Lnet/minecraft/server/command/DataCommand$ObjectType;)Ljava/util/List;
+accessible class net/minecraft/server/command/DataCommand$ModifyOperation

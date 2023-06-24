@@ -4,8 +4,8 @@ import io.github.apace100.apoli.component.PowerHolderComponent;
 import io.github.apace100.apoli.power.Power;
 import io.github.apace100.apoli.power.PowerType;
 import io.github.apace100.apoli.power.factory.PowerFactory;
-import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
+import io.github.thatrobin.docky.utils.SerializableDataExt;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtElement;
@@ -50,8 +50,15 @@ public class AnimatedOverlayPower extends Power {
         }
     }
 
+    public boolean shouldRender() {
+        if (texture == null && this.textures.size() > this.textureID) {
+            return true;
+        }
+        return texture != null;
+    }
+
     public Identifier getTexture() {
-        if (texture == null) {
+        if (texture == null && this.textures.size() > this.textureID) {
             return this.textures.get(this.textureID);
         } else {
             return texture;
@@ -70,10 +77,10 @@ public class AnimatedOverlayPower extends Power {
 
     public static PowerFactory<?> createFactory() {
         return new PowerFactory<>(RA_Additions.identifier("animated_overlay"),
-                new SerializableData()
-                        .add("interval", SerializableDataTypes.INT, 20)
-                        .add("texture_location", SerializableDataTypes.IDENTIFIERS, null)
-                        .add("texture_locations", SerializableDataTypes.IDENTIFIERS, new LinkedList<>()),
+                new SerializableDataExt()
+                        .add("interval", "The amount of ticks before swapping to the next texture.", SerializableDataTypes.INT, 20)
+                        .add("texture_location", "The texture location to use for the overlay.", SerializableDataTypes.IDENTIFIER, null)
+                        .add("texture_locations", "The texture locations to use for the overlay.", SerializableDataTypes.IDENTIFIERS, new LinkedList<>()),
                 data ->
                         (type, player) -> {
                             return new AnimatedOverlayPower(type, player, data.getId("texture_location"), data.get("texture_locations"), data.getInt("interval"));

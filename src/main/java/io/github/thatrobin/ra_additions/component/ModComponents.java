@@ -1,23 +1,13 @@
 package io.github.thatrobin.ra_additions.component;
 
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
-import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
-import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
-import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
-import dev.onyxstudios.cca.api.v3.entity.RespawnCopyStrategy;
-import io.github.thatrobin.ra_additions.RA_Additions;
+import dev.onyxstudios.cca.api.v3.world.WorldComponentFactoryRegistry;
+import dev.onyxstudios.cca.api.v3.world.WorldComponentInitializer;
 
-public class ModComponents implements EntityComponentInitializer {
-
-    public static final ComponentKey<ChoiceComponent> CHOICE;
-
-    static {
-        CHOICE = ComponentRegistry.getOrCreate(RA_Additions.identifier("choice"), ChoiceComponent.class);
-    }
+public class ModComponents implements WorldComponentInitializer {
 
     @Override
-    public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
-        registry.registerForPlayers(CHOICE, PlayerChoiceComponent::new, RespawnCopyStrategy.ALWAYS_COPY);
+    public void registerWorldComponentFactories(WorldComponentFactoryRegistry registry) {
+        registry.register(ClaimComponent.CLAIM_DATA,ClaimComponentImpl::new);
     }
 
 }

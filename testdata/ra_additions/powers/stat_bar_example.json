@@ -5,7 +5,7 @@
         "should_render": true,
         "bar_index": 0,
         "side": "right",
-        "sprite_location": "kunzite_pack:textures/gui/icons.png"
+        "sprite_location": "ra_additions:textures/gui/icons.png"
     },
     "icon": "minecraft:emerald",
     "name": "Mana Abilities",

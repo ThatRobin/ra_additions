@@ -39,7 +39,6 @@ public class BorderPower extends Power {
         this.entityCondition = entityCondition;
         this.bientityCondition = bientityCondition;
         this.area = new BorderPower.StaticArea(size);
-        this.setCenter(entity.getX(), entity.getZ());
         this.red = red;
         this.green = green;
         this.blue = blue;
@@ -47,6 +46,10 @@ public class BorderPower extends Power {
         this.scrollTexture = scrollTexture;
 
         this.setTicking(true);
+    }
+
+    public void onAdded() {
+        this.setCenter(entity.getX(), entity.getZ());
     }
 
     public void tick() {

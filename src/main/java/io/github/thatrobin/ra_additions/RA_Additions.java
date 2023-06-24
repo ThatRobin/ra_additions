@@ -3,12 +3,9 @@ package io.github.thatrobin.ra_additions;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import io.github.apace100.apoli.power.PowerTypes;
 import io.github.apace100.apoli.util.NamespaceAlias;
-import io.github.thatrobin.ra_additions.choice.Choice;
-import io.github.thatrobin.ra_additions.choice.ChoiceLayers;
-import io.github.thatrobin.ra_additions.choice.ChoiceManager;
 import io.github.thatrobin.ra_additions.commands.*;
-import io.github.thatrobin.ra_additions.goals.factories.GoalFactories;
-import io.github.thatrobin.ra_additions.goals.factories.GoalTypes;
+import io.github.thatrobin.ra_additions.mechanics.MechanicFactories;
+import io.github.thatrobin.ra_additions.mechanics.MechanicManager;
 import io.github.thatrobin.ra_additions.networking.RAA_ModPacketC2S;
 import io.github.thatrobin.ra_additions.powers.BorderPower;
 import io.github.thatrobin.ra_additions.powers.factories.*;
@@ -57,18 +54,16 @@ public class RA_Additions implements ModInitializer {
                 SEMVER[i] = Integer.parseInt(splitVersion[i]);
             }
         });
-        EntityBlockActions.register();
-        GoalFactories.register();
+        MechanicFactories.register();
         PowerFactories.register();
         EntityConditions.register();
         EntityActions.register();
         BiEntityConditions.register();
         BiEntityActions.register();
         BlockConditions.register();
-        BlockActions.register();
         ItemConditions.register();
         ItemActions.register();
-        Choice.init();
+
         GeckoLib.initialize();
         ItemRegistry.register();
         NamespaceAlias.addAlias(MODID, "apoli");
@@ -79,10 +74,9 @@ public class RA_Additions implements ModInitializer {
         RAA_ModPacketC2S.register();
 
         CommandRegistrationCallback.EVENT.register((dispatcher, commandRegistryAccess, registrationEnvironment) -> {
+            DataCommandExtension.register(dispatcher);
             ExecuteCommandExtension.register(dispatcher);
-            ChoiceCommand.register(dispatcher);
-            RAAPowerCommand.register(dispatcher);
-            RAAActionCommand.register(dispatcher);
+            RAADataCommand.register(dispatcher);
         });
 
         WorldRenderEvents.LAST.register(identifier("render_border"), (context) -> {
@@ -102,30 +96,16 @@ public class RA_Additions implements ModInitializer {
         registerResourceListeners();
         RAAEntitySelectorOptions.register();
 
-        ArgumentTypeRegistry.registerArgumentType(identifier("choice_layer"), LayerArgument.class, ConstantArgumentSerializer.of((test) -> LayerArgument.layer()));
-        ArgumentTypeRegistry.registerArgumentType(identifier("power_tag_layer"), PowerTypeArgumentType.class, ConstantArgumentSerializer.of((test) -> PowerTypeArgumentType.power()));
-        ArgumentTypeRegistry.registerArgumentType(identifier("entity_action_type_layer"), EntityActionTypeArgumentType.class, ConstantArgumentSerializer.of((test) -> EntityActionTypeArgumentType.action()));
-        ArgumentTypeRegistry.registerArgumentType(identifier("block_action_type_layer"), BlockActionTypeArgumentType.class, ConstantArgumentSerializer.of((test) -> BlockActionTypeArgumentType.action()));
-        ArgumentTypeRegistry.registerArgumentType(identifier("item_action_type_layer"), ItemActionTypeArgumentType.class, ConstantArgumentSerializer.of((test) -> ItemActionTypeArgumentType.action()));
-        ArgumentTypeRegistry.registerArgumentType(identifier("bientity_action_type_layer"), BiEntityActionTypeArgumentType.class, ConstantArgumentSerializer.of((test) -> BiEntityActionTypeArgumentType.action()));
+        ArgumentTypeRegistry.registerArgumentType(RA_Additions.identifier("mechanic"), MechanicTypeArgumentType.class, ConstantArgumentSerializer.of((test) -> MechanicTypeArgumentType.power()));
+
 
         ServerWorldEvents.UNLOAD.register(((server, world) -> KeybindRegistry.clear()));
     }
 
     public void registerResourceListeners() {
         PowerTypes.DEPENDENCIES.add(identifier("goals"));
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ActionTypes());
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ConditionTypes());
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(EntityActionTagManager.ACTION_TAG_LOADER);
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(BlockActionTagManager.ACTION_TAG_LOADER);
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(ItemActionTagManager.ACTION_TAG_LOADER);
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(BiEntityActionTagManager.ACTION_TAG_LOADER);
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(PowerTagManager.POWER_TAG_LOADER);
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new UniversalPowerManager());
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ChoiceManager());
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ChoiceLayers());
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new GoalTypes());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new KeybindManager());
+        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new MechanicManager());
     }
 
     public static Identifier identifier(String path) {

@@ -1,0 +1,7 @@
+{
+  "type": "apoli:inventory",
+  "container_type": "hopper",
+  "key": {
+    "key": "key.hotbar.9"
+  }
+}

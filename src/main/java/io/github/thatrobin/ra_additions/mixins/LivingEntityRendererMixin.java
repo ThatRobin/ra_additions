@@ -37,9 +37,9 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     @Shadow protected abstract boolean isVisible(T entity);
 
     @Inject(method = "render(Lnet/minecraft/entity/LivingEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("TAIL"))
-    private void addBloodOverlay(T livingEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
+    private void addOverlay(T livingEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
         if (PowerHolderComponent.hasPower(livingEntity, AnimatedOverlayPower.class)) {
-            for (AnimatedOverlayPower power : PowerHolderComponent.getPowers(livingEntity, AnimatedOverlayPower.class)) {
+            for (AnimatedOverlayPower power : PowerHolderComponent.getPowers(livingEntity, AnimatedOverlayPower.class).stream().filter(AnimatedOverlayPower::shouldRender).toList()) {
                 float n;
                 Direction direction;
                 matrixStack.push();
@@ -82,8 +82,8 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
                 n = 0.0f;
                 float o = 0.0f;
                 if (!livingEntity.hasVehicle() && livingEntity.isAlive()) {
-                    n = MathHelper.lerp(g, livingEntity.lastLimbDistance, livingEntity.limbDistance);
-                    o = livingEntity.limbAngle - livingEntity.limbDistance * (1.0f - g);
+                    n = livingEntity.limbAnimator.getSpeed(g);
+                    o = livingEntity.limbAnimator.getPos(g);
                     if (livingEntity.isBaby()) {
                         o *= 3.0f;
                     }

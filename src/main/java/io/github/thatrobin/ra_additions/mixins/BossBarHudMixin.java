@@ -96,13 +96,13 @@ public class BossBarHudMixin extends DrawableHelper {
 
     private void renderBossBarResource(MatrixStack matrices, int x, int y, BossBarPower bossBarPower) {
 
-        this.drawTexture(matrices, x, y, 0, bossBarPower.getRenderSettings().getBarIndex() * 5 * 2, 182, 5);
+        drawTexture(matrices, x, y, 0, bossBarPower.getRenderSettings().getBarIndex() * 5 * 2, 182, 5);
         int i;
         if ((i = (int) (bossBarPower.getPercentage() * 183.0f)) > 0) {
             if(bossBarPower.getRenderSettings().isInverted()) {
                 i = 183 - i;
             }
-            this.drawTexture(matrices, x, y, 0, bossBarPower.getRenderSettings().getBarIndex() * 5 * 2 + 5, i, 5);
+            drawTexture(matrices, x, y, 0, bossBarPower.getRenderSettings().getBarIndex() * 5 * 2 + 5, i, 5);
         }
         List<BossBarHudRenderOverlay> overlays = bossBarPower.getRenderSettings().getOverlays();
         overlays.sort(Comparator.comparingInt(BossBarHudRenderOverlay::getPriority));
@@ -110,12 +110,12 @@ public class BossBarHudMixin extends DrawableHelper {
             if(overlay.shouldRender(this.client.player)) {
                 RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                 RenderSystem.setShaderTexture(0, overlay.getSpriteLocation());
-                this.drawTexture(matrices, x, y, 0, overlay.getBarIndex() * 5 * 2, 182, 5);
+                drawTexture(matrices, x, y, 0, overlay.getBarIndex() * 5 * 2, 182, 5);
                 if ((i = (int) (bossBarPower.getPercentage() * 183.0f)) > 0) {
                     if(bossBarPower.getRenderSettings().isInverted()) {
                         i = 183 - i;
                     }
-                    this.drawTexture(matrices, x, y, 0, overlay.getBarIndex() * 5 * 2 + 5, i, 5);
+                    drawTexture(matrices, x, y, 0, overlay.getBarIndex() * 5 * 2 + 5, i, 5);
                 }
             }
         }
