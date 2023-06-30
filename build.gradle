@@ -111,6 +111,17 @@ allprojects {
             expand "version": version
         }
     }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
+
+        repositories {
+        }
+    }
 }
 
 repositories {
@@ -215,13 +226,4 @@ jar {
     }
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
 
-    repositories {
-    }
-}
