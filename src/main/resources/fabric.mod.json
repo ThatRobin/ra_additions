@@ -24,15 +24,11 @@
         ],
         "cardinal-components-world": [
             "io.github.thatrobin.ra_additions.component.ModComponents"
-        ],
-        "cardinal-components-entity": [
-            "io.github.thatrobin.ra_additions_choices.component.ModComponents"
         ]
     },
     "custom": {
         "cardinal-components": [
-            "ra_additions:claim_data",
-            "ra_additions:choice"
+            "ra_additions:claim_data"
         ],
         "modmenu": {
             "badges": [
