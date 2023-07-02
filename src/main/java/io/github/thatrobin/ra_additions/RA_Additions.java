@@ -3,6 +3,8 @@ package io.github.thatrobin.ra_additions;
 import io.github.apace100.apoli.component.PowerHolderComponent;
 import io.github.apace100.apoli.power.PowerTypes;
 import io.github.apace100.apoli.util.NamespaceAlias;
+import io.github.apace100.calio.resource.OrderedResourceListenerInitializer;
+import io.github.apace100.calio.resource.OrderedResourceListenerManager;
 import io.github.thatrobin.ra_additions.commands.*;
 import io.github.thatrobin.ra_additions.mechanics.MechanicFactories;
 import io.github.thatrobin.ra_additions.mechanics.MechanicManager;
@@ -31,7 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class RA_Additions implements ModInitializer {
+public class RA_Additions implements ModInitializer, OrderedResourceListenerInitializer {
 
     public static final Logger LOGGER = LogManager.getLogger(RA_Additions.class);
     public static int[] SEMVER;
@@ -79,33 +81,12 @@ public class RA_Additions implements ModInitializer {
             RAADataCommand.register(dispatcher);
         });
 
-        WorldRenderEvents.LAST.register(identifier("render_border"), (context) -> {
-            if (MinecraftClient.getInstance().world != null) {
-                Iterable<Entity> entities = MinecraftClient.getInstance().world.getEntities();
-                for(Entity entity : entities) {
-                    if(entity instanceof LivingEntity livingEntity) {
-                        PowerHolderComponent component = PowerHolderComponent.KEY.get(livingEntity);
-                        for (BorderPower power : component.getPowers(BorderPower.class)) {
-                            RenderBorderPower.renderWorldBorder(context.camera(), power);
-                        }
-                    }
-                }
-            }
-        });
-
-        registerResourceListeners();
         RAAEntitySelectorOptions.register();
 
         ArgumentTypeRegistry.registerArgumentType(RA_Additions.identifier("mechanic"), MechanicTypeArgumentType.class, ConstantArgumentSerializer.of((test) -> MechanicTypeArgumentType.power()));
 
 
         ServerWorldEvents.UNLOAD.register(((server, world) -> KeybindRegistry.clear()));
-    }
-
-    public void registerResourceListeners() {
-        PowerTypes.DEPENDENCIES.add(identifier("goals"));
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new KeybindManager());
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new MechanicManager());
     }
 
     public static Identifier identifier(String path) {
@@ -121,4 +102,9 @@ public class RA_Additions implements ModInitializer {
         }
     }
 
+    @Override
+    public void registerResourceListeners(OrderedResourceListenerManager manager) {
+        manager.register(ResourceType.SERVER_DATA, new KeybindManager()).complete();
+        manager.register(ResourceType.SERVER_DATA, new MechanicManager()).complete();
+    }
 }

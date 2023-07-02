@@ -20,6 +20,9 @@
     ],
     "cardinal-components-entity": [
       "io.github.thatrobin.ra_additions_choices.component.ModComponents"
+    ],
+    "calio:ordered-resource-listener": [
+      "io.github.thatrobin.ra_additions_choices.RAA_Choices"
     ]
   },
   "custom": {

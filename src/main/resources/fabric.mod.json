@@ -24,6 +24,9 @@
         ],
         "cardinal-components-world": [
             "io.github.thatrobin.ra_additions.component.ModComponents"
+        ],
+        "calio:ordered-resource-listener": [
+            "io.github.thatrobin.ra_additions.RA_Additions"
         ]
     },
     "custom": {

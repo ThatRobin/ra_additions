@@ -1,5 +1,7 @@
 package io.github.thatrobin.ra_additions_choices;
 
+import io.github.apace100.calio.resource.OrderedResourceListenerInitializer;
+import io.github.apace100.calio.resource.OrderedResourceListenerManager;
 import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions_choices.choice.Choice;
 import io.github.thatrobin.ra_additions_choices.choice.ChoiceLayers;
@@ -11,11 +13,10 @@ import io.github.thatrobin.ra_additions_choices.networking.RAAC_ModPacketC2S;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.resource.ResourceType;
 
-public class RAA_Choices implements ModInitializer {
+public class RAA_Choices implements ModInitializer, OrderedResourceListenerInitializer {
 
     @Override
     public void onInitialize() {
@@ -30,11 +31,11 @@ public class RAA_Choices implements ModInitializer {
 
         ArgumentTypeRegistry.registerArgumentType(RA_Additions.identifier("choice_layer"), LayerArgument.class, ConstantArgumentSerializer.of((test) -> LayerArgument.layer()));
 
-        registerResourceListeners();
     }
 
-    public void registerResourceListeners() {
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ChoiceManager());
-        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ChoiceLayers());
+    @Override
+    public void registerResourceListeners(OrderedResourceListenerManager manager) {
+        manager.register(ResourceType.SERVER_DATA, new ChoiceManager()).complete();
+        manager.register(ResourceType.SERVER_DATA, new ChoiceLayers()).complete();
     }
 }

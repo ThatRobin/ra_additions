@@ -185,8 +185,12 @@ public class PlayerChoiceComponent implements ChoiceComponent {
         NbtList choiceLayerList = new NbtList();
         for(Map.Entry<ChoiceLayer, Choice> entry : choices.entrySet()) {
             NbtCompound layerTag = new NbtCompound();
-            layerTag.putString("Layer", entry.getKey().getIdentifier().toString());
-            layerTag.putString("Choice", entry.getValue().getIdentifier().toString());
+            if(entry.getKey() != null) {
+                layerTag.putString("Layer", entry.getKey().getIdentifier().toString());
+            }
+            if(entry.getValue() != null) {
+                layerTag.putString("Choice", entry.getValue().getIdentifier().toString());
+            }
             choiceLayerList.add(layerTag);
         }
         compoundTag.put("ChoiceLayers", choiceLayerList);
