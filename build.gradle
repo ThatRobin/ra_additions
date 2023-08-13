@@ -101,6 +101,7 @@ allprojects {
         annotationProcessor("com.github.LlamaLad7:MixinExtras:0.2.0-beta.4")
 
         modImplementation "io.github.thatrobin.docky:Docky:${project.docky_version}"
+        include "io.github.thatrobin.docky:Docky:${project.docky_version}"
 
         modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${project.cca_version}"
         include "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${project.cca_version}"
@@ -157,7 +158,23 @@ repositories {
 
 loom {
     accessWidenerPath = file("src/main/resources/ra_additions.accesswidener")
+    mods {
+        register("ra_additions") {
+            sourceSet(sourceSets.main)
+            sourceSet(sourceSets.test)
+        }
+    }
     runs {
+        client {
+            client()
+            source(sourceSets.test)
+            setConfigName("Minecraft Client")
+        }
+        server {
+            server()
+            source(sourceSets.test)
+            setConfigName("Minecraft Server")
+        }
         CreateDocs {
             inherit client
             name "Create Docs"
