@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "ra_additions_experimental",
+  "version": "${version}",
+  "name": "RAA Experimental",
+  "description": "An RAA module that contains all of the WIP features.",
+  "authors": [ "ThatRobin" ],
+  "contact": {
+    "repo": "https://github.com/robin/ra_additions_experimental"
+  },
+  "license": "MIT",
+  "icon": "assets/ra_additions/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "io.github.thatrobin.ra_additions_experimental.client.RAA_Experimental_Client"
+    ],
+    "main": [
+      "io.github.thatrobin.ra_additions_experimental.RAA_Experimental"
+    ],
+    "cardinal-components-world": [
+      "io.github.thatrobin.ra_additions_experimental.component.ModComponents"
+    ]
+  },
+  "custom": {
+    "cardinal-components": [
+      "ra_additions:claim_data"
+    ],
+    "modmenu": {
+      "parent": "ra_additions",
+      "badges": [
+        "library"
+      ]
+    }
+  },
+  "mixins": [
+    "ra_additions_experimental.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.8",
+    "fabric": "*",
+    "minecraft": ">=1.19"
+  }
+}
