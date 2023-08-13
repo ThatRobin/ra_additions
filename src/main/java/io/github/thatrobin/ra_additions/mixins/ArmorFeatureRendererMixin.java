@@ -43,8 +43,7 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
                         for (Pair<EquipmentSlot, TestArmorItem> item : power.getItems()) {
                             this.renderArmor(power, matrixStack, vertexConsumerProvider, livingEntity, item.getRight().getDefaultStack(), item.getLeft(), i, this.getModel(item.getLeft()));
                         }
-                    } catch (GeckoLibException exception) {
-                        RA_Additions.LOGGER.warn(exception.getMessage());
+                    } catch (GeckoLibException ignored) {
                     }
                 }
             }

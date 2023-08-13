@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "id": "ra_additions_goals",
   "version": "${version}",
-  "name": "ra_additions_goals",
-  "description": "",
-  "authors": [],
+  "name": "RAA Goals",
+  "description": "An RAA module that allows for the modification, creation, and removal, of behaviours from minecraft mobs.",
+  "authors": [ "ThatRobin" ],
   "contact": {
     "repo": "https://github.com/robin/ra_additions_goals"
   },
   "license": "MIT",
-  "icon": "assets/ra_additions_goals/icon.png",
+  "icon": "assets/ra_additions/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
@@ -18,6 +18,14 @@
     "main": [
       "io.github.thatrobin.ra_additions_goals.RAA_Goals"
     ]
+  },
+  "custom": {
+    "modmenu": {
+      "parent": "ra_additions",
+      "badges": [
+        "library"
+      ]
+    }
   },
   "mixins": [
     "ra_additions_goals.mixins.json"

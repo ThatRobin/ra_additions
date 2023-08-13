@@ -4,7 +4,7 @@
     "version": "${version}",
     "name": "Robin's Apoli Additions",
     "description": "An Apoli addon made to implement some features that I thought would be useful for datapack and origin developers.",
-    "authors": [],
+    "authors": [ "ThatRobin" ],
     "contact": {},
     "license": "MIT",
     "icon": "assets/ra_additions/icon.png",
@@ -21,9 +21,6 @@
         ],
         "server": [
             "io.github.thatrobin.ra_additions.RA_AdditionsServer"
-        ],
-        "cardinal-components-world": [
-            "io.github.thatrobin.ra_additions.component.ModComponents"
         ],
         "calio:ordered-resource-listener": [
             "io.github.thatrobin.ra_additions.RA_Additions"

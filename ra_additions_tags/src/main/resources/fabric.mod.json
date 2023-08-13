@@ -2,21 +2,27 @@
   "schemaVersion": 1,
   "id": "ra_additions_tags",
   "version": "${version}",
-  "name": "ra_additions_tags",
-  "description": "",
-  "authors": [
-    "ThatRobin3001"
-  ],
+  "name": "RAA Tags",
+  "description": "An RAA module that allows the use of Tags with many of Apoli's Features.",
+  "authors": [ "ThatRobin" ],
   "contact": {
     "repo": "https://github.com/robin/ra_additions_tags"
   },
   "license": "MIT",
-  "icon": "assets/ra_additions_tags/icon.png",
+  "icon": "assets/ra_additions/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
       "io.github.thatrobin.ra_additions_tags.RAA_Tags"
     ]
+  },
+  "custom": {
+    "modmenu": {
+      "parent": "ra_additions",
+      "badges": [
+        "library"
+      ]
+    }
   },
   "mixins": [
     "ra_additions_tags.mixins.json"

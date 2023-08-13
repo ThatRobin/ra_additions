@@ -1,28 +1,17 @@
 package io.github.thatrobin.ra_additions;
 
-import io.github.apace100.apoli.component.PowerHolderComponent;
-import io.github.apace100.apoli.power.PowerTypes;
 import io.github.apace100.apoli.util.NamespaceAlias;
 import io.github.apace100.calio.resource.OrderedResourceListenerInitializer;
 import io.github.apace100.calio.resource.OrderedResourceListenerManager;
 import io.github.thatrobin.ra_additions.commands.*;
-import io.github.thatrobin.ra_additions.mechanics.MechanicFactories;
-import io.github.thatrobin.ra_additions.mechanics.MechanicManager;
 import io.github.thatrobin.ra_additions.networking.RAA_ModPacketC2S;
-import io.github.thatrobin.ra_additions.powers.BorderPower;
 import io.github.thatrobin.ra_additions.powers.factories.*;
 import io.github.thatrobin.ra_additions.registry.ItemRegistry;
 import io.github.thatrobin.ra_additions.util.*;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
-import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
-import net.minecraft.entity.*;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
@@ -56,7 +45,6 @@ public class RA_Additions implements ModInitializer, OrderedResourceListenerInit
                 SEMVER[i] = Integer.parseInt(splitVersion[i]);
             }
         });
-        MechanicFactories.register();
         PowerFactories.register();
         EntityConditions.register();
         EntityActions.register();
@@ -78,13 +66,9 @@ public class RA_Additions implements ModInitializer, OrderedResourceListenerInit
         CommandRegistrationCallback.EVENT.register((dispatcher, commandRegistryAccess, registrationEnvironment) -> {
             DataCommandExtension.register(dispatcher);
             ExecuteCommandExtension.register(dispatcher);
-            RAADataCommand.register(dispatcher);
         });
 
         RAAEntitySelectorOptions.register();
-
-        ArgumentTypeRegistry.registerArgumentType(RA_Additions.identifier("mechanic"), MechanicTypeArgumentType.class, ConstantArgumentSerializer.of((test) -> MechanicTypeArgumentType.power()));
-
 
         ServerWorldEvents.UNLOAD.register(((server, world) -> KeybindRegistry.clear()));
     }
@@ -105,6 +89,5 @@ public class RA_Additions implements ModInitializer, OrderedResourceListenerInit
     @Override
     public void registerResourceListeners(OrderedResourceListenerManager manager) {
         manager.register(ResourceType.SERVER_DATA, new KeybindManager()).complete();
-        manager.register(ResourceType.SERVER_DATA, new MechanicManager()).complete();
     }
 }

@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "id": "ra_additions_choices",
   "version": "${version}",
-  "name": "ra_additions_choices",
-  "description": "",
-  "authors": [],
+  "name": "RAA Choices",
+  "description": "An RAA module that adds a choice system into Apoli, giving devs the ability to grant powers based on choices made.",
+  "authors": [ "ThatRobin" ],
   "contact": {
     "repo": "https://github.com/robin/ra_additions_choices"
   },
   "license": "MIT",
-  "icon": "assets/ra_additions_choices/icon.png",
+  "icon": "assets/ra_additions/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
@@ -28,7 +28,13 @@
   "custom": {
     "cardinal-components": [
       "ra_additions:choice"
-    ]
+    ],
+    "modmenu": {
+      "parent": "ra_additions",
+      "badges": [
+        "library"
+      ]
+    }
   },
   "mixins": [
     "ra_additions_choices.mixins.json"

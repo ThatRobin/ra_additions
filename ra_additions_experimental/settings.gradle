@@ -7,10 +7,3 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-
-rootProject.name = "ra_additions"
-
-include("ra_additions_choices")
-include("ra_additions_goals")
-include("ra_additions_tags")
-include("ra_additions_experimental")

@@ -4,7 +4,7 @@
   "package": "io.github.thatrobin.ra_additions.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "EntityMixin",
+    "AnimationProcessorMixin",
     "EntitySelectorOptionsAccessor",
     "ItemFrameEntityMixin",
     "ItemMixin",
@@ -18,8 +18,6 @@
     "ApoliClientAccessorMixin",
     "ArmorFeatureRendererMixin",
     "BossBarHudMixin",
-    "BundleTooltipComponentMixin",
-    "ChunkRendererRegionMixin",
     "GeoArmorRendererAccessor",
     "KeyBindingMixin",
     "KeyBindingRegistryImplAccessor",

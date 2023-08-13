@@ -1,8 +1,8 @@
-package io.github.thatrobin.ra_additions.mechanics;
+package io.github.thatrobin.ra_additions_experimental.factories.mechanics;
 
 import com.google.gson.JsonObject;
 import io.github.apace100.calio.data.SerializableData;
-import io.github.thatrobin.ra_additions.component.ClaimedLand;
+import io.github.thatrobin.ra_additions_experimental.component.ClaimedLand;
 import net.minecraft.item.Item;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;

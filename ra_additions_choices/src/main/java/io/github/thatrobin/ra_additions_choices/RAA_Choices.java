@@ -1,5 +1,6 @@
 package io.github.thatrobin.ra_additions_choices;
 
+import com.mojang.brigadier.Command;
 import io.github.apace100.calio.resource.OrderedResourceListenerInitializer;
 import io.github.apace100.calio.resource.OrderedResourceListenerManager;
 import io.github.thatrobin.ra_additions.RA_Additions;

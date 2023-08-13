@@ -34,35 +34,31 @@ public class BossBarHudMixin extends DrawableHelper {
 
     @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;)V", at = @At("HEAD"), cancellable = true)
     public void renderStart(MatrixStack matrices, CallbackInfo ci) {
-        if (!this.bossBars.isEmpty()) {
-            int i = this.client.getWindow().getScaledWidth();
-            int j = 12;
-            PlayerEntity player = this.client.player;
-            List<BossBarPower> bars = PowerHolderComponent.getPowers(player, BossBarPower.class);
-            bars.sort(Comparator.comparingInt(o -> o.getRenderSettings().getPriority()));
-            bars = bars.stream().filter(BossBarPower::shouldRender).collect(Collectors.toList());
-            for (BossBarPower bossBarPower : bars) {
-                int k = i / 2 - 91;
-                int l = j;
-                if (bossBarPower.getText() == null) {
-                    l -= 9;
-                }
-                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                RenderSystem.setShaderTexture(0, bossBarPower.getRenderSettings().getSpriteLocation());
-                renderBossBarResource(matrices, k, l, bossBarPower);
-                j += 10;
-                if (bossBarPower.getText() != null) {
-                    Text text = bossBarPower.getText();
-                    int m = this.client.textRenderer.getWidth(text);
-                    int n = i / 2 - m / 2;
-                    int o = l - 9;
-                    this.client.textRenderer.drawWithShadow(matrices, text, (float) n, (float) o, 0xFFFFFF);
-                    j += this.client.textRenderer.fontHeight;
-                }
+        int i = this.client.getWindow().getScaledWidth();
+        int j = 12;
+        PlayerEntity player = this.client.player;
+        List<BossBarPower> bars = PowerHolderComponent.getPowers(player, BossBarPower.class);
+        bars.sort(Comparator.comparingInt(o -> o.getRenderSettings().getPriority()));
+        bars = bars.stream().filter(BossBarPower::shouldRender).collect(Collectors.toList());
+        for (BossBarPower bossBarPower : bars) {
+            int k = i / 2 - 91;
+            int l = j;
+            if (bossBarPower.getText() == null) {
+                l -= 9;
             }
-            ci.cancel();
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            RenderSystem.setShaderTexture(0, bossBarPower.getRenderSettings().getSpriteLocation());
+            renderBossBarResource(matrices, k, l, bossBarPower);
+            j += 10;
+            if (bossBarPower.getText() != null) {
+                Text text = bossBarPower.getText();
+                int m = this.client.textRenderer.getWidth(text);
+                int n = i / 2 - m / 2;
+                int o = l - 9;
+                this.client.textRenderer.drawWithShadow(matrices, text, (float) n, (float) o, 0xFFFFFF);
+                j += this.client.textRenderer.fontHeight;
+            }
         }
-
     }
 
     @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;)V", at = @At("TAIL"))

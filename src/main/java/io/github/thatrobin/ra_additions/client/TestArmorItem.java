@@ -55,8 +55,9 @@ public final class TestArmorItem extends ArmorItem implements GeoItem {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, 20, state -> {
-            state.getController().setAnimation(IDLE);
-
+            if(IDLE != null) {
+                state.getController().setAnimation(IDLE);
+            }
             // Play the animation if the full set is being worn, otherwise stop
             return PlayState.CONTINUE;
         }));
