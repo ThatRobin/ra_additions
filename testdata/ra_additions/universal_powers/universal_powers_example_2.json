@@ -1,9 +1,0 @@
-{
-    "powers": [
-        "ra_additions:ignore_water"
-    ],
-    "entity_entry": {
-        "tag": "minecraft:skeletons"
-    },
-    "example_description": "This example would apply the power `ra_additions:ignore_water` to all entities in the `minecraft:skeletons` Entity Type tag."
-}
