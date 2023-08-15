@@ -28,8 +28,8 @@
     "ra_additions_tags.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.8",
+    "fabricloader": ">=0.14.21",
     "fabric": "*",
-    "minecraft": ">=1.19"
+    "minecraft": "1.20.x"
   }
 }

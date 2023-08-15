@@ -24,7 +24,3 @@ tasks.withType(JavaCompile).configureEach {
         it.options.release = targetJavaVersion
     }
 }
-
-java {
-    archivesBaseName = project.archives_base_name + "-" + project.minecraft_version
-}
