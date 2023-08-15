@@ -118,7 +118,7 @@ public class RAAActionCommand {
                                                                             if(target instanceof LivingEntity) {
                                                                                 StackReference stack = target.getStackReference(slot);
                                                                                 for (ActionType action : actions) {
-                                                                                    Pair<World, ItemStack> actionParams = new Pair<>(target.world, stack.get());
+                                                                                    Pair<World, ItemStack> actionParams = new Pair<>(target.getWorld(), stack.get());
                                                                                     action.getAction().accept(actionParams);
                                                                                     i++;
                                                                                 }

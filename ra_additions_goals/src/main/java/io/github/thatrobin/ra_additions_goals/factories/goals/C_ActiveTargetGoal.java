@@ -35,7 +35,7 @@ public class C_ActiveTargetGoal extends Goal {
             }
             @Override
             protected void findClosestTarget() {
-                this.targetEntity = this.mob.world.getClosestEntity(this.mob.world.getEntitiesByClass(LivingEntity.class, this.getSearchBox(this.getFollowRange()), livingEntity -> applyFilter(livingEntity)), this.targetPredicate, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
+                this.targetEntity = this.mob.getWorld().getClosestEntity(this.mob.getWorld().getEntitiesByClass(LivingEntity.class, this.getSearchBox(this.getFollowRange()), livingEntity -> applyFilter(livingEntity)), this.targetPredicate, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
             }
         });
     }

@@ -30,7 +30,7 @@ public class C_TemptGoal extends Goal {
                     this.cooldown -= 1;
                     return false;
                 } else {
-                    this.closestPlayer = this.mob.world.getClosestPlayer(TargetPredicate.createNonAttackable().setBaseMaxDistance(10.0D).ignoreVisibility(), this.mob);
+                    this.closestPlayer = this.mob.getWorld().getClosestPlayer(TargetPredicate.createNonAttackable().setBaseMaxDistance(10.0D).ignoreVisibility(), this.mob);
                     return this.closestPlayer != null && doesApply(this.closestPlayer);
                 }
             }

@@ -53,7 +53,7 @@ public class RAADataCommand {
                                         NbtCompound compound = new NbtCompound();
                                         component.writeClaimedLandToNbt(compound, pos);
                                         Text data = Text.translatable(source.getWorld().getBlockState(pos).getBlock().getTranslationKey()).append(Text.literal(" contains data: ")).append(NbtHelper.toPrettyPrintedText(compound));
-                                        source.sendFeedback(data, false);
+                                        source.sendFeedback(() -> data, false);
                                         return 1;
                                     } else {
                                         source.sendError(Text.translatable(source.getWorld().getBlockState(pos).getBlock().getTranslationKey()).append(Text.literal(" has no Data")));

@@ -30,7 +30,7 @@ public class C_EscapeDangerGoal extends Goal {
                     return false;
                 } else {
                     if (this.mob.isOnFire()) {
-                        BlockPos blockPos = this.locateClosestWater(this.mob.world, this.mob, 5);
+                        BlockPos blockPos = this.locateClosestWater(this.mob.getWorld(), this.mob, 5);
                         if (blockPos != null) {
                             this.targetX = blockPos.getX();
                             this.targetY = blockPos.getY();

@@ -22,10 +22,10 @@ public class C_BreakDoorGoal extends Goal {
             public boolean canStart() {
                 if (!super.canStart()) {
                     return false;
-                } else if (!this.mob.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) {
+                } else if (!this.mob.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) {
                     return false;
                 } else {
-                    return this.isDifficultySufficient(this.mob.world.getDifficulty()) && !this.isDoorOpen() && doesApply(this.mob);
+                    return this.isDifficultySufficient(this.mob.getWorld().getDifficulty()) && !this.isDoorOpen() && doesApply(this.mob);
                 }
             }
         });

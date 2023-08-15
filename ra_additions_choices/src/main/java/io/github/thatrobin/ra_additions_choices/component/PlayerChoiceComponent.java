@@ -141,7 +141,7 @@ public class PlayerChoiceComponent implements ChoiceComponent {
         }
         this.hadChoiceBefore = compoundTag.getBoolean("HadChoiceBefore");
 
-        if (!player.world.isClient) {
+        if (!player.getWorld().isClient) {
             PowerHolderComponent powerHolderComponent = PowerHolderComponent.KEY.get(player);
             for (Choice choice : choices.values()) {
                 // Grants powers only if the player doesn't have them yet from the specific Origin source.

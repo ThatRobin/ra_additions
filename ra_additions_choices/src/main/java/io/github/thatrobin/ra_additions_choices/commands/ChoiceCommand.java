@@ -43,7 +43,7 @@ public class ChoiceCommand {
                                         data.writeIdentifier(l.getIdentifier());
                                         ServerPlayNetworking.send(target, RAAC_ModPackets.OPEN_CHOICE_SCREEN, data);
                                     });
-                                    command.getSource().sendFeedback(Text.translatable("commands.choice.gui.layer", targets.size(), Text.translatable(l.getTranslationKey())), false);
+                                    command.getSource().sendFeedback(() -> Text.translatable("commands.choice.gui.layer", targets.size(), Text.translatable(l.getTranslationKey())), false);
                                     return targets.size();
                                 } catch (Exception e) {
                                     RA_Additions.LOGGER.info(e.getMessage());

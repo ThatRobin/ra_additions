@@ -50,7 +50,7 @@ public class ActionOnProjectileLand extends Power {
     }
 
     public boolean doesApplyBlock(BlockPos pos) {
-        return blockCondition == null || blockCondition.test(new CachedBlockPosition(this.entity.world, pos, true));
+        return blockCondition == null || blockCondition.test(new CachedBlockPosition(this.entity.getWorld(), pos, true));
     }
 
     public void executeEntityAction(Entity hit) {
@@ -61,7 +61,7 @@ public class ActionOnProjectileLand extends Power {
 
     public void executeBlockAction(BlockPos pos, Direction dir) {
         if (blockAction != null) {
-            blockAction.accept(Triple.of(entity.world, pos, dir));
+            blockAction.accept(Triple.of(entity.getWorld(), pos, dir));
         }
     }
 

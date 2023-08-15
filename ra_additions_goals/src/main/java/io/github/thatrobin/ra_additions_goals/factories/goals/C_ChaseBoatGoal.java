@@ -30,7 +30,7 @@ public class C_ChaseBoatGoal extends Goal {
         this.setGoal(new ChaseBoatGoal((PathAwareEntity) livingEntity) {
             @Override
             public boolean canStart() {
-                List<BoatEntity> list = this.mob.world.getNonSpectatingEntities(BoatEntity.class, this.mob.getBoundingBox().expand(5.0D));
+                List<BoatEntity> list = this.mob.getWorld().getNonSpectatingEntities(BoatEntity.class, this.mob.getBoundingBox().expand(5.0D));
                 boolean bl = false;
 
                 for (BoatEntity boatEntity : list) {

@@ -127,6 +127,7 @@ accessible method net/minecraft/server/command/DataCommand executeMerge (Lnet/mi
 accessible method net/minecraft/server/command/DataCommand executeRemove (Lnet/minecraft/server/command/ServerCommandSource;Lnet/minecraft/command/DataCommandObject;Lnet/minecraft/command/argument/NbtPathArgumentType$NbtPath;)I
 accessible method net/minecraft/server/command/DataCommand executeModify (Lcom/mojang/brigadier/context/CommandContext;Lnet/minecraft/server/command/DataCommand$ObjectType;Lnet/minecraft/server/command/DataCommand$ModifyOperation;Ljava/util/List;)I
 accessible method net/minecraft/server/command/DataCommand getValues (Lcom/mojang/brigadier/context/CommandContext;Lnet/minecraft/server/command/DataCommand$ObjectType;)Ljava/util/List;
-accessible method net/minecraft/server/command/DataCommand mapValues (Ljava/util/List;Ljava/util/function/Function;)Ljava/util/List;
 accessible method net/minecraft/server/command/DataCommand getValuesByPath (Lcom/mojang/brigadier/context/CommandContext;Lnet/minecraft/server/command/DataCommand$ObjectType;)Ljava/util/List;
 accessible class net/minecraft/server/command/DataCommand$ModifyOperation
+accessible method net/minecraft/server/command/DataCommand mapValues (Ljava/util/List;Lnet/minecraft/server/command/DataCommand$Processor;)Ljava/util/List;
+accessible class net/minecraft/server/command/DataCommand$Processor

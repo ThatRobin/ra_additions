@@ -97,7 +97,7 @@ public class BrewingStandPower extends Power implements SidedInventory, NamedScr
             --this.brewTime;
             boolean bl3 = this.brewTime == 0;
             if (bl3 && bl) {
-                BrewingStandPower.craft(this.entity.world, this.entity, this.inventory);
+                BrewingStandPower.craft(this.entity.getWorld(), this.entity, this.inventory);
                 this.markDirty();
             } else if (!bl || !itemStack2.isOf(this.itemBrewing)) {
                 this.brewTime = 0;

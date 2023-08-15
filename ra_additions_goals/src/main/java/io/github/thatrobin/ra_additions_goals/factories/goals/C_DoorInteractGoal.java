@@ -40,12 +40,12 @@ public class C_DoorInteractGoal extends Goal {
                     PathNode pathNode = path.getNode(i);
                     this.doorPos = new BlockPos(pathNode.x, pathNode.y + 1, pathNode.z);
                     if (this.mob.squaredDistanceTo(this.doorPos.getX(), this.mob.getY(), this.doorPos.getZ()) > 2.25) continue;
-                    this.doorValid = DoorBlock.isWoodenDoor(this.mob.world, this.doorPos);
+                    this.doorValid = DoorBlock.canOpenByHand(this.mob.getWorld(), this.doorPos);
                     if (!this.doorValid) continue;
                     return doesApply(this.mob);
                 }
                 this.doorPos = this.mob.getBlockPos().up();
-                this.doorValid = DoorBlock.isWoodenDoor(this.mob.world, this.doorPos);
+                this.doorValid = DoorBlock.canOpenByHand(this.mob.getWorld(), this.doorPos);
                 return this.doorValid && doesApply(this.mob);
             }
         });

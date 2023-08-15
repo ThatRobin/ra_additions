@@ -5,15 +5,15 @@ import io.github.apace100.apoli.component.PowerHolderComponent;
 import io.github.thatrobin.ra_additions.powers.StatBarPower;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.FluidTags;
 
-public class RenderStatBarPowerOverlay extends DrawableHelper implements HudRenderCallback {
+public class RenderStatBarPowerOverlay implements HudRenderCallback {
 
     @Override
-    public void onHudRender(MatrixStack matrixStack, float tickDelta) {
+    public void onHudRender(DrawContext context, float tickDelta) {
         if (MinecraftClient.getInstance().player != null) {
             PlayerEntity playerEntity = MinecraftClient.getInstance().player;
 
@@ -63,15 +63,15 @@ public class RenderStatBarPowerOverlay extends DrawableHelper implements HudRend
                             for (int i = 0; i < 10; i++) {
                                 aorigX = ascaledScaledWidth - (10 - i) * 8;
                                 if (i * 2 + 1 < armorToughness) {
-                                    DrawableHelper.drawTexture(matrixStack, aorigX, aorigY, 27, index * 9, 9, 9);
+                                    context.drawTexture(statBarPower.getHudRender().getSpriteLocation(), aorigX, aorigY, 27, index * 9, 9, 9);
                                 }
 
                                 if (i * 2 + 1 == armorToughness) {
-                                    DrawableHelper.drawTexture(matrixStack, aorigX, aorigY, 9, index * 9, 9, 9);
+                                    context.drawTexture(statBarPower.getHudRender().getSpriteLocation(), aorigX, aorigY, 9, index * 9, 9, 9);
                                 }
 
                                 if (i * 2 + 1 > armorToughness) {
-                                    DrawableHelper.drawTexture(matrixStack, aorigX, aorigY, 0, index * 9, 9, 9);
+                                    context.drawTexture(statBarPower.getHudRender().getSpriteLocation(), aorigX, aorigY, 0, index * 9, 9, 9);
                                 }
                             }
                         }
@@ -81,15 +81,15 @@ public class RenderStatBarPowerOverlay extends DrawableHelper implements HudRend
                             for (int i = 10; i > 0; i--) {
                                 oorigX = oscaledScaledWidth - i * 8;
                                 if (i * 2 + 1 < armorToughness) {
-                                    DrawableHelper.drawTexture(matrixStack, oorigX, oorigY, 27, index * 9, 9, 9);
+                                    context.drawTexture(statBarPower.getHudRender().getSpriteLocation(), oorigX, oorigY, 27, index * 9, 9, 9);
                                 }
 
                                 if (i * 2 + 1 == armorToughness) {
-                                    DrawableHelper.drawTexture(matrixStack, oorigX, oorigY, 18, index * 9, 9, 9);
+                                    context.drawTexture(statBarPower.getHudRender().getSpriteLocation(), oorigX, oorigY, 18, index * 9, 9, 9);
                                 }
 
                                 if (i * 2 + 1 > armorToughness) {
-                                    DrawableHelper.drawTexture(matrixStack, oorigX, oorigY, 0, index * 9, 9, 9);
+                                    context.drawTexture(statBarPower.getHudRender().getSpriteLocation(), oorigX, oorigY, 0, index * 9, 9, 9);
                                 }
                             }
                         }

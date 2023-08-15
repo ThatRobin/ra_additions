@@ -32,7 +32,7 @@ public class C_LookAtEntityGoal extends Goal {
                         this.target = this.mob.getTarget();
                     }
 
-                    this.target = this.mob.world.getClosestEntity(this.mob.world.getEntitiesByClass(this.targetType, this.mob.getBoundingBox().expand(this.range, 3.0D, this.range), C_LookAtEntityGoal.this::doesApply), targetPredicate, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
+                    this.target = this.mob.getWorld().getClosestEntity(this.mob.getWorld().getEntitiesByClass(this.targetType, this.mob.getBoundingBox().expand(this.range, 3.0D, this.range), C_LookAtEntityGoal.this::doesApply), targetPredicate, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
                     return this.target != null;
                 }
             }

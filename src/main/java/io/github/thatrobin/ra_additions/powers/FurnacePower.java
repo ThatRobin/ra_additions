@@ -12,6 +12,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.SharedConstants;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.block.entity.FurnaceBlockEntity;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -121,9 +122,9 @@ public class FurnacePower extends Power implements SidedInventory, RecipeUnlocke
         boolean bl3 = !this.inventory.get(0).isEmpty();
         boolean bl4 = !itemStack.isEmpty();
         if (this.isBurning() || bl4 && bl3) {
-            Recipe<?> recipe = bl3 ? this.matchGetter.getFirstMatch(this, this.entity.world).orElse(null) : null;
+            Recipe<?> recipe = bl3 ? this.matchGetter.getFirstMatch(this, this.entity.getWorld()).orElse(null) : null;
             int i = this.getMaxCountPerStack();
-            if (!this.isBurning() && AbstractFurnaceBlockEntity.canAcceptRecipeOutput(this.entity.world.getRegistryManager(), recipe, this.inventory, i)) {
+            if (!this.isBurning() && AbstractFurnaceBlockEntity.canAcceptRecipeOutput(this.entity.getWorld().getRegistryManager(), recipe, this.inventory, i)) {
                 this.fuelTime = this.burnTime = this.getFuelTime(itemStack);
                 if (this.isBurning()) {
                     bl2 = true;
@@ -137,12 +138,12 @@ public class FurnacePower extends Power implements SidedInventory, RecipeUnlocke
                     }
                 }
             }
-            if (this.isBurning() && AbstractFurnaceBlockEntity.canAcceptRecipeOutput(this.entity.world.getRegistryManager(), recipe, this.inventory, i)) {
+            if (this.isBurning() && AbstractFurnaceBlockEntity.canAcceptRecipeOutput(this.entity.getWorld().getRegistryManager(), recipe, this.inventory, i)) {
                 ++this.cookTime;
                 if (this.cookTime == this.cookTimeTotal) {
                     this.cookTime = 0;
-                    this.cookTimeTotal = FurnacePower.getCookTime(this.entity.world, this);
-                    if (FurnacePower.craftRecipe(this.entity.world.getRegistryManager(), recipe, this.inventory, i)) {
+                    this.cookTimeTotal = FurnacePower.getCookTime(this.entity.getWorld(), this);
+                    if (FurnacePower.craftRecipe(this.entity.getWorld().getRegistryManager(), recipe, this.inventory, i)) {
                         this.setLastRecipe(recipe);
                     }
                     bl2 = true;
@@ -293,7 +294,7 @@ public class FurnacePower extends Power implements SidedInventory, RecipeUnlocke
                 ItemStack itemStack2 = slots.get(2);
                 if (itemStack2.isEmpty()) {
                     return true;
-                } else if (!itemStack2.isItemEqual(itemStack)) {
+                } else if (!ItemStack.areItemsEqual(itemStack2, itemStack)) {
                     return false;
                 } else if (itemStack2.getCount() < count && itemStack2.getCount() < itemStack2.getMaxCount()) {
                     return true;
@@ -397,14 +398,14 @@ public class FurnacePower extends Power implements SidedInventory, RecipeUnlocke
 
     public void setStack(int slot, ItemStack stack) {
         ItemStack itemStack = this.inventory.get(slot);
-        boolean bl = !stack.isEmpty() && stack.isItemEqual(itemStack) && ItemStack.areNbtEqual(stack, itemStack);
+        boolean bl = !stack.isEmpty() && ItemStack.canCombine(itemStack, stack);
         this.inventory.set(slot, stack);
         if (stack.getCount() > this.getMaxCountPerStack()) {
             stack.setCount(this.getMaxCountPerStack());
         }
 
         if (slot == 0 && !bl) {
-            this.cookTimeTotal = getCookTime(this.entity.world, this);
+            this.cookTimeTotal = getCookTime(this.entity.getWorld(), this);
             this.cookTime = 0;
             this.markDirty();
         }
@@ -453,7 +454,7 @@ public class FurnacePower extends Power implements SidedInventory, RecipeUnlocke
 
     @SuppressWarnings("unused")
     public void dropExperienceForRecipesUsed(ServerPlayerEntity player) {
-        List<Recipe<?>> list = this.getRecipesUsedAndDropExperience(player.getWorld(), player.getPos());
+        List<Recipe<?>> list = this.getRecipesUsedAndDropExperience((ServerWorld) player.getWorld(), player.getPos());
         player.unlockRecipes(list);
         this.recipesUsed.clear();
     }

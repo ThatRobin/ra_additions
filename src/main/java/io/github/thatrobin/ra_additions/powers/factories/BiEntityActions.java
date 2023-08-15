@@ -109,7 +109,7 @@ public class BiEntityActions {
                 i += EnchantmentHelper.getKnockback(actor);
             }
             if (actor.isSprinting() && bl) {
-                actor.world.playSound(null, actor.getX(), actor.getY(), actor.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, actor.getSoundCategory(), 1.0f, 1.0f);
+                actor.getWorld().playSound(null, actor.getX(), actor.getY(), actor.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, actor.getSoundCategory(), 1.0f, 1.0f);
                 ++i;
                 bl2 = true;
             }
@@ -150,13 +150,13 @@ public class BiEntityActions {
                 }
                 if (bl42) {
                     float l = 1.0f + EnchantmentHelper.getSweepingMultiplier(actor) * f;
-                    List<LivingEntity> list = actor.world.getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand(1.0, 0.25, 1.0));
+                    List<LivingEntity> list = actor.getWorld().getNonSpectatingEntities(LivingEntity.class, target.getBoundingBox().expand(1.0, 0.25, 1.0));
                     for (LivingEntity livingEntity : list) {
                         if (livingEntity == actor || livingEntity == target || actor.isTeammate(livingEntity) || livingEntity instanceof ArmorStandEntity && ((ArmorStandEntity)livingEntity).isMarker() || !(actor.squaredDistanceTo(livingEntity) < 9.0)) continue;
                         livingEntity.takeKnockback(0.4f, MathHelper.sin(actor.getYaw() * ((float)Math.PI / 180)), -MathHelper.cos(actor.getYaw() * ((float)Math.PI / 180)));
                         livingEntity.damage(source, l);
                     }
-                    actor.world.playSound(null, actor.getX(), actor.getY(), actor.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, actor.getSoundCategory(), 1.0f, 1.0f);
+                    actor.getWorld().playSound(null, actor.getX(), actor.getY(), actor.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, actor.getSoundCategory(), 1.0f, 1.0f);
                     PlayerEntity actorEntity = (PlayerEntity) actor;
                     actorEntity.spawnSweepAttackParticles();
                 }
@@ -166,15 +166,15 @@ public class BiEntityActions {
                     target.setVelocity(vec3d);
                 }
                 if (bl3) {
-                    actor.world.playSound(null, actor.getX(), actor.getY(), actor.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, actor.getSoundCategory(), 1.0f, 1.0f);
+                    actor.getWorld().playSound(null, actor.getX(), actor.getY(), actor.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, actor.getSoundCategory(), 1.0f, 1.0f);
                     PlayerEntity actorEntity = (PlayerEntity) actor;
                     actorEntity.addCritParticles(target);
                 }
                 if (!bl3 && !bl42) {
                     if (bl) {
-                        actor.world.playSound(null, actor.getX(), actor.getY(), actor.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, actor.getSoundCategory(), 1.0f, 1.0f);
+                        actor.getWorld().playSound(null, actor.getX(), actor.getY(), actor.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, actor.getSoundCategory(), 1.0f, 1.0f);
                     } else {
-                        actor.world.playSound(null, actor.getX(), actor.getY(), actor.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, actor.getSoundCategory(), 1.0f, 1.0f);
+                        actor.getWorld().playSound(null, actor.getX(), actor.getY(), actor.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, actor.getSoundCategory(), 1.0f, 1.0f);
                     }
                 }
                 if (g > 0.0f) {
@@ -192,7 +192,7 @@ public class BiEntityActions {
                 if (target instanceof EnderDragonPart) {
                     entity = ((EnderDragonPart)target).owner;
                 }
-                if (!actor.world.isClient && !itemStack2.isEmpty() && entity instanceof LivingEntity) {
+                if (!actor.getWorld().isClient && !itemStack2.isEmpty() && entity instanceof LivingEntity) {
                     if(actor instanceof PlayerEntity actorEntity) {
                         itemStack2.postHit((LivingEntity) entity, actorEntity);
                     }
@@ -208,16 +208,16 @@ public class BiEntityActions {
                     if (k > 0) {
                         target.setOnFireFor(k * 4);
                     }
-                    if (actor.world instanceof ServerWorld && m > 2.0f) {
+                    if (actor.getWorld() instanceof ServerWorld && m > 2.0f) {
                         int n = (int)((double)m * 0.5);
-                        ((ServerWorld)actor.world).spawnParticles(ParticleTypes.DAMAGE_INDICATOR, target.getX(), target.getBodyY(0.5), target.getZ(), n, 0.1, 0.0, 0.1, 0.2);
+                        ((ServerWorld)actor.getWorld()).spawnParticles(ParticleTypes.DAMAGE_INDICATOR, target.getX(), target.getBodyY(0.5), target.getZ(), n, 0.1, 0.0, 0.1, 0.2);
                     }
                 }
                 if(actor instanceof PlayerEntity actorEntity) {
                     actorEntity.addExhaustion(0.1f);
                 }
             } else {
-                actor.world.playSound(null, actor.getX(), actor.getY(), actor.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, actor.getSoundCategory(), 1.0f, 1.0f);
+                actor.getWorld().playSound(null, actor.getX(), actor.getY(), actor.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, actor.getSoundCategory(), 1.0f, 1.0f);
                 if (bl5) {
                     target.extinguish();
                 }

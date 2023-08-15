@@ -7,7 +7,10 @@ import io.github.thatrobin.ra_additions.RA_Additions;
 import io.github.thatrobin.ra_additions_choices.choice.Choice;
 import io.github.thatrobin.ra_additions_choices.choice.ChoiceLayer;
 import io.github.thatrobin.ra_additions.powers.PowerIconManager;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
@@ -61,19 +64,19 @@ public class ChoiceDisplayScreen extends Screen {
     }
 
     @Override
-    public void renderBackground(MatrixStack matrices) {
+    public void renderBackground(DrawContext context) {
         if(showDirtBackground) {
-            super.renderBackgroundTexture(matrices);
+            super.renderBackgroundTexture(context);
         } else {
-            super.renderBackground(matrices);
+            super.renderBackground(context);
         }
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
-        this.renderChoiceWindow(matrices, mouseX, mouseY);
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        this.renderBackground(context);
+        this.renderChoiceWindow(context, mouseX, mouseY);
+        super.render(context, mouseX, mouseY, delta);
     }
 
     private boolean scrolling = false;
@@ -121,25 +124,25 @@ public class ChoiceDisplayScreen extends Screen {
         return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
     }
 
-    private void renderChoiceWindow(MatrixStack matrices, int mouseX, int mouseY) {
+    private void renderChoiceWindow(DrawContext context, int mouseX, int mouseY) {
         RenderSystem.enableBlend();
         buttons = Lists.newArrayList();
-        renderWindowBackground(matrices);
+        renderWindowBackground(context);
         RenderSystem.setShaderTexture(0, WINDOW);
-        drawTexture(matrices, guiLeft, guiTop, 0, 0, windowWidth, windowHeight);
+        context.drawTexture(WINDOW, guiLeft, guiTop, 0, 0, windowWidth, windowHeight);
         if(choice != null) {
-            renderChoiceName(matrices);
-            renderChoiceContent(matrices);
-            renderBadgeTooltip(matrices, mouseX, mouseY);
+            renderChoiceName(context);
+            renderChoiceContent(context);
+            renderBadgeTooltip(context, mouseX, mouseY);
             RenderSystem.setShaderTexture(0, WINDOW);
             Text title = Text.translatable("ra_additions.gui.choice.title", Text.translatable(layer.getTranslationKey()));
-            drawCenteredTextWithShadow(matrices, this.textRenderer, title.getString(), width / 2, guiTop - 15, 0xFFFFFF);
+            context.drawCenteredTextWithShadow(this.textRenderer, title.getString(), width / 2, guiTop - 15, 0xFFFFFF);
         }
 
         RenderSystem.disableBlend();
     }
 
-    private void renderBadgeTooltip(MatrixStack matrices, int mouseX, int mouseY) {
+    private void renderBadgeTooltip(DrawContext context, int mouseX, int mouseY) {
         buttons.forEach(selectableButtonWidget -> {
             if(mouseX >=selectableButtonWidget.getX() && mouseX < selectableButtonWidget.getX() + 24) {
                 if(mouseY >= selectableButtonWidget.getY() && mouseY < selectableButtonWidget.getY() + 24) {
@@ -155,23 +158,24 @@ public class ChoiceDisplayScreen extends Screen {
                         for (String text : texts) {
                             lines.add(Text.translatable(text));
                         }
-                        renderTooltip(matrices, lines, mouseX, mouseY);
+                        context.drawTooltip(this.textRenderer, lines, mouseX, mouseY);
                     } else {
                         Text text = Text.translatable(hoverText);
-                        renderTooltip(matrices, text, mouseX, mouseY);
+                        context.drawTooltip(this.textRenderer, text, mouseX, mouseY);
                     }
                 }
             }
         });
     }
 
-    private void renderChoiceName(MatrixStack matrices) {
+    private void renderChoiceName(DrawContext context) {
         StringVisitable choiceName = textRenderer.trimToWidth(getCurrentChoice().getName(), windowWidth - 36);
-        drawTextWithShadow(matrices, textRenderer, choiceName.getString(), guiLeft + 12, guiTop + 13, 0xFFFFFF);
+        context.drawTextWithShadow(textRenderer, choiceName.getString(), guiLeft + 12, guiTop + 13, 0xFFFFFF);
 
     }
 
     private void renderPowers() {
+        ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         List<PowerType<?>> powerTypes = Lists.newArrayList();
         getCurrentChoice().getPowerTypes().forEach(powerType -> {
             if(!powerType.isHidden()) {
@@ -195,12 +199,12 @@ public class ChoiceDisplayScreen extends Screen {
             int width = 24;
             int height = 24;
             if(i == 0){
-                buttons.add(new SelectableButtonWidget(getCurrentChoice(), getCurrentChoice().getIcon(), this.itemRenderer, x, y, width, height, getCurrentChoice().getName(),0,0,24, RA_Additions.identifier("textures/gui/widgets.png"),256,256, button -> {
+                buttons.add(new SelectableButtonWidget(getCurrentChoice(), getCurrentChoice().getIcon(), itemRenderer, x, y, width, height, getCurrentChoice().getName(),0,0,24, RA_Additions.identifier("textures/gui/widgets.png"),256,256, button -> {
                     description = getCurrentChoice().getDescription();
                     name = Text.literal("Description").formatted(Formatting.UNDERLINE);
                 }));
             } else {
-                buttons.add(new SelectableButtonWidget(getCurrentChoice(), PowerIconManager.getIcon(powerTypes.get(i-1).getIdentifier()), this.itemRenderer, x, y, width, height, powerTypes.get(i-1).getName(), 0, 0, 24, RA_Additions.identifier("textures/gui/widgets.png"), 256, 256, button -> {
+                buttons.add(new SelectableButtonWidget(getCurrentChoice(), PowerIconManager.getIcon(powerTypes.get(i-1).getIdentifier()), itemRenderer, x, y, width, height, powerTypes.get(i-1).getName(), 0, 0, 24, RA_Additions.identifier("textures/gui/widgets.png"), 256, 256, button -> {
                     description = powerTypes.get(finalI-1).getDescription();
                     name = powerTypes.get(finalI-1).getName().formatted(Formatting.UNDERLINE);
                 }));
@@ -211,14 +215,14 @@ public class ChoiceDisplayScreen extends Screen {
 
     }
 
-    private void renderWindowBackground(MatrixStack matrices) {
+    private void renderWindowBackground(DrawContext context) {
         int border = 13;
         int endX = guiLeft + windowWidth - border;
         int endY = guiTop + windowHeight - border;
         RenderSystem.setShaderTexture(0, WINDOW);
         for(int x = guiLeft; x < endX; x += 16) {
             for(int y = guiTop + 16; y < endY; y += 16) {
-                drawTexture(matrices, x, y, windowWidth, 0, Math.max(16, endX - x), Math.max(16, endY - y));
+                context.drawTexture(WINDOW, x, y, windowWidth, 0, Math.max(16, endX - x), Math.max(16, endY - y));
             }
         }
     }
@@ -231,7 +235,7 @@ public class ChoiceDisplayScreen extends Screen {
         return retValue;
     }
 
-    private void renderChoiceContent(MatrixStack matrices) {
+    private void renderChoiceContent(DrawContext context) {
 
         int textWidth = 120;
 
@@ -254,14 +258,14 @@ public class ChoiceDisplayScreen extends Screen {
         for(OrderedText line : name2) {
             if (y >= startY - 24 && y <= endY + 12) {
                 y += 12;
-                textRenderer.draw(matrices, line, x, y, 0xFFFFFF);
+                context.drawText(textRenderer, line, x, y, 0xFFFFFF, false);
             }
         }
 
         for(OrderedText line : drawLines) {
             y += 12;
             if(y >= startY - 24 && y <= endY + 12) {
-                textRenderer.draw(matrices, line, x, y, 0xFFFFFF);
+                context.drawText(textRenderer, line, x, y, 0xFFFFFF, false);
             }
         }
 

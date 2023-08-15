@@ -40,8 +40,8 @@ public class EntityActions {
                     if(entity instanceof PlayerEntity player) {
                         player.sleep(player.getBlockPos());
                         player.sleepTimer = 0;
-                        if (!player.world.isClient) {
-                            ((ServerWorld) player.world).updateSleepingPlayers();
+                        if (!player.getWorld().isClient) {
+                            ((ServerWorld) player.getWorld()).updateSleepingPlayers();
                         }
                     }
                 }

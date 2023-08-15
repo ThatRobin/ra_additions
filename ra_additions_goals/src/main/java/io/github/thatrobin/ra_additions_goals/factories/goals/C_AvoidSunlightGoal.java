@@ -19,7 +19,7 @@ public class C_AvoidSunlightGoal extends Goal {
         this.setGoal(new AvoidSunlightGoal((PathAwareEntity) livingEntity) {
             @Override
             public boolean canStart() {
-                return this.mob.world.isDay() && NavigationConditions.hasMobNavigation(this.mob) && doesApply(this.mob);
+                return this.mob.getWorld().isDay() && NavigationConditions.hasMobNavigation(this.mob) && doesApply(this.mob);
             }
         });
     }

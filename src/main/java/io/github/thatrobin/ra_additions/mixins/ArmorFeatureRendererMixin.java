@@ -30,9 +30,9 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
 
     @Shadow protected abstract boolean usesInnerModel(EquipmentSlot slot);
 
-    @Shadow protected abstract void renderArmorParts(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ArmorItem item, boolean glint, A model, boolean secondTextureLayer, float red, float green, float blue, @Nullable String overlay);
-
     @Shadow protected abstract A getModel(EquipmentSlot slot);
+
+    @Shadow protected abstract void renderArmorParts(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ArmorItem item, A model, boolean secondTextureLayer, float red, float green, float blue, @Nullable String overlay);
 
     @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/LivingEntity;FFFFFF)V", at = @At("HEAD"))
     private void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci) {
@@ -62,9 +62,8 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
         renderer.getContextModel().copyBipedStateTo(model);
         this.setVisible(model, armorSlot);
         boolean bl = this.usesInnerModel(armorSlot);
-        boolean bl2 = itemStack.hasGlint();
         itemStack.setCustomName(Text.literal(power.getPath().toString()));
         A renderModel = (A) RenderProvider.of(itemStack).getGenericArmorModel(entity, itemStack, armorSlot, (BipedEntityModel<LivingEntity>) model);
-        this.renderArmorParts(matrices, vertexConsumers, light, armorItem, bl2, renderModel, bl, 1.0f, 1.0f, 1.0f, null);
+        this.renderArmorParts(matrices, vertexConsumers, light, armorItem, renderModel, bl, 1.0f, 1.0f, 1.0f, null);
     }
 }
